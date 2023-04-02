@@ -1,5 +1,4 @@
-import javax.swing.*;
-import javax.swing.table.*;  
+import javax.swing.*; 
 import java.awt.*;
 import javax.swing.border.*;
 import java.awt.event.*;
@@ -65,11 +64,13 @@ public class TripDisplayScreen extends JFrame {
         TableData pnl1Table = new TableData(pnl1);
 
         //ADDING ELEMENTS TO TABLE
-        String[] item = {"Quick Trip 1", "Small", "" + 3, "" + 8, "" + 104, "01 : 30", "false"};
-        String[] item1 = {"Holland Students", "Medium", "" + 2, "" + 17, "" + 103, "09 : 00", "true"};
+        String[] item = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item1 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
+        String[] item12 = {"Ochi Tourists", "Luxurious - $12000", "#LX21", "" + 32, "#T103", "10 : 00", "true"};
+        pnl1Table.model.addRow(item12);
         pnl1Table.model.addRow(item);
         pnl1Table.model.addRow(item1);
-      
+              
         
         //================//
         //=   TAB/DAY 2  =//
@@ -83,8 +84,8 @@ public class TripDisplayScreen extends JFrame {
         TableData pnl2Table = new TableData(pnl2);
 
         //ADDING ELEMENTS TO TABLE
-        String[] item2 = {"Quick Trip 1", "Small", "" + 3, "" + 8, "" + 104, "01 : 30", "false"};
-        String[] item21 = {"Holland Students", "Medium", "" + 2, "" + 17, "" + 103, "09 : 00", "true"};
+        String[] item2 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item21 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
         pnl2Table.model.addRow(item21);
         pnl2Table.model.addRow(item2);
 
@@ -97,12 +98,12 @@ public class TripDisplayScreen extends JFrame {
         pnl3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 3 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
         pnl3.setBackground(Color.LIGHT_GRAY);
 
-        //SETTING UP TABLE FOR TAB 2 (DAY 2)
+        //SETTING UP TABLE FOR TAB 3 (DAY 3)
         TableData pnl3Table = new TableData(pnl3);
 
         //ADDING ELEMENTS TO TABLE
-        String[] item3 = {"Quick Trip 1", "Small", "" + 3, "" + 8, "" + 104, "01 : 30", "false"};
-        String[] item31 = {"Holland Students", "Medium", "" + 2, "" + 17, "" + 103, "09 : 00", "true"};
+        String[] item3 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item31 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
         pnl3Table.model.addRow(item3);
         pnl3Table.model.addRow(item31);        
 
@@ -115,12 +116,12 @@ public class TripDisplayScreen extends JFrame {
         pnl4.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 4 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING)); 
         pnl4.setBackground(Color.LIGHT_GRAY);
 
-        //SETTING UP TABLE FOR TAB 2 (DAY 2)
+        //SETTING UP TABLE FOR TAB 4 (DAY 4)
         TableData pnl4Table = new TableData(pnl4);
 
         //ADDING ELEMENTS TO TABLE
-        String[] item4 = {"Quick Trip 1", "Small", "" + 3, "" + 8, "" + 104, "01 : 30", "false"};
-        String[] item41 = {"Holland Students", "Medium", "" + 2, "" + 17, "" + 103, "09 : 00", "true"};
+        String[] item4 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item41 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
         pnl4Table.model.addRow(item41);
         pnl4Table.model.addRow(item4);  
         
@@ -133,12 +134,12 @@ public class TripDisplayScreen extends JFrame {
         pnl5.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 5 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
         pnl5.setBackground(Color.LIGHT_GRAY);
 
-        //SETTING UP TABLE FOR TAB 2 (DAY 2)
+        //SETTING UP TABLE FOR TAB 5 (DAY 5)
         TableData pnl5Table = new TableData(pnl5);
 
         //ADDING ELEMENTS TO TABLE
-        String[] item5 = {"Quick Trip 1", "Small", "" + 3, "" + 8, "" + 104, "01 : 30", "false"};
-        String[] item51 = {"Holland Students", "Medium", "" + 2, "" + 17, "" + 103, "09 : 00", "true"};
+        String[] item5 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item51 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
         pnl5Table.model.addRow(item5);
         pnl5Table.model.addRow(item51);  
         
@@ -151,12 +152,12 @@ public class TripDisplayScreen extends JFrame {
         pnl6.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 6 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
         pnl6.setBackground(Color.LIGHT_GRAY);
 
-        //SETTING UP TABLE FOR TAB 2 (DAY 2)
+        //SETTING UP TABLE FOR TAB 6 (DAY 6)
         TableData pnl6Table = new TableData(pnl6);
 
         //ADDING ELEMENTS TO TABLE
-        String[] item6 = {"Quick Trip 1", "Small", "" + 3, "" + 8, "" + 104, "01 : 30", "false"};
-        String[] item61 = {"Holland Students", "Medium", "" + 2, "" + 17, "" + 103, "09 : 00", "true"};
+        String[] item6 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item61 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
         pnl6Table.model.addRow(item61);
         pnl6Table.model.addRow(item6);  
 
@@ -169,12 +170,12 @@ public class TripDisplayScreen extends JFrame {
         pnl7.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 7 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
         pnl7.setBackground(Color.LIGHT_GRAY);
 
-        //SETTING UP TABLE FOR TAB 2 (DAY 2)
+        //SETTING UP TABLE FOR TAB 7 (DAY 7)
         TableData pnl7Table = new TableData(pnl7);
 
         //ADDING ELEMENTS TO TABLE
-        String[] item7 = {"Quick Trip 1", "Small", "" + 3, "" + 8, "" + 104, "01 : 30", "false"};
-        String[] item71 = {"Holland Students", "Medium", "" + 2, "" + 17, "" + 103, "09 : 00", "true"};
+        String[] item7 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item71 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
         pnl7Table.model.addRow(item7);
         pnl7Table.model.addRow(item71);  
 
