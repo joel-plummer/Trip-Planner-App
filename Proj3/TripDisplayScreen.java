@@ -189,7 +189,7 @@ public class TripDisplayScreen extends JFrame {
         pnl8.setBackground(new Color(201,203,205));  
 
         JLabel text1 = new JLabel("Theme: ");
-        String [] themeOpts = {"Default", "GRAY", "PINK", "RED", "LIGHT GREEN", "DARK GREEN", "DARK BLUE", "LIGHT PURPLE", "DARK PURPLE"};
+        String [] themeOpts = {"Default", "GRAY", "PINK", "RED", "GREEN", "BLUE", "PURPLE"};
         JComboBox<String> themes = new JComboBox<>(themeOpts);
         //JLabel text2 = new JLabel("Adjust Budget: ");
         //JTextField budget = new JTextField();
@@ -201,36 +201,28 @@ public class TripDisplayScreen extends JFrame {
                 String s = (String) themes.getSelectedItem();
                 switch (s) {//check for a match
                     case "PINK":
-                        disPnl.setBackground(Color.PINK);
-                        btnPnl.setBackground(Color.PINK);
+                        disPnl.setBackground(new Color(210,143,218));
+                        btnPnl.setBackground(new Color(210,143,218));
                         break;
                     case "RED":
-                        disPnl.setBackground(Color.RED);
-                        btnPnl.setBackground(Color.RED);
+                        disPnl.setBackground(new Color(142,49,80));
+                        btnPnl.setBackground(new Color(142,49,80));
                         break; 
-                    case "DARK BLUE":
-                        disPnl.setBackground(Color.BLUE);
-                        btnPnl.setBackground(Color.BLUE);
+                    case "BLUE":
+                        disPnl.setBackground(new Color(55,73,136));
+                        btnPnl.setBackground(new Color(55,73,136));
                         break;
-                    case "LIGHT GREEN":
-                        disPnl.setBackground(new Color(9430201));
-                        btnPnl.setBackground(new Color(9430201));
-                        break;
-                    case "DARK GREEN":
+                    case "GREEN":
                         disPnl.setBackground(new Color(85,111,111));
                         btnPnl.setBackground(new Color(85,111,111));
                         break;
-                    case "LIGHT PURPLE":
-                        disPnl.setBackground(new Color(199,196,236));
-                        btnPnl.setBackground(new Color(199,196,236));
-                        break;
-                    case "DARK PURPLE":
-                        disPnl.setBackground(new Color(55,32,142));
-                        btnPnl.setBackground(new Color(55,32,142));
+                    case "PURPLE":
+                        disPnl.setBackground(new Color(87,51,140));
+                        btnPnl.setBackground(new Color(87,51,140));
                         break;
                     case "GRAY":
-                        disPnl.setBackground(Color.GRAY);
-                        btnPnl.setBackground(Color.GRAY);
+                        disPnl.setBackground(new Color(145,143,156));
+                        btnPnl.setBackground(new Color(145,143,156));
                         break;
                     case "Default":
                         disPnl.setBackground(new Color(152,182,248));
