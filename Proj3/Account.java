@@ -1,10 +1,11 @@
 public class Account {
-    /* Attributes that should be here:
-    String Username
-    String Password
-    Double Budget
-    Account/App Settings (maintaining chosen theme for example)
-    Trip obj
+    /* 
+        Attributes that should be here:
+        String Username
+        String Password
+        Double Budget
+        Account/App Settings (maintaining chosen theme for example)
+        Trip obj
     */
 
     private String username;
