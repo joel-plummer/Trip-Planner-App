@@ -103,7 +103,7 @@ public class AddTripScreen extends JFrame {
         dPnl6.setOpaque(false);
         timetxt = new JLabel("Time:  ");
         timeBox = new JTextField(12);
-        timeBox.setText("Format: 13:00");
+        timeBox.setText("Format: 01:00 (24 hr)");
         dPnl6.add(timetxt);
         dPnl6.add(timeBox);
         rgtPnl.add(dPnl6);
