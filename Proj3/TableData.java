@@ -3,11 +3,11 @@ import javax.swing.table.*;
 import java.awt.*;
 
 public class TableData {
-    public JTable table;
-    public DefaultTableModel model;
-    public JScrollPane scrollPane;
+    private JTable table;
+    private DefaultTableModel model;
+    private JScrollPane scrollPane;
 
-    public TableData(JPanel pnl){
+    public TableData(JPanel pnl) {
         String[] columnNames =  {"Trip Name",
             "Bus Type",
             "Bus ID#",
@@ -23,8 +23,11 @@ public class TableData {
         table.setFillsViewportHeight(true);
         scrollPane = new JScrollPane(table);
         pnl.add(scrollPane, BorderLayout.SOUTH);
-        //pnl.add(table); //don't add this or column names won't show
-
         
     }
+
+    public void addTripRecord(String[] data){
+        model.addRow(data);
+    }
+    
 }
