@@ -27,8 +27,8 @@ public class WelcomeScreen extends JFrame {
 
     private ArrayList<Account> accList = new ArrayList<Account>();//list of all accounts in system
 
-    private static WelcomeScreen thisUserData; //For displayed info to connect to this instance of the user
-    private TripDisplayScreen tds; //For displayed info to connect to this instance of the user
+    private static WelcomeScreen thisUserData;
+    private TripDisplayScreen tds;
 
     
     public WelcomeScreen() {
@@ -144,7 +144,7 @@ public class WelcomeScreen extends JFrame {
         setResizable(false);
         setVisible(true);
 
-    }
+    }//public WelcomeScreen() end (constructor)
 
 
     public static void main (String [] args){
@@ -264,4 +264,4 @@ public class WelcomeScreen extends JFrame {
 
     }
 
-}
+} //public class WelcomeScreen() end
