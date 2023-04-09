@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Account {
     /* 
         Attributes that should be here:
@@ -8,11 +10,16 @@ public class Account {
         Trip obj
     */
 
+    //calcremaining needs to be adjusted
+    //we may end up changing this file a bit
+
     private String username;
     private String password;
     private double budget;
     private double remaining;
     private String theme;
+    private ArrayList<Trip> myTrips;
+    
 
     public Account(String username, String password){
         this.username = username;
@@ -61,7 +68,7 @@ public class Account {
     }
 
     public void calcRemaining(double cost){
-        remaining = budget - cost;
+        //remaining = budget - cost;
     }
 
 
