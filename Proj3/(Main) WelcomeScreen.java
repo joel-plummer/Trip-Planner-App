@@ -51,7 +51,7 @@ public class WelcomeScreen extends JFrame {
         //Setting up window
         setTitle("Login Or Sign Up");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //Setting up program icon 
+        //Setting up program icon (make sure the 'pics' folder is downloaded and in the active folder)
         Image icon = Toolkit.getDefaultToolkit().getImage("pics\\planner-icon.png");    
         setIconImage(icon);   
         //Declaring layout
