@@ -12,45 +12,116 @@ public class TripDisplayScreen extends JFrame {
 
     private JButton bNewTrip;
     private JButton bEditTrip;
-    private JButton bExit;
+    private JButton bClose;
     JComboBox<String> bSortBy;
 
-    public TripDisplayScreen() {
+    private WelcomeScreen thisWS; //previous screen
+    private Account thisAcc;
+    private AddTripScreen thisATS;
+    private EditTripNavigation thisETN;
+    private TripDisplayScreen thisTDS;
 
-        //This will soon be based on the welcome screen's/account info
-        String username = "admin34";
-        //Labelling the frame   
-        setTitle("User " + username + "'s Plan");
+    public TripDisplayScreen(WelcomeScreen ws, Account acc) {
+
+        //Setting up user info (Making sure windows share same data for user)
+        thisWS = ws;
+        thisAcc = acc;
+        thisTDS = this;
+
+        ws.setVisible(false); //Turns off welcome screen while trip screen is open
+
+        String username = acc.getUsername();
+
+        //Labelling the frame/window   
+        setTitle("User " + username + "'s Plan");      
+        //Setting up program icon
+        Image icon = ws.getIconImage();    
+        setIconImage(icon);
+
 
         //=================================================//
         //=                SETTING UP PANELS              =//
         //=================================================//
-        contsPnl = new JPanel();
+        contsPnl = new JPanel(); //Holds all panels
         contsPnl.setLayout(new BorderLayout());
-        contsPnl.setBorder(BorderFactory.createLineBorder(Color.black));
         
         disPnl = new JPanel();//For the tabbedpane and tables
+        disPnl.setLayout(new FlowLayout()); 
+
         btnPnl = new JPanel();//For buttons
-        infoPnl = new JPanel();//For user data @ bottom
-
-        disPnl.setLayout(new FlowLayout());
-        disPnl.setBackground(new Color(152,182,248));
-
-        btnPnl.setBackground(new Color(152,182,248));
-        //btnPnl.setBorder(BorderFactory.createLineBorder(Color.black));
-        //btnPnl.setMaximumSize(new Dimension(700,380));
-        btnPnl.setLayout(new GridBagLayout());
+        btnPnl.setLayout(new GridBagLayout());    
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 20, 20, 20);
+        gbc.insets = new Insets(15, 15, 15, 15);
 
-        infoPnl.setBackground(new Color(230,186,13));
-        //infoPnl.setBorder(BorderFactory.createLineBorder(Color.black));
+        infoPnl = new JPanel();//For user data at bottom
+        infoPnl.setBackground(new Color(230,177,0));
 
-      
 
-        //=====================================================//
-        //=           CREATING THE TRIPS' TABBEDPANE          =//
-        //=====================================================//
+
+        //=========================================//
+        //=       MAINTAINING SELECTED THEME      =//
+        //=========================================//       
+        switch (acc.getTheme()) {
+            case "PINK":
+                disPnl.setBackground(new Color(210,143,218));
+                btnPnl.setBackground(new Color(210,143,218));
+                break;
+            case "RED":
+                disPnl.setBackground(new Color(142,49,80));
+                btnPnl.setBackground(new Color(142,49,80));
+                break; 
+            case "LIGHT BLUE":
+                disPnl.setBackground(new Color(152,182,248));
+                btnPnl.setBackground(new Color(152,182,248));
+                break;
+            case "GREEN":
+                disPnl.setBackground(new Color(85,111,111));
+                btnPnl.setBackground(new Color(85,111,111));
+                break;
+            case "PURPLE":
+                disPnl.setBackground(new Color(104,54,137));
+                btnPnl.setBackground(new Color(104,54,137));
+                break;
+            case "GRAY":
+                disPnl.setBackground(new Color(145,143,156));
+                btnPnl.setBackground(new Color(145,143,156));
+                break;
+            case "Default":
+                contsPnl.setBackground(new Color(55,73,136));
+                disPnl.setBackground(new Color(55,73,136));
+                btnPnl.setBackground(new Color(55,73,136));
+        }
+
+
+
+        //========================================//
+        //=   CREATING THE BUTTONS AT BOTTOM     =//
+        //========================================//
+        //There should be a listener for when this is changed, similar to customization in settings
+        String [] sortOpts = {"<<Sort By>>", "Trip ID", "Trip Name", "# People", "Time"};
+        JComboBox<String> bSortBy = new JComboBox<>(sortOpts);
+        bSortBy.addActionListener(new SortBtnListener());
+
+        bNewTrip = new JButton("New Trip");
+        bNewTrip.addActionListener(new AddTBtnListener());
+
+        bEditTrip = new JButton("Edit Trip");
+        bEditTrip.addActionListener(new EditTBtnListener());
+
+        bClose = new JButton("Back to Login");
+        bClose.addActionListener(new CloseBtnListener());  
+        
+        //Adding the buttons to button panel
+        btnPnl.add(bSortBy, gbc);
+        btnPnl.add(bNewTrip, gbc);
+        btnPnl.add(bEditTrip, gbc);
+        btnPnl.add(bClose, gbc);
+
+
+
+        //=========================================//
+        //=    CREATING THE TRIPS' TABBEDPANE     =//
+        //=========================================//
 
         //================//
         //=   TAB/DAY 1  =//
@@ -58,18 +129,20 @@ public class TripDisplayScreen extends JFrame {
         //SETTING UP TAB 1 (DAY 1)
         JPanel pnl1 = new JPanel(new BorderLayout());
         pnl1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 1 TRIPS", TitledBorder.LEFT,TitledBorder.TRAILING));        
-        pnl1.setBackground(Color.LIGHT_GRAY);
+        pnl1.setBackground(Color.LIGHT_GRAY); 
 
         //SETTING UP TABLE FOR TAB 1 (DAY 1)
-        TableData pnl1Table = new TableData(pnl1);
+        TableData day1Table = new TableData(pnl1); //created this class to prevent chunky repetitive code. Creates a table
 
         //ADDING ELEMENTS TO TABLE
-        String[] item = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item1 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
-        String[] item12 = {"Ochi Tourists", "Luxurious - $12000", "#LX21", "" + 32, "#T103", "10 : 00", "true"};
-        pnl1Table.model.addRow(item12);
-        pnl1Table.model.addRow(item);
-        pnl1Table.model.addRow(item1);
+        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
+        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
+        String[] item = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item1 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
+        String[] item12 = {"Ochi Tourists", "Luxurious - $12000", "#B21", "" + 32, "#T103", "10 : 00", "true"};
+        day1Table.addTripRecord(item12);//this created method adds record to table for that day 
+        day1Table.addTripRecord(item);
+        day1Table.addTripRecord(item1);
               
         
         //================//
@@ -81,13 +154,15 @@ public class TripDisplayScreen extends JFrame {
         pnl2.setBackground(Color.LIGHT_GRAY);
 
         //SETTING UP TABLE FOR TAB 2 (DAY 2)
-        TableData pnl2Table = new TableData(pnl2);
+        TableData day2Table = new TableData(pnl2); //created this class to prevent chunky repetitive code. Creates a table
 
         //ADDING ELEMENTS TO TABLE
-        String[] item2 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item21 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
-        pnl2Table.model.addRow(item21);
-        pnl2Table.model.addRow(item2);
+        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
+        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
+        String[] item2 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item21 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
+        day2Table.addTripRecord(item21);
+        day2Table.addTripRecord(item2);
 
 
         //================//
@@ -99,13 +174,15 @@ public class TripDisplayScreen extends JFrame {
         pnl3.setBackground(Color.LIGHT_GRAY);
 
         //SETTING UP TABLE FOR TAB 3 (DAY 3)
-        TableData pnl3Table = new TableData(pnl3);
+        TableData day3Table = new TableData(pnl3); //created this class to prevent chunky repetitive code. Creates a table
 
         //ADDING ELEMENTS TO TABLE
-        String[] item3 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item31 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
-        pnl3Table.model.addRow(item3);
-        pnl3Table.model.addRow(item31);        
+        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
+        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
+        String[] item3 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item31 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
+        day3Table.addTripRecord(item3);
+        day3Table.addTripRecord(item31);        
 
 
         //================//
@@ -117,13 +194,15 @@ public class TripDisplayScreen extends JFrame {
         pnl4.setBackground(Color.LIGHT_GRAY);
 
         //SETTING UP TABLE FOR TAB 4 (DAY 4)
-        TableData pnl4Table = new TableData(pnl4);
+        TableData day4Table = new TableData(pnl4); //created this class to prevent chunky repetitive code. Creates a table
 
         //ADDING ELEMENTS TO TABLE
-        String[] item4 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item41 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
-        pnl4Table.model.addRow(item41);
-        pnl4Table.model.addRow(item4);  
+        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
+        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
+        String[] item4 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item41 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
+        day4Table.addTripRecord(item41);
+        day4Table.addTripRecord(item4);  
         
 
         //================//
@@ -135,13 +214,15 @@ public class TripDisplayScreen extends JFrame {
         pnl5.setBackground(Color.LIGHT_GRAY);
 
         //SETTING UP TABLE FOR TAB 5 (DAY 5)
-        TableData pnl5Table = new TableData(pnl5);
+        TableData day5Table = new TableData(pnl5); //created this class to prevent chunky repetitive code. Creates a table
 
         //ADDING ELEMENTS TO TABLE
-        String[] item5 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item51 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
-        pnl5Table.model.addRow(item5);
-        pnl5Table.model.addRow(item51);  
+        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
+        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
+        String[] item5 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item51 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
+        day5Table.addTripRecord(item5);
+        day5Table.addTripRecord(item51);  
         
 
         //================//
@@ -153,13 +234,15 @@ public class TripDisplayScreen extends JFrame {
         pnl6.setBackground(Color.LIGHT_GRAY);
 
         //SETTING UP TABLE FOR TAB 6 (DAY 6)
-        TableData pnl6Table = new TableData(pnl6);
+        TableData day6Table = new TableData(pnl6); //created this class to prevent chunky repetitive code. Creates a table
 
         //ADDING ELEMENTS TO TABLE
-        String[] item6 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item61 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
-        pnl6Table.model.addRow(item61);
-        pnl6Table.model.addRow(item6);  
+        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
+        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
+        String[] item6 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item61 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
+        day6Table.addTripRecord(item61);
+        day6Table.addTripRecord(item6);  
 
 
         //================//
@@ -171,76 +254,126 @@ public class TripDisplayScreen extends JFrame {
         pnl7.setBackground(Color.LIGHT_GRAY);
 
         //SETTING UP TABLE FOR TAB 7 (DAY 7)
-        TableData pnl7Table = new TableData(pnl7);
+        TableData day7Table = new TableData(pnl7); //created this class to prevent chunky repetitive code. Creates a table
 
         //ADDING ELEMENTS TO TABLE
-        String[] item7 = {"Quick Trip 1", "Small - $5000", "#SM30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item71 = {"Holland Students", "Medium - $7000", "#MD23", "" + 17, "#T106", "09 : 00", "true"};
-        pnl7Table.model.addRow(item7);
-        pnl7Table.model.addRow(item71);  
+        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
+        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
+        String[] item7 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
+        String[] item71 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
+        day7Table.addTripRecord(item7);
+        day7Table.addTripRecord(item71);  
 
 
-        //================//
-        //=   SETTINGS   =//
-        //================//
+        //======================//
+        //=   TAB 8/SETTINGS   =//
+        //======================//
         //SETTING UP SETTINGS TAB
         JPanel pnl8 = new JPanel();
         pnl8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "SETTINGS", TitledBorder.LEFT, TitledBorder.TOP));
         pnl8.setBackground(new Color(201,203,205));  
 
-        JLabel text1 = new JLabel("Theme: ");
-        String [] themeOpts = {"Default", "GRAY", "PINK", "RED", "GREEN", "BLUE", "PURPLE"};
+        //=================================//
+        //=  IMPLEMENTING SELECTED THEME  =//
+        //=================================//
+        JLabel themetxt = new JLabel("Theme: ");
+        String [] themeOpts = {"GRAY", "PINK", "RED", "GREEN", "LIGHT BLUE", "PURPLE", "Default"};
         JComboBox<String> themes = new JComboBox<>(themeOpts);
-        //JLabel text2 = new JLabel("Adjust Budget: ");
-        //JTextField budget = new JTextField();
+        themes.setSelectedItem(acc.getTheme());  
+        
+        JPanel themeArea = new JPanel();
+        themeArea.setPreferredSize(new Dimension(590,30));
+        themeArea.setOpaque(false);
+
+        themeArea.add(themetxt);
+        themeArea.add(themes);
         
         //Functionality for color customization
         themes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
                 String s = (String) themes.getSelectedItem();
-                switch (s) {//check for a match
+                switch (s) {
                     case "PINK":
                         disPnl.setBackground(new Color(210,143,218));
                         btnPnl.setBackground(new Color(210,143,218));
+                        acc.setTheme("PINK");
                         break;
                     case "RED":
                         disPnl.setBackground(new Color(142,49,80));
                         btnPnl.setBackground(new Color(142,49,80));
+                        acc.setTheme("RED");
                         break; 
-                    case "BLUE":
-                        disPnl.setBackground(new Color(55,73,136));
-                        btnPnl.setBackground(new Color(55,73,136));
+                    case "LIGHT BLUE":
+                        disPnl.setBackground(new Color(152,182,248));
+                        btnPnl.setBackground(new Color(152,182,248));
+                        acc.setTheme("LIGHT BLUE");
                         break;
                     case "GREEN":
                         disPnl.setBackground(new Color(85,111,111));
                         btnPnl.setBackground(new Color(85,111,111));
+                        acc.setTheme("GREEN");
                         break;
                     case "PURPLE":
-                        disPnl.setBackground(new Color(87,51,140));
-                        btnPnl.setBackground(new Color(87,51,140));
+                        disPnl.setBackground(new Color(104,54,137));
+                        btnPnl.setBackground(new Color(104,54,137));
+                        acc.setTheme("PURPLE");
                         break;
                     case "GRAY":
                         disPnl.setBackground(new Color(145,143,156));
                         btnPnl.setBackground(new Color(145,143,156));
+                        acc.setTheme("GRAY");
                         break;
                     case "Default":
-                        disPnl.setBackground(new Color(152,182,248));
-                        btnPnl.setBackground(new Color(152,182,248));
+                        disPnl.setBackground(new Color(55,73,136));
+                        btnPnl.setBackground(new Color(55,73,136));
+                        acc.setTheme("Default");
                 }
             }
         });
 
+        //Account info adjustment/change settings
+        JPanel settPnl = new JPanel(new BorderLayout());
+        settPnl.setPreferredSize(new Dimension(768,315));
 
-        pnl8.add(text1);
-        pnl8.add(themes);
-        //pnl8.add(text2);
-        //pnl8.add(budget);
+        JPanel settingsArea = new JPanel(new FlowLayout(10, 25, 8));
+        settingsArea.setPreferredSize(new Dimension(215,35));
+        settingsArea.setOpaque(false);
+
+        JLabel bdgtxt = new JLabel("Adjust Budget: ");
+        JTextField bdgtChange = new JTextField(15);
+        JButton bdgtSave = new JButton("Save");
+        //budget save (to account) listener here 
+
+        JLabel usertxt = new JLabel("Change Username: ");
+        JTextField userChange = new JTextField(15);
+        JButton userSave = new JButton("Save");
+        //username save (to account) listener here
+
+        JLabel passtxt = new JLabel("Change Password: ");
+        JPasswordField passChange = new JPasswordField(15);
+        JButton passSave = new JButton("Save");
+        //password save (to account) listener here
+
+        settingsArea.add(bdgtxt);
+        settingsArea.add(bdgtChange);
+        settingsArea.add(bdgtSave);
+        settingsArea.add(usertxt);
+        settingsArea.add(userChange);
+        settingsArea.add(userSave);
+        settingsArea.add(passtxt);
+        settingsArea.add(passChange);
+        settingsArea.add(passSave);
+
+        //Adding stuff to settings tab
+        settPnl.add(themeArea, BorderLayout.NORTH);
+        settPnl.add(settingsArea, BorderLayout.WEST);
+        pnl8.add(settPnl);
 
 
-        //===================//
-        //=   ADDING TABS   =//
-        //===================//
+        //===============================//
+        //=  ADDING TABS TO TABBEDPANE  =//
+        //===============================//
         JTabbedPane tripTabs = new JTabbedPane();
         //tripTabs.setBounds(10,500,760,330); 
         tripTabs.add("DAY 1", pnl1);
@@ -252,48 +385,38 @@ public class TripDisplayScreen extends JFrame {
         tripTabs.add("DAY 7", pnl7);          
         tripTabs.add("SETTINGS", pnl8);   
 
-        //Adding the whole tabbedpane to its own panel
+        //Adding the whole tabbedpane to display panel
         disPnl.add(tripTabs);
-        //disPnl.setPreferredSize(new Dimension(700,380));
 
-
-
-        //===================================================//
-        //=         CREATING THE BUTTONS AT BOTTOM          =//
-        //===================================================//
-
-        //There should be a listener for when this is changed, similar to customization in settings
-        String [] sortOpts = {"Sort By", "Trip ID", "Trip Name", "# People", "Time"};
-        JComboBox<String> bSortBy = new JComboBox<>(sortOpts);
-
-        bNewTrip = new JButton("New Trip");
-        bEditTrip = new JButton("Edit Trip");
-        bExit = new JButton("Exit");       
-        
-        //Adding the buttons to their own panel
-        btnPnl.add(bSortBy, gbc);
-        btnPnl.add(bNewTrip, gbc);
-        btnPnl.add(bEditTrip, gbc);
-        btnPnl.add(bExit, gbc);
 
 
         //=======================================================//
         //=           CREATING THE USER INFO AT BOTTOM          =//
         //=======================================================//
-        //The user info should come from account and be displayed here        
-        JTextArea info = new JTextArea("Total Budget: $50,000\t" + "Remaining: $30,000\t" + "Buses Scheduled: 56\t" + "Total Persons Booked: 122");
+        //The user info should come from account and be displayed here
+        double accBudget = acc.getBudget();
+        double accRemaining = acc.getRemaining();
+        int accTotBus = 56; //needs to reflect total buses that have been scheduled in account
+        int accTotPpl = 122; //needs to reflect total people that have been scheduled in account
+
+        JTextArea info = new JTextArea("Total Budget: $" + accBudget + "\tRemaining: $" + accRemaining + 
+        "\tBuses Scheduled: " + accTotBus + "\tTotal Persons Booked: " + accTotPpl);
         Font boldFont = new Font(info.getFont().getName(), Font.BOLD, info.getFont().getSize());
         info.setFont(boldFont);
         info.setOpaque(false);
+
+        //Adding info to its panel
         infoPnl.add(info);
 
 
-        //=========================================================//
-        //=           ADDING MAIN PANELS TO CONTENT PANEL         =//
-        //=========================================================//
+
+        //=======================================================//
+        //=         ADDING MAIN PANELS TO CONTENT PANEL         =//
+        //=======================================================//
         contsPnl.add(disPnl, BorderLayout.PAGE_START);
         contsPnl.add(btnPnl, BorderLayout.CENTER);
         contsPnl.add(infoPnl, BorderLayout.PAGE_END);
+
 
 
         //Extra frame set up things
@@ -301,22 +424,72 @@ public class TripDisplayScreen extends JFrame {
         setSize(820,485);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         setVisible(true); 
-    }
 
+    } //public TripDisplayScreen(WelcomeScreen ws, Account acc) end (constructor)
 
+    
     //=========================================================//
     //=           BUTTON LISTENING FUNCTIONALITIES            =//
     //=========================================================//
 
+    //=====================================//
+    //=     SETTINGS BUTTON LISTENERS     =//
+    //=====================================//
+    //budget save (to account) listener
+
+
+    //username save (to account) listener
+
+
+    //password save (to account) listener
+
+
+
+    //=======================================//
+    //=    TRIP DISPLAY BUTTON LISTENERS    =//
+    //=======================================//
     //Sort By
+    private class SortBtnListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //switch statement for each sorting option selected maybe
+        }
+
+    }
 
     //Edit Trip
+    private class EditTBtnListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            thisETN = new EditTripNavigation(thisTDS, thisAcc);
+        }
+
+    }
 
     //New Trip
+    private class AddTBtnListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            thisATS = new AddTripScreen(thisTDS, thisAcc);
+        }
 
-    //Exit (Bk To Welcome Screen)
+    }
 
+    //Close (Bk To Welcome Screen)
+    private class CloseBtnListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            setVisible(false); //stops displaying window/frame
+            thisWS.setWelcomeTheme(thisAcc.getTheme()); //changes welcome to fit account theme
+            thisWS.setVisible(true); //makes welcome screen visible again
+        }
 
+    }
 
-}  
+} //public class TripDisplayScreen() end 
