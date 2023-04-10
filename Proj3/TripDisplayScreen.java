@@ -63,26 +63,32 @@ public class TripDisplayScreen extends JFrame {
         //=========================================//       
         switch (acc.getTheme()) {
             case "PINK":
+                contsPnl.setBackground(new Color(210,143,218));
                 disPnl.setBackground(new Color(210,143,218));
                 btnPnl.setBackground(new Color(210,143,218));
                 break;
             case "RED":
+                contsPnl.setBackground(new Color(142,49,80));
                 disPnl.setBackground(new Color(142,49,80));
                 btnPnl.setBackground(new Color(142,49,80));
                 break; 
             case "LIGHT BLUE":
+                contsPnl.setBackground(new Color(152,182,248));
                 disPnl.setBackground(new Color(152,182,248));
                 btnPnl.setBackground(new Color(152,182,248));
                 break;
             case "GREEN":
+                contsPnl.setBackground(new Color(85,111,111));
                 disPnl.setBackground(new Color(85,111,111));
                 btnPnl.setBackground(new Color(85,111,111));
                 break;
             case "PURPLE":
+                contsPnl.setBackground(new Color(104,54,137));
                 disPnl.setBackground(new Color(104,54,137));
                 btnPnl.setBackground(new Color(104,54,137));
                 break;
             case "GRAY":
+                contsPnl.setBackground(new Color(145,143,156));
                 disPnl.setBackground(new Color(145,143,156));
                 btnPnl.setBackground(new Color(145,143,156));
                 break;
@@ -295,36 +301,43 @@ public class TripDisplayScreen extends JFrame {
                 String s = (String) themes.getSelectedItem();
                 switch (s) {
                     case "PINK":
+                        contsPnl.setBackground(new Color(210,143,218));
                         disPnl.setBackground(new Color(210,143,218));
                         btnPnl.setBackground(new Color(210,143,218));
                         acc.setTheme("PINK");
                         break;
                     case "RED":
+                        contsPnl.setBackground(new Color(142,49,80));
                         disPnl.setBackground(new Color(142,49,80));
                         btnPnl.setBackground(new Color(142,49,80));
                         acc.setTheme("RED");
                         break; 
                     case "LIGHT BLUE":
+                        contsPnl.setBackground(new Color(152,182,248));
                         disPnl.setBackground(new Color(152,182,248));
                         btnPnl.setBackground(new Color(152,182,248));
                         acc.setTheme("LIGHT BLUE");
                         break;
                     case "GREEN":
+                        contsPnl.setBackground(new Color(85,111,111));
                         disPnl.setBackground(new Color(85,111,111));
                         btnPnl.setBackground(new Color(85,111,111));
                         acc.setTheme("GREEN");
                         break;
                     case "PURPLE":
+                        contsPnl.setBackground(new Color(104,54,137));
                         disPnl.setBackground(new Color(104,54,137));
                         btnPnl.setBackground(new Color(104,54,137));
                         acc.setTheme("PURPLE");
                         break;
                     case "GRAY":
+                        contsPnl.setBackground(new Color(145,143,156));
                         disPnl.setBackground(new Color(145,143,156));
                         btnPnl.setBackground(new Color(145,143,156));
                         acc.setTheme("GRAY");
                         break;
                     case "Default":
+                        contsPnl.setBackground(new Color(55,73,136));
                         disPnl.setBackground(new Color(55,73,136));
                         btnPnl.setBackground(new Color(55,73,136));
                         acc.setTheme("Default");
