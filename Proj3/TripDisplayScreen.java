@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.*;
 import java.awt.event.*;
+import java.io.*;
+import java.util.*;
+
 
 public class TripDisplayScreen extends JFrame {
 
@@ -14,6 +17,18 @@ public class TripDisplayScreen extends JFrame {
     private JButton bEditTrip;
     private JButton bClose;
     JComboBox<String> bSortBy;
+
+    //For settings
+    private JLabel bdgtxt, usertxt, passtxt;
+    private JTextField bdgtChange, userChange;
+    private JPasswordField passChange;
+    private JButton bdgtSave, userSave, passSave;
+    //For info at bottom
+    private JTextArea info;
+    private double accBudget;
+    private double accRemaining;
+    private int accTotBus;
+    private int accTotPpl;
 
     private WelcomeScreen thisWS; //previous screen
     private Account thisAcc;
@@ -30,10 +45,8 @@ public class TripDisplayScreen extends JFrame {
 
         ws.setVisible(false); //Turns off welcome screen while trip screen is open
 
-        String username = acc.getUsername();
-
         //Labelling the frame/window   
-        setTitle("User " + username + "'s Plan");      
+        setTitle("User " + thisAcc.getUsername() + "'s Plan");      
         //Setting up program icon
         Image icon = ws.getIconImage();    
         setIconImage(icon);
@@ -353,20 +366,24 @@ public class TripDisplayScreen extends JFrame {
         settingsArea.setPreferredSize(new Dimension(215,35));
         settingsArea.setOpaque(false);
 
-        JLabel bdgtxt = new JLabel("Adjust Budget: ");
-        JTextField bdgtChange = new JTextField(15);
-        JButton bdgtSave = new JButton("Save");
-        //budget save (to account) listener here 
+        bdgtxt = new JLabel("Adjust Budget $: ");
+        bdgtChange = new JTextField(15);
+        bdgtSave = new JButton("Save");
+        //budget save (to account) listener here
+        bdgtSave.addActionListener(new BdgtSaveListener());
+         
 
-        JLabel usertxt = new JLabel("Change Username: ");
-        JTextField userChange = new JTextField(15);
-        JButton userSave = new JButton("Save");
+        usertxt = new JLabel("Change Username: ");
+        userChange = new JTextField(15);
+        userSave = new JButton("Save");
         //username save (to account) listener here
+        userSave.addActionListener(new UserSaveListener());
 
-        JLabel passtxt = new JLabel("Change Password: ");
-        JPasswordField passChange = new JPasswordField(15);
-        JButton passSave = new JButton("Save");
+        passtxt = new JLabel("Change Password: ");
+        passChange = new JPasswordField(15);
+        passSave = new JButton("Save");
         //password save (to account) listener here
+        passSave.addActionListener(new PassSaveListener());
 
         settingsArea.add(bdgtxt);
         settingsArea.add(bdgtChange);
@@ -403,29 +420,24 @@ public class TripDisplayScreen extends JFrame {
 
 
 
+
         //=======================================================//
         //=           CREATING THE USER INFO AT BOTTOM          =//
         //=======================================================//
         //The user info should come from account and be displayed here
-        double accBudget = acc.getBudget();
-        double accRemaining = acc.getRemaining();
-        int accTotBus = 56; //needs to reflect total buses that have been scheduled in account
-        int accTotPpl = 122; //needs to reflect total people that have been scheduled in account
 
-        JTextArea info = new JTextArea("Total Budget: $" + accBudget + "\tRemaining: $" + accRemaining + 
-        "\tBuses Scheduled: " + accTotBus + "\tTotal Persons Booked: " + accTotPpl);
-        Font boldFont = new Font(info.getFont().getName(), Font.BOLD, info.getFont().getSize());
-        info.setFont(boldFont);
-        info.setOpaque(false);
+        info = new JTextArea();
+        updateInfo(); 
+        info.setOpaque(false);       
 
         //Adding info to its panel
-        infoPnl.add(info);
+        infoPnl.add(info);       
 
 
 
-        //=======================================================//
-        //=         ADDING MAIN PANELS TO CONTENT PANEL         =//
-        //=======================================================//
+        //========================================================//
+        //=          ADDING MAIN PANELS TO CONTENT PANEL         =//
+        //========================================================//
         contsPnl.add(disPnl, BorderLayout.PAGE_START);
         contsPnl.add(btnPnl, BorderLayout.CENTER);
         contsPnl.add(infoPnl, BorderLayout.PAGE_END);
@@ -442,6 +454,21 @@ public class TripDisplayScreen extends JFrame {
 
     } //public TripDisplayScreen(WelcomeScreen ws, Account acc) end (constructor)
 
+    //Method to update info at bottom of screen
+    public void updateInfo(){
+        accBudget = thisAcc.getBudget();
+        accRemaining = thisAcc.getRemaining();
+        accTotBus = 56; //needs to reflect total buses that have been scheduled in account
+        accTotPpl = 122; //needs to reflect total people that have been scheduled in account
+
+        info.setText("Total Budget: $" + accBudget + "\tRemaining: $" + accRemaining + 
+        "\tBuses Scheduled: " + accTotBus + "\tTotal Persons Booked: " + accTotPpl);
+
+        Font boldFont = new Font(info.getFont().getName(), Font.BOLD, info.getFont().getSize());
+        info.setFont(boldFont);
+        
+
+    }
     
     //=========================================================//
     //=           BUTTON LISTENING FUNCTIONALITIES            =//
@@ -451,12 +478,67 @@ public class TripDisplayScreen extends JFrame {
     //=     SETTINGS BUTTON LISTENERS     =//
     //=====================================//
     //budget save (to account) listener
+    private class BdgtSaveListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {   
+            //checking to see if input is a valid double
+            boolean isDouble;
+            try {
+                Double.parseDouble(bdgtChange.getText());
+                isDouble = true;
+            }
+            catch(Exception ex) {
+                isDouble = false;
+            }
 
+            if (bdgtChange.getText() != null && isDouble) {
+                int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Budget will be: \n$" + bdgtChange.getText());  
+                if (confirm == JOptionPane.YES_OPTION) {  
+                    thisAcc.setBudget(Double.parseDouble(bdgtChange.getText()));
+                    updateInfo();
+                    bdgtChange.setText(""); //clears budget textfield
+                }
+            } else {
+                bdgtChange.setText("Please enter valid number."); //clears budget textfield                
+            }
+        }
+
+    }
 
     //username save (to account) listener
+    private class UserSaveListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            if (userChange.getText() != null) {
+                int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Username will be: \n" + userChange.getText());  
+                if (confirm == JOptionPane.YES_OPTION) {  
+                    thisAcc.setUsername(userChange.getText());
+                    updateInfo();
+                    userChange.setText(""); //clears username textfield
+                    //Labelling the frame/window   
+                    setTitle("User " + thisAcc.getUsername() + "'s Plan");   
+                }
+            }
+        }
+
+    }
 
 
     //password save (to account) listener
+    private class PassSaveListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Password will be: \n" + String.valueOf(passChange.getPassword()));  
+            if(confirm == JOptionPane.YES_OPTION) {  
+                thisAcc.setPassword(String.valueOf(passChange.getPassword()));
+                passChange.setText(""); //clears password textfield
+            }  
+        }
+
+    }
 
 
 
