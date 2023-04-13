@@ -18,11 +18,17 @@ public class TripDisplayScreen extends JFrame {
     private JButton bClose;
     JComboBox<String> bSortBy;
 
+    //For tabs
+    private JTabbedPane tripTabs;
+    private TableData day1Table, day2Table, day3Table, day4Table, day5Table, day6Table, day7Table;
+    private ArrayList<Trip> d1TripList, d2TripList, d3TripList, d4TripList, d5TripList, d6TripList, d7TripList;
+    
     //For settings
     private JLabel bdgtxt, usertxt, passtxt;
     private JTextField bdgtChange, userChange;
     private JPasswordField passChange;
     private JButton bdgtSave, userSave, passSave;
+    
     //For info at bottom
     private JTextArea info;
     private double accBudget;
@@ -49,7 +55,17 @@ public class TripDisplayScreen extends JFrame {
         setTitle("User " + thisAcc.getUsername() + "'s Plan");      
         //Setting up program icon
         Image icon = ws.getIconImage();    
-        setIconImage(icon);
+        setIconImage(icon);      
+        
+        
+        //SAMPLE DATA (TO BE DELETED LATER)
+        //public void addTripToDay(int dayNum, Trip t)
+        thisAcc.addTripToDay(1, new Trip("Quick Trip 1", new Bus(BusType.Small), 8, "01", "30"));
+        thisAcc.addTripToDay(2, new Trip("Holland Students", new Bus(BusType.Medium), 17, "09", "30"));
+        thisAcc.addTripToDay(3, new Trip("Ochi Tourists", new Bus(BusType.Luxurious), 36,"10", "00"));
+        thisAcc.addTripToDay(4, new Trip("Mobay Tourists", new Bus(BusType.Luxurious), 40,"14", "40"));
+        thisAcc.addTripToDay(5, new Trip("Quick Trip 2", new Bus(BusType.Medium), 23,"17", "10"));
+
 
 
         //=================================================//
@@ -117,7 +133,7 @@ public class TripDisplayScreen extends JFrame {
         //=   CREATING THE BUTTONS AT BOTTOM     =//
         //========================================//
         //There should be a listener for when this is changed, similar to customization in settings
-        String [] sortOpts = {"<<Sort By>>", "Trip ID", "Trip Name", "# People", "Time"};
+        String [] sortOpts = {"<<Sort By>>", "Trip ID", "Trip Name", "Time"};
         JComboBox<String> bSortBy = new JComboBox<>(sortOpts);
         bSortBy.addActionListener(new SortBtnListener());
 
@@ -141,156 +157,165 @@ public class TripDisplayScreen extends JFrame {
         //=========================================//
         //=    CREATING THE TRIPS' TABBEDPANE     =//
         //=========================================//
+        //**NOTE: Created the class TableData to prevent longer repetitive code. 
+        //        It creates a table.
 
         //================//
         //=   TAB/DAY 1  =//
         //================//
         //SETTING UP TAB 1 (DAY 1)
-        JPanel pnl1 = new JPanel(new BorderLayout());
-        pnl1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 1 TRIPS", TitledBorder.LEFT,TitledBorder.TRAILING));        
-        pnl1.setBackground(Color.LIGHT_GRAY); 
+        JPanel tab1Pnl = new JPanel(new BorderLayout());
+        tab1Pnl.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+        "DAY 1 TRIPS", TitledBorder.LEFT, TitledBorder.BELOW_BOTTOM));        
+        tab1Pnl.setBackground(Color.LIGHT_GRAY); 
 
         //SETTING UP TABLE FOR TAB 1 (DAY 1)
-        TableData day1Table = new TableData(pnl1); //created this class to prevent chunky repetitive code. Creates a table
+        //Creates a table and adds it to this tab
+        day1Table = new TableData(tab1Pnl); 
 
-        //ADDING ELEMENTS TO TABLE
-        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
-        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
-        String[] item = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item1 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
-        String[] item12 = {"Ochi Tourists", "Luxurious - $12000", "#B21", "" + 32, "#T103", "10 : 00", "true"};
-        day1Table.addTripRecord(item12);//this created method adds record to table for that day 
-        day1Table.addTripRecord(item);
-        day1Table.addTripRecord(item1);
-              
+        //SETTING UP LIST OF TRIPS
+        d1TripList = thisAcc.getDayTrips(1);        
         
+        //ADDING ELEMENTS TO TABLE
+        //This adds each trip to the table for that day
+        showTable(d1TripList, day1Table);
+        
+    
         //================//
         //=   TAB/DAY 2  =//
         //================//
         //SETTING UP TAB 2 (DAY 2)
-        JPanel pnl2 = new JPanel(new BorderLayout());
-        pnl2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 2 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
-        pnl2.setBackground(Color.LIGHT_GRAY);
+        JPanel tab2Pnl = new JPanel(new BorderLayout());
+        tab2Pnl.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+        "DAY 2 TRIPS", TitledBorder.LEFT, TitledBorder.BELOW_BOTTOM));
+        tab2Pnl.setBackground(Color.LIGHT_GRAY);
 
         //SETTING UP TABLE FOR TAB 2 (DAY 2)
-        TableData day2Table = new TableData(pnl2); //created this class to prevent chunky repetitive code. Creates a table
+        day2Table = new TableData(tab2Pnl);
 
+        //SETTING UP LIST OF TRIPS
+        d2TripList = thisAcc.getDayTrips(2);        
+        
         //ADDING ELEMENTS TO TABLE
-        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
-        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
-        String[] item2 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item21 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
-        day2Table.addTripRecord(item21);
-        day2Table.addTripRecord(item2);
+        //This adds each trip to the table for that day
+        showTable(d2TripList, day2Table);
 
 
         //================//
         //=  TAB/DAY 3   =//
         //================//
         //SETTING UP TAB 3 (DAY 3)        
-        JPanel pnl3 = new JPanel(new BorderLayout());
-        pnl3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 3 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
-        pnl3.setBackground(Color.LIGHT_GRAY);
+        JPanel tab3Pnl = new JPanel(new BorderLayout());
+        tab3Pnl.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+        "DAY 3 TRIPS", TitledBorder.LEFT, TitledBorder.BELOW_BOTTOM));        
+        tab3Pnl.setBackground(Color.LIGHT_GRAY); 
 
         //SETTING UP TABLE FOR TAB 3 (DAY 3)
-        TableData day3Table = new TableData(pnl3); //created this class to prevent chunky repetitive code. Creates a table
+        //Creates a table and adds it to this tab
+        day3Table = new TableData(tab3Pnl); 
 
+        //SETTING UP LIST OF TRIPS
+        d3TripList = thisAcc.getDayTrips(3);        
+        
         //ADDING ELEMENTS TO TABLE
-        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
-        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
-        String[] item3 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item31 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
-        day3Table.addTripRecord(item3);
-        day3Table.addTripRecord(item31);        
+        //This adds each trip to the table for that day
+        showTable(d3TripList, day3Table);
 
 
         //================//
         //=  TAB/DAY 4   =//
         //================//        
         //SETTING UP TAB 4 (DAY 4)
-        JPanel pnl4 = new JPanel(new BorderLayout());
-        pnl4.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 4 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING)); 
-        pnl4.setBackground(Color.LIGHT_GRAY);
+        JPanel tab4Pnl = new JPanel(new BorderLayout());
+        tab4Pnl.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+        "DAY 4 TRIPS", TitledBorder.LEFT, TitledBorder.BELOW_BOTTOM));        
+        tab4Pnl.setBackground(Color.LIGHT_GRAY); 
 
         //SETTING UP TABLE FOR TAB 4 (DAY 4)
-        TableData day4Table = new TableData(pnl4); //created this class to prevent chunky repetitive code. Creates a table
+        //Creates a table and adds it to this tab
+        day4Table = new TableData(tab4Pnl); 
 
+        //SETTING UP LIST OF TRIPS
+        d4TripList = thisAcc.getDayTrips(4);        
+        
         //ADDING ELEMENTS TO TABLE
-        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
-        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
-        String[] item4 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item41 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
-        day4Table.addTripRecord(item41);
-        day4Table.addTripRecord(item4);  
+        //This adds each trip to the table for that day
+        showTable(d4TripList, day4Table);
         
 
         //================//
         //=  TAB/DAY 5   =//
         //================//
         //SETTING UP TAB 5 (DAY 5)
-        JPanel pnl5 = new JPanel(new BorderLayout());
-        pnl5.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 5 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
-        pnl5.setBackground(Color.LIGHT_GRAY);
+        JPanel tab5Pnl = new JPanel(new BorderLayout());
+        tab5Pnl.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+        "DAY 5 TRIPS", TitledBorder.LEFT, TitledBorder.BELOW_BOTTOM));        
+        tab5Pnl.setBackground(Color.LIGHT_GRAY); 
 
         //SETTING UP TABLE FOR TAB 5 (DAY 5)
-        TableData day5Table = new TableData(pnl5); //created this class to prevent chunky repetitive code. Creates a table
+        //Creates a table and adds it to this tab
+        day5Table = new TableData(tab5Pnl); 
 
+        //SETTING UP LIST OF TRIPS
+        d5TripList = thisAcc.getDayTrips(5);        
+        
         //ADDING ELEMENTS TO TABLE
-        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
-        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
-        String[] item5 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item51 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
-        day5Table.addTripRecord(item5);
-        day5Table.addTripRecord(item51);  
+        //This adds each trip to the table for that day
+        showTable(d5TripList, day5Table);  
         
 
         //================//
         //=  TAB/DAY 6   =//
         //================//
         //SETTING UP TAB 6 (DAY 6)
-        JPanel pnl6 = new JPanel(new BorderLayout());
-        pnl6.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 6 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
-        pnl6.setBackground(Color.LIGHT_GRAY);
+        JPanel tab6Pnl = new JPanel(new BorderLayout());
+        tab6Pnl.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+        "DAY 6 TRIPS", TitledBorder.LEFT, TitledBorder.BELOW_BOTTOM));        
+        tab6Pnl.setBackground(Color.LIGHT_GRAY); 
 
         //SETTING UP TABLE FOR TAB 6 (DAY 6)
-        TableData day6Table = new TableData(pnl6); //created this class to prevent chunky repetitive code. Creates a table
+        //Creates a table and adds it to this tab
+        day6Table = new TableData(tab6Pnl); 
 
+        //SETTING UP LIST OF TRIPS
+        d6TripList = thisAcc.getDayTrips(6);        
+        
         //ADDING ELEMENTS TO TABLE
-        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
-        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
-        String[] item6 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item61 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
-        day6Table.addTripRecord(item61);
-        day6Table.addTripRecord(item6);  
+        //This adds each trip to the table for that day
+        showTable(d6TripList, day6Table);
 
 
         //================//
         //=  TAB/DAY 7   =//
         //================//
         //SETTING UP TAB 7 (DAY 7)
-        JPanel pnl7 = new JPanel(new BorderLayout());
-        pnl7.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DAY 7 TRIPS", TitledBorder.LEFT, TitledBorder.TRAILING));
-        pnl7.setBackground(Color.LIGHT_GRAY);
+        JPanel tab7Pnl = new JPanel(new BorderLayout());
+        tab7Pnl.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+        "DAY 7 TRIPS", TitledBorder.LEFT, TitledBorder.BELOW_BOTTOM));        
+        tab7Pnl.setBackground(Color.LIGHT_GRAY); 
 
         //SETTING UP TABLE FOR TAB 7 (DAY 7)
-        TableData day7Table = new TableData(pnl7); //created this class to prevent chunky repetitive code. Creates a table
+        //Creates a table and adds it to this tab
+        day7Table = new TableData(tab7Pnl); 
 
+        //SETTING UP LIST OF TRIPS
+        d7TripList = thisAcc.getDayTrips(7);        
+        
         //ADDING ELEMENTS TO TABLE
-        //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"
-        //placeholder data to fill up table, should come from the account instead maybe from an arraylist
-        String[] item7 = {"Quick Trip 1", "Small - $5000", "#B30", "" + 8, "#T104", "01 : 30", "false"};
-        String[] item71 = {"Holland Students", "Medium - $7000", "#B23", "" + 17, "#T106", "09 : 00", "true"};
-        day7Table.addTripRecord(item7);
-        day7Table.addTripRecord(item71);  
+        //This adds each trip to the table for that day
+        showTable(d7TripList, day7Table);
+
+        
 
 
         //======================//
         //=   TAB 8/SETTINGS   =//
         //======================//
         //SETTING UP SETTINGS TAB
-        JPanel pnl8 = new JPanel();
-        pnl8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "SETTINGS", TitledBorder.LEFT, TitledBorder.TOP));
-        pnl8.setBackground(new Color(201,203,205));  
+        JPanel tab8Pnl = new JPanel();
+        tab8Pnl.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), 
+        "SETTINGS", TitledBorder.LEFT, TitledBorder.TOP));
+        tab8Pnl.setBackground(new Color(201,203,205));  
 
         //=================================//
         //=  IMPLEMENTING SELECTED THEME  =//
@@ -398,22 +423,22 @@ public class TripDisplayScreen extends JFrame {
         //Adding stuff to settings tab
         settPnl.add(themeArea, BorderLayout.NORTH);
         settPnl.add(settingsArea, BorderLayout.WEST);
-        pnl8.add(settPnl);
+        tab8Pnl.add(settPnl);
 
 
         //===============================//
         //=  ADDING TABS TO TABBEDPANE  =//
         //===============================//
-        JTabbedPane tripTabs = new JTabbedPane();
+        tripTabs = new JTabbedPane();
         //tripTabs.setBounds(10,500,760,330); 
-        tripTabs.add("DAY 1", pnl1);
-        tripTabs.add("DAY 2", pnl2);  
-        tripTabs.add("DAY 3", pnl3); 
-        tripTabs.add("DAY 4", pnl4);
-        tripTabs.add("DAY 5", pnl5);
-        tripTabs.add("DAY 6", pnl6);
-        tripTabs.add("DAY 7", pnl7);          
-        tripTabs.add("SETTINGS", pnl8);   
+        tripTabs.add("DAY 1", tab1Pnl);
+        tripTabs.add("DAY 2", tab2Pnl);  
+        tripTabs.add("DAY 3", tab3Pnl); 
+        tripTabs.add("DAY 4", tab4Pnl);
+        tripTabs.add("DAY 5", tab5Pnl);
+        tripTabs.add("DAY 6", tab6Pnl);
+        tripTabs.add("DAY 7", tab7Pnl);          
+        tripTabs.add("SETTINGS", tab8Pnl);   
 
         //Adding the whole tabbedpane to display panel
         disPnl.add(tripTabs);
@@ -427,7 +452,7 @@ public class TripDisplayScreen extends JFrame {
         //The user info should come from account and be displayed here
 
         info = new JTextArea();
-        updateInfo(); 
+        updateInfo(); //makes sure info displayed is what is currently in account
         info.setOpaque(false);       
 
         //Adding info to its panel
@@ -454,22 +479,71 @@ public class TripDisplayScreen extends JFrame {
 
     } //public TripDisplayScreen(WelcomeScreen ws, Account acc) end (constructor)
 
-    //Method to update info at bottom of screen
+
+
+    //====================================================//
+    //=             METHODS FOR THIS SCREEN              =//
+    //====================================================// 
+    //Method to update account info at bottom of screen
     public void updateInfo(){
         accBudget = thisAcc.getBudget();
         accRemaining = thisAcc.getRemaining();
-        accTotBus = 56; //needs to reflect total buses that have been scheduled in account
-        accTotPpl = 122; //needs to reflect total people that have been scheduled in account
+        accTotBus = thisAcc.getTotBuses(); //needs to reflect total buses that have been scheduled in account
+        accTotPpl = thisAcc.getTotPpl(); //needs to reflect total people that have been scheduled in account
 
         info.setText("Total Budget: $" + accBudget + "\tRemaining: $" + accRemaining + 
         "\tBuses Scheduled: " + accTotBus + "\tTotal Persons Booked: " + accTotPpl);
 
         Font boldFont = new Font(info.getFont().getName(), Font.BOLD, info.getFont().getSize());
-        info.setFont(boldFont);
-        
+        info.setFont(boldFont);    
 
     }
     
+    
+    //Ensures that each trip in the list of trips are added to the table for the given day
+    private void showTable(ArrayList<Trip> tripList, TableData dayTable)
+    {
+        if (tripList.size() > 0){
+            for (Trip t: tripList) {
+                makeTripRecord(t, dayTable);
+            }
+        }      
+    }
+
+
+    //Stores data from trip as an array and passes it to a method to add it to that day's table
+    private void makeTripRecord(Trip t, TableData dayTable)
+    {
+    //format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#", "Time", "Trip Completed?"    
+        String[] singleTrip = {t.getName(), "" + t.getBus().getType(), "#B30", 
+        "" + t.getNumOfPpl(), "#T" + t.getID(), "" + t.getHrs() + ":" + t.getMins(), "" + t.isCompleted()};
+
+        addTripRecord(singleTrip, dayTable);      
+    }
+
+
+    //Adds a single trip to given day's table 
+    public void addTripRecord(String[] trip, TableData dayTable){
+        dayTable.getModel().addRow(trip);
+    }
+
+    //Adds a given trip to the list of trips on given day, passes it to addToTable for adding
+    public void addTrip(int day, Trip t, TableData dayTable)
+    {
+        thisAcc.getDayTrips(day).add(t);
+        makeTripRecord(t, dayTable);
+        /*
+        public void addPerson(Person p)
+        {
+            plist.add(p);
+            addToTable(p);
+
+        }
+        */
+        
+
+    }
+
     //=========================================================//
     //=           BUTTON LISTENING FUNCTIONALITIES            =//
     //=========================================================//
@@ -496,11 +570,11 @@ public class TripDisplayScreen extends JFrame {
                 int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Budget will be: \n$" + bdgtChange.getText());  
                 if (confirm == JOptionPane.YES_OPTION) {  
                     thisAcc.setBudget(Double.parseDouble(bdgtChange.getText()));
-                    updateInfo();
+                    updateInfo(); //updating the displayed info at bottom
                     bdgtChange.setText(""); //clears budget textfield
                 }
             } else {
-                bdgtChange.setText("Please enter valid number."); //clears budget textfield                
+                bdgtChange.setText("Please enter valid number.");              
             }
         }
 
@@ -511,15 +585,19 @@ public class TripDisplayScreen extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            if (userChange.getText() != null) {
+           String [] userCheck = userChange.getText().split(" ");
+
+            if (userChange.getText() != null && userCheck.length == 1) {
                 int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Username will be: \n" + userChange.getText());  
                 if (confirm == JOptionPane.YES_OPTION) {  
                     thisAcc.setUsername(userChange.getText());
-                    updateInfo();
+                    updateInfo(); //updating the displayed info at bottom
                     userChange.setText(""); //clears username textfield
-                    //Labelling the frame/window   
+                    //Changing the frame/window name  
                     setTitle("User " + thisAcc.getUsername() + "'s Plan");   
                 }
+            } else {
+                userChange.setText("Please enter valid username."); //clears budget textfield                
             }
         }
 
@@ -550,7 +628,9 @@ public class TripDisplayScreen extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
+            int thisTab = tripTabs.getSelectedIndex();
             //switch statement for each sorting option selected maybe
+            
         }
 
     }
