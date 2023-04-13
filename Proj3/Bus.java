@@ -6,7 +6,7 @@ public class Bus {
         Int maxCapacity
     */
 
-    BusType type;
+    BusType type; //There is another file for this class
 
     public Bus(BusType type) {
         this.type = type;
