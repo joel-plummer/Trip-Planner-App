@@ -26,9 +26,8 @@ public class TableData {
         
     }
 
-    public void addTripRecord(String[] data){
-        model.addRow(data);
-    }
+    public DefaultTableModel getModel(){
+        return model;
+    }    
     
 }
-
