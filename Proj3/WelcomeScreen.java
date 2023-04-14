@@ -271,7 +271,7 @@ public class WelcomeScreen extends JFrame {
             try {
                 String txtName = username.getText();
                 String txtPass = String.valueOf(pass.getPassword());
-                File account = new File("Trip-Planner-App-mine-/Proj3/Database/Account.txt");
+                File account = new File("Proj3/Database/Account.txt");
                 boolean empty = account.length() == 0;
                 Account acc = new Account(txtName, txtPass);
                 boolean user_exists = false;
