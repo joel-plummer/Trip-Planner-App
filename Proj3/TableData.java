@@ -18,6 +18,7 @@ public class TableData {
 
         model = new DefaultTableModel(columnNames,0);
         table = new JTable(model);
+        table.setEnabled(false);
 
         table.setPreferredScrollableViewportSize(new Dimension(780,300));
         table.setFillsViewportHeight(true);
