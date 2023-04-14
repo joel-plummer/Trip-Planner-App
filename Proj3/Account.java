@@ -121,3 +121,37 @@ public class Account {
         
         return dayTrips;
     }
+    
+
+
+    public void addTripToDay(int dayNum, Trip t){
+        getDayTrips(dayNum).add(t);
+    }
+
+    public void setUsername(String newUser){
+        username = newUser;
+    }
+
+    public void setPassword(String newPass){
+        password = newPass;
+    }
+
+    public void setBudget(double newBudget){
+        budget = newBudget;
+    }
+
+    public void setTheme(String newTheme){
+        theme = newTheme;
+    }
+
+    public void calcRemaining(double cost){
+        //remaining = budget - cost;
+    }
+
+
+    public String toString()
+    {
+        return(getUsername()+"\t"+getPassword()+"\t"+getBudget());
+    }
+    
+}
