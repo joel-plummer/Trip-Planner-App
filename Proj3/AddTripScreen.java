@@ -13,8 +13,9 @@ public class AddTripScreen extends JFrame {
     private JButton bCancel;
 
     private JLabel errorMsg;
-    private JLabel daytxt, nametxt, bustxt, genIDtxt, ppltxt, timetxt, busIDtxt;
-    private JTextField nameBox, IDBox, pplBox, timeBox, busIDBox;
+    private JLabel daytxt, nametxt, bustxt, genIDtxt, ppltxt, timetxt, busIDtxt, colontxt, formattxt;
+    private JTextField nameBox, IDBox, pplBox, hrBox, minBox, busIDBox;
+    private JComboBox<String> buses,days;
 
     private Account thisAcc;
     private TripDisplayScreen thisTDS; //previous screen
@@ -59,7 +60,7 @@ public class AddTripScreen extends JFrame {
         dPnl1.setOpaque(false);
         daytxt = new JLabel("Day: ");
         String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
-        JComboBox<String> days = new JComboBox<>(dayOpts);      
+        days = new JComboBox<>(dayOpts);      
         dPnl1.add(daytxt);
         dPnl1.add(days);
         lftPnl.add(dPnl1); 
@@ -76,7 +77,7 @@ public class AddTripScreen extends JFrame {
         dPnl3.setOpaque(false);
         bustxt = new JLabel("Bus Type:  ");
         String [] busOpts = {"<<Select Bus>>","Small - $5000", "Medium - $7000", "Luxurious - $12000"};
-        JComboBox<String> buses = new JComboBox<>(busOpts);      
+        buses = new JComboBox<>(busOpts);      
         dPnl3.add(bustxt);
         dPnl3.add(buses);
         lftPnl.add(dPnl3); 
@@ -102,10 +103,17 @@ public class AddTripScreen extends JFrame {
         dPnl6 = new JPanel();
         dPnl6.setOpaque(false);
         timetxt = new JLabel("Time:  ");
-        timeBox = new JTextField(12);
-        timeBox.setText("Format: 01:00 (24 hr)");
+        hrBox = new JTextField(6);
+        minBox = new JTextField(6);
+        hrBox.setText("01");
+        colontxt= new JLabel(":");
+        minBox.setText("00");
+        formattxt = new JLabel("(24hr)");
         dPnl6.add(timetxt);
-        dPnl6.add(timeBox);
+        dPnl6.add(hrBox);
+        dPnl6.add(colontxt);
+        dPnl6.add(minBox);
+        dPnl6.add(formattxt);
         rgtPnl.add(dPnl6);
 
         dPnl7 = new JPanel();
@@ -246,7 +254,7 @@ public class AddTripScreen extends JFrame {
     {
         public void actionPerformed(ActionEvent e) {
             //if input for time and # of persons is not valid, if statement needs to be added
-            errorMsg.setText("Please recheck the Time & Person fields.");
+            errorMsg.setText("Please confirm the Time & Person fields are correct.");
             //if time has already been booked for that day, another error message here
             //if budget is $0.0, another error message here to warn user to update it ("You can't afford this") or smth
 
@@ -254,7 +262,50 @@ public class AddTripScreen extends JFrame {
             //reduce budget here with thisAcc.calcRemaining()
             int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour budget will be reduced \nto: $" + thisAcc.getRemaining());  
             if(confirm == JOptionPane.YES_OPTION) {  
-                //supposed to add the data to a trip arraylist for the selected day
+                //supposed to add the data to a trip arraylist for the selected day 
+                Bus bus = new Bus();
+                String bopt = buses.getSelectedItem().toString();
+                switch(bopt){
+                    case ("Small - $5000"):
+                        bus= new Bus(BusType.Small);
+                    case("Medium - $7000"):
+                        bus= new Bus(BusType.Medium);
+                    case("Luxurious - $12000"): 
+                        bus= new Bus(BusType.Luxurious);
+
+                }                                 
+                Trip trip = new Trip(nameBox.getText(), bus,Integer.parseInt(pplBox.getText()), hrBox.getText(), minBox.getText());
+                switch(days.getSelectedItem().toString()){
+                    case ("DAY 1"):
+                        thisAcc.addTripToDay(1,trip);
+                        TripDisplayScreen.day1Table.getModel().setRowCount(0);
+                        TripDisplayScreen.showTable(TripDisplayScreen.d1TripList, TripDisplayScreen.day1Table);
+                    case ("DAY 2"):
+                        thisAcc.addTripToDay(2,trip);
+                        TripDisplayScreen.day2Table.getModel().setRowCount(0);
+                        TripDisplayScreen.showTable(TripDisplayScreen.d2TripList, TripDisplayScreen.day2Table);
+                    case ("DAY 3"):
+                        thisAcc.addTripToDay(3,trip);
+                        TripDisplayScreen.day3Table.getModel().setRowCount(0);
+                        TripDisplayScreen.showTable(TripDisplayScreen.d1TripList, TripDisplayScreen.day3Table);
+                    case ("DAY 4"): 
+                        thisAcc.addTripToDay(4,trip);
+                        TripDisplayScreen.day4Table.getModel().setRowCount(0);
+                        TripDisplayScreen.showTable(TripDisplayScreen.d4TripList, TripDisplayScreen.day4Table);
+                    case ("DAY 5"):
+                        thisAcc.addTripToDay(5,trip);
+                        TripDisplayScreen.day5Table.getModel().setRowCount(0);
+                        TripDisplayScreen.showTable(TripDisplayScreen.d5TripList, TripDisplayScreen.day5Table);
+                    case ("DAY 6"):
+                        thisAcc.addTripToDay(6,trip);
+                        TripDisplayScreen.day6Table.getModel().setRowCount(0);
+                        TripDisplayScreen.showTable(TripDisplayScreen.d6TripList, TripDisplayScreen.day1Table);
+                    case ("DAY 7"):
+                        thisAcc.addTripToDay(7,trip);
+                        TripDisplayScreen.day1Table.getModel().setRowCount(0);
+                        TripDisplayScreen.showTable(TripDisplayScreen.d1TripList, TripDisplayScreen.day1Table); 
+                }
+
                 setVisible(false); //stops displaying window/frame
             }  
             
