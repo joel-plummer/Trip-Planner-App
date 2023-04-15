@@ -24,7 +24,7 @@ public class Trip implements Comparable<Trip> {
 
     public Trip(String name, Bus bus, int numOfPeople, String hrs, String mins) {
         this.ID = getNextID();
-        this.name = name;
+        this.name = name.replaceAll("\\s", "");
         time[0] = hrs;
         time[1] = mins;
         this.bus = bus;
@@ -74,8 +74,8 @@ public class Trip implements Comparable<Trip> {
         time[1] = newMins;
     }
 
-    public void setCompletedTrip() {
-        completed = true;
+    public void setCompletedTrip(boolean c) {
+        completed = c;
     }
 
     public int compareTo(Trip other) {
