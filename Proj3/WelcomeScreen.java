@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
-import java.util.stream.Stream;
 import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Paths;
@@ -49,17 +48,18 @@ public class WelcomeScreen extends JFrame {
         if (accEmpty == false){
             String accFile = path;
             loadAccount(accFile);
-
-            accList.get(0).addTripToDay(1, new Trip("Quick Trip 1", new Bus(BusType.Small), 8, "13", "30"));
-            accList.get(0).addTripToDay(1, new Trip("Holland Students", new Bus(BusType.Medium), 17, "03", "30"));
-            accList.get(0).addTripToDay(2, new Trip("Ochi Tourists", new Bus(BusType.Luxurious), 36,"03", "00"));
-            accList.get(0).addTripToDay(2, new Trip("Mobay Tourists", new Bus(BusType.Luxurious), 40,"00", "43"));
-            accList.get(0).addTripToDay(3, new Trip("Quick Trip 2", new Bus(BusType.Medium), 23,"00", "10"));
-            accList.get(0).addTripToDay(3, new Trip("Quick Trip 4", new Bus(BusType.Medium), 16,"03", "56"));
+            //SAMPLE DATA STORED IN FIRST ACCOUNT CREATING FOR TESTING
+            accList.get(0).addTripToDay(4, new Trip("Quick Trip 1", new Bus(BusType.Small), 8, "13", "30"));
+            accList.get(0).addTripToDay(4, new Trip("Holland Students", new Bus(BusType.Medium), 17, "03", "30"));
+            accList.get(0).addTripToDay(5, new Trip("Ochi Tourists", new Bus(BusType.Luxurious), 36,"03", "00"));
+            accList.get(0).addTripToDay(7, new Trip("Mobay Tourists15", new Bus(BusType.Luxurious), 40,"00", "43"));
+            accList.get(0).addTripToDay(6, new Trip("Quick Trip 2", new Bus(BusType.Medium), 23,"00", "10"));
+            accList.get(0).addTripToDay(6, new Trip("Quick Trip 4", new Bus(BusType.Luxurious), 16,"03", "56"));
+            accList.get(0).addTripToDay(1, new Trip("Light Switch", new Bus(BusType.Small), 10, "17", "20"));
+            accList.get(0).addTripToDay(7, new Trip("Mobay Tourists12", new Bus(BusType.Luxurious), 30,"07", "45"));
         }
 
         
-
 
         // Setting up window
         setTitle("Login Or Sign Up");
@@ -178,9 +178,21 @@ public class WelcomeScreen extends JFrame {
             myWriter2.write("User: " + a.getUsername() + "\n");
             myWriter2.write("Password: " + a.getPassword() + "\n");
             myWriter2.write("Theme: " + a.getTheme() + "\n");
-            myWriter2.write("Budget: " + String.valueOf(a.getBudget()) + "\n");
+            myWriter2.write("Budget: " + String.valueOf(a.getBudget()) + "\n\n");
+
+            for (int i = 1; i <= 7; ++i){
+                myWriter2.write("DAY"+i+":\n");
+                tripList = a.getDayTrips(i);           
+                for(Trip t : tripList){
+                    tripInfo = "Trip: " + t.getName() + " " + t.getNumOfPpl() + " " + t.getHrs() + " " + t.getMins() + 
+                    " " + t.isCompleted() + " Bus:" + " " + t.getBus().getType();    
+                    myWriter2.write(tripInfo + "\n");
+                }
+                myWriter2.write("\n");
+            }
             
             myWriter2.close();
+
         } catch (IOException ioException) {
             System.out.println(ioException);
         }
@@ -223,7 +235,7 @@ public class WelcomeScreen extends JFrame {
     private Account loadData(Account a) {
         Scanner ascan = null;
         File f = new File("Database\\"+ a.getUsername() +"_data.txt");
-        int daycnt = 1, daynext;
+        int daycnt = 1;
         try {
             ascan = new Scanner(f);
             while (ascan.hasNext()) {
@@ -232,13 +244,25 @@ public class WelcomeScreen extends JFrame {
                 
                 //System.out.print("\n" + nextLine[0] + " " + nextLine[1] + " loadData lines");
 
-               // System.out.print("\nLine: " + nextLine[1]);
+                //System.out.print("\nLine: " + nextLine[0]);
                 
                 if (nextLine[0].equals("Theme:")){
                     a.setTheme(nextLine[1]);
                 } else if (nextLine[0].equals("Budget:")){
                     a.setBudget(Double.parseDouble(nextLine[1]));
+                } else if ((nextLine[0].startsWith("DAY"))){
+                    if (nextLine[0].equals("Trip:")){
+                        //public Trip(String name, Bus bus, int numOfPeople, String hrs, String mins)
+                        //Trip: HollandStudents 17 03 30 false Bus: Medium
+                        Bus b = new Bus(BusType.valueOf(nextLine[7]));
+                        Trip t = new Trip(nextLine[1], b, Integer.parseInt(nextLine[2]), 
+                                nextLine[3], nextLine[4]);
+                        t.setCompletedTrip(Boolean.parseBoolean(nextLine[5]));
+                        a.addTripToDay(daycnt, t);
+                    }
 
+                    ++daycnt;
+                }                
                 
             }
 
