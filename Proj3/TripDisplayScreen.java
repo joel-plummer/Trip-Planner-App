@@ -22,6 +22,7 @@ public class TripDisplayScreen extends JFrame {
 
     //For tabs
     private JTabbedPane tripTabs;
+    private TableData daysTable;
     private TableData day1Table, day2Table, day3Table, day4Table, day5Table, day6Table, day7Table;
     private ArrayList<Trip> d1TripList, d2TripList, d3TripList, d4TripList, d5TripList, d6TripList, d7TripList;
     
@@ -543,7 +544,7 @@ public class TripDisplayScreen extends JFrame {
     
     
     //Ensures that each trip in the list of trips are added to the table for the given day
-    private void showTable(ArrayList<Trip> tripList, TableData dayTable)
+    public void showTable(ArrayList<Trip> tripList, TableData dayTable)
     {
         if (tripList.size() > 0){
             for (Trip t: tripList) {
@@ -554,7 +555,7 @@ public class TripDisplayScreen extends JFrame {
 
 
     //Stores data from trip as an array and passes it to a method to add it to that day's table
-    private void makeTripRecord(Trip t, TableData dayTable) {
+    public void makeTripRecord(Trip t, TableData dayTable) {
         // format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#",
         // "Time", "Trip Completed?"
         String[] singleTrip = { t.getName(), "" + t.getBus().getType() + "",
@@ -564,13 +565,45 @@ public class TripDisplayScreen extends JFrame {
         addTripRecord(singleTrip, dayTable);
     }
 
+
     //Adds a single trip to given day's table 
     public void addTripRecord(String[] trip, TableData dayTable){
         dayTable.getModel().addRow(trip);
     }
 
      
+    public TableData getDayTable(int day){
+        switch(day){
+            case 1:
+                daysTable = day1Table;
+                break;
 
+            case 2:
+                daysTable = day2Table;
+                break;
+
+            case 3:
+                daysTable = day3Table;
+                break;
+
+            case 4:
+                daysTable = day4Table;
+                break;
+
+            case 5:
+                daysTable = day5Table;
+                break;
+
+            case 6:
+                daysTable = day6Table;
+                break;
+
+            case 7:
+                daysTable = day7Table;
+        }
+        
+        return daysTable;
+    }
 
     //=========================================================//
     //=           BUTTON LISTENING FUNCTIONALITIES            =//
