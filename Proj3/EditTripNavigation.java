@@ -60,7 +60,39 @@ public class EditTripNavigation extends JFrame {
         daytxt = new JLabel("Enter Day: ");
         String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
         JComboBox<String> days = new JComboBox<>(dayOpts);  
-        //Listner here for when day is changed which fills up below   
+        days.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {   
+                //Each case should add the trips for in the Format: Trip ID# : Trip Name (example below)
+                //trips.addItem("Trip");
+                String s = (String) days.getSelectedItem();
+                switch (s) {
+                    case "DAY 1":
+
+                        break;
+                    case "DAY 2":
+
+                        break;
+                    case "DAY 3":
+
+                        break;
+                    case "DAY 4":
+
+                        break;
+                    case "DAY 5":
+  
+                        break;
+                    case "DAY 6":
+
+                        break;
+                    case "DAY 7":
+
+                }
+
+            }
+        });
+        
+        
         dPnl1.add(daytxt);
         dPnl1.add(days);
         topPnl.add(dPnl1); 
@@ -68,10 +100,9 @@ public class EditTripNavigation extends JFrame {
         dPnl2 = new JPanel();
         dPnl2.setOpaque(false);
         triptxt = new JLabel("Select Trip on Day: ");
-        //Options for here could be added from the list of trips for selected day above
-        //Format: Trip ID# : Trip Name (example below)
-        String [] tripOpts = {"<<Select Trip>>", "#T104 : Quick Trip 1"};
-        JComboBox<String> trips = new JComboBox<>(tripOpts);      
+        String [] tripOpts = {"<<Select Trip>>"};
+        JComboBox<String> trips = new JComboBox<>(tripOpts);   
+           
         dPnl2.add(triptxt);
         dPnl2.add(trips);
         bttmPnl.add(dPnl2); 
@@ -121,7 +152,7 @@ public class EditTripNavigation extends JFrame {
         //=========================================//
         //=       MAINTAINING SELECTED THEME      =//
         //=========================================//       
-        switch (acc.getTheme()) {
+        switch (thisAcc.getTheme()) {
             case "PINK":
                 disPnl.setBackground(new Color(210,143,218));
                 daytxt.setForeground(Color.BLACK);
@@ -132,7 +163,7 @@ public class EditTripNavigation extends JFrame {
                 daytxt.setForeground(Color.WHITE);
                 triptxt.setForeground(Color.WHITE);
                 break; 
-            case "LIGHT BLUE":
+            case "LIGHTBLUE":
                 disPnl.setBackground(new Color(152,182,248));
                 daytxt.setForeground(Color.BLACK);
                 triptxt.setForeground(Color.BLACK);
