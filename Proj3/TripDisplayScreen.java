@@ -62,14 +62,16 @@ public class TripDisplayScreen extends JFrame {
         
         //SAMPLE DATA (TO BE DELETED LATER)
         //public void addTripToDay(int dayNum, Trip t)
+        /*
         thisAcc.addTripToDay(2, new Trip("Quick Trip 1", new Bus(BusType.Small), 8, "13", "30"));
         thisAcc.addTripToDay(2, new Trip("Holland Students", new Bus(BusType.Medium), 17, "03", "30"));
         thisAcc.addTripToDay(2, new Trip("Ochi Tourists", new Bus(BusType.Luxurious), 36,"03", "00"));
         thisAcc.addTripToDay(2, new Trip("Mobay Tourists", new Bus(BusType.Luxurious), 40,"00", "43"));
         thisAcc.addTripToDay(2, new Trip("Quick Trip 2", new Bus(BusType.Medium), 23,"00", "10"));
         thisAcc.addTripToDay(2, new Trip("Quick Trip 4", new Bus(BusType.Medium), 16,"03", "56"));
-
-
+        */
+        //thisAcc.setTheme("RED");
+        //thisWS.updateAccData(thisAcc);
 
         //=================================================//
         //=                SETTING UP PANELS              =//
@@ -93,7 +95,7 @@ public class TripDisplayScreen extends JFrame {
         //=========================================//
         //=       MAINTAINING SELECTED THEME      =//
         //=========================================//       
-        switch (acc.getTheme()) {
+        switch (thisAcc.getTheme()) {
             case "PINK":
                 contsPnl.setBackground(new Color(210,143,218));
                 disPnl.setBackground(new Color(210,143,218));
@@ -104,7 +106,7 @@ public class TripDisplayScreen extends JFrame {
                 disPnl.setBackground(new Color(142,49,80));
                 btnPnl.setBackground(new Color(142,49,80));
                 break; 
-            case "LIGHT BLUE":
+            case "LIGHTBLUE":
                 contsPnl.setBackground(new Color(152,182,248));
                 disPnl.setBackground(new Color(152,182,248));
                 btnPnl.setBackground(new Color(152,182,248));
@@ -301,8 +303,11 @@ public class TripDisplayScreen extends JFrame {
         JLabel themetxt = new JLabel("Theme: ");
         String [] themeOpts = {"GRAY", "PINK", "RED", "GREEN", "LIGHT BLUE", "PURPLE", "Default"};
         JComboBox<String> themes = new JComboBox<>(themeOpts);
-        themes.setSelectedItem(acc.getTheme());  
-        
+        if(!(thisAcc.getTheme().equals("LIGHTBLUE"))){
+            themes.setSelectedItem(thisAcc.getTheme());  
+        } else {
+            themes.setSelectedItem("LIGHT BLUE");  
+        }
         JPanel themeArea = new JPanel();
         themeArea.setPreferredSize(new Dimension(590,30));
         themeArea.setOpaque(false);
@@ -320,44 +325,47 @@ public class TripDisplayScreen extends JFrame {
                         contsPnl.setBackground(new Color(210,143,218));
                         disPnl.setBackground(new Color(210,143,218));
                         btnPnl.setBackground(new Color(210,143,218));
-                        acc.setTheme("PINK");
+                        thisAcc.setTheme("PINK");
                         break;
                     case "RED":
                         contsPnl.setBackground(new Color(142,49,80));
                         disPnl.setBackground(new Color(142,49,80));
                         btnPnl.setBackground(new Color(142,49,80));
-                        acc.setTheme("RED");
+                        thisAcc.setTheme("RED");
                         break; 
                     case "LIGHT BLUE":
                         contsPnl.setBackground(new Color(152,182,248));
                         disPnl.setBackground(new Color(152,182,248));
                         btnPnl.setBackground(new Color(152,182,248));
-                        acc.setTheme("LIGHT BLUE");
+                        thisAcc.setTheme("LIGHTBLUE");
                         break;
                     case "GREEN":
                         contsPnl.setBackground(new Color(85,111,111));
                         disPnl.setBackground(new Color(85,111,111));
                         btnPnl.setBackground(new Color(85,111,111));
-                        acc.setTheme("GREEN");
+                        thisAcc.setTheme("GREEN");
                         break;
                     case "PURPLE":
                         contsPnl.setBackground(new Color(104,54,137));
                         disPnl.setBackground(new Color(104,54,137));
                         btnPnl.setBackground(new Color(104,54,137));
-                        acc.setTheme("PURPLE");
+                        thisAcc.setTheme("PURPLE");
                         break;
                     case "GRAY":
                         contsPnl.setBackground(new Color(145,143,156));
                         disPnl.setBackground(new Color(145,143,156));
                         btnPnl.setBackground(new Color(145,143,156));
-                        acc.setTheme("GRAY");
+                        thisAcc.setTheme("GRAY");
                         break;
                     case "Default":
                         contsPnl.setBackground(new Color(55,73,136));
                         disPnl.setBackground(new Color(55,73,136));
                         btnPnl.setBackground(new Color(55,73,136));
-                        acc.setTheme("Default");
+                        thisAcc.setTheme("Default");
                 }
+
+                thisWS.deleteAccData(thisAcc);
+                thisWS.createAccData(thisAcc);
             }
         });
 
@@ -597,6 +605,9 @@ public class TripDisplayScreen extends JFrame {
             } else {
                 bdgtChange.setText("Please enter valid number.");              
             }
+
+            thisWS.deleteAccData(thisAcc);
+            thisWS.createAccData(thisAcc);
         }
 
     }
@@ -612,15 +623,21 @@ public class TripDisplayScreen extends JFrame {
                 int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Username will be: \n" 
                 + userChange.getText());  
                 if (confirm == JOptionPane.YES_OPTION) {  
+                    thisWS.deleteAccData(thisAcc);
+                    thisWS.updateAccounts(" " + thisAcc.getUsername() + " ", " " + userChange.getText() + " ");
                     thisAcc.setUsername(userChange.getText());
+
                     updateInfo(); //updating the displayed info at bottom
                     userChange.setText(""); //clears username textfield
                     //Changing the frame/window name  
-                    setTitle("User " + thisAcc.getUsername() + "'s Plan");   
+                    setTitle("User " + thisAcc.getUsername() + "'s Plan");
+                   
                 }
             } else {
                 userChange.setText("Please enter valid username."); //clears budget textfield                
             }
+            
+            thisWS.createAccData(thisAcc);
         }
 
     }
@@ -633,9 +650,14 @@ public class TripDisplayScreen extends JFrame {
             int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Password will be: \n" 
             + String.valueOf(passChange.getPassword()));  
             if(confirm == JOptionPane.YES_OPTION) {  
+                thisWS.deleteAccData(thisAcc);
+                thisWS.updateAccounts(" " + thisAcc.getPassword(), " " + String.valueOf(passChange.getPassword()));
                 thisAcc.setPassword(String.valueOf(passChange.getPassword()));
+
                 passChange.setText(""); //clears password textfield
             }  
+
+            thisWS.createAccData(thisAcc);
         }
 
     }
@@ -881,6 +903,8 @@ public class TripDisplayScreen extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
+            thisWS.deleteAccData(thisAcc);
+            thisWS.createAccData(thisAcc);
             setVisible(false); //stops displaying window/frame
             thisWS.setWelcomeTheme(thisAcc.getTheme()); //changes welcome to fit account theme
             thisWS.setVisible(true); //makes welcome screen visible again
