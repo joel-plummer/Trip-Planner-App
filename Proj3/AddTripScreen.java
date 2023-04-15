@@ -244,7 +244,15 @@ public class AddTripScreen extends JFrame {
 
     } //public AddTripScreen(TripDisplayScreen tds, Account acc) end (constructor)
 
-
+    public Boolean isInteger( String input ) {
+        try {
+            Integer.parseInt( input );
+            return true;
+        }
+        catch( Exception e ) {
+            return false;
+        }
+    }
     
     //=========================================================//
     //=           BUTTON LISTENING FUNCTIONALITIES            =//
@@ -253,61 +261,110 @@ public class AddTripScreen extends JFrame {
     private class AddBtnListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e) {
-            //if input for time and # of persons is not valid, if statement needs to be added
-            errorMsg.setText("Please confirm the Time & Person fields are correct.");
+            
             //if time has already been booked for that day, another error message here
-            //if budget is $0.0, another error message here to warn user to update it ("You can't afford this") or smth
 
             //if input is valid, creates a popup asking for confirmation
             //reduce budget here with thisAcc.calcRemaining()
+
+             //gets the type of bus selected
+
+             
+
+             Bus bus = new Bus();
+             int cost=0;
+             switch(buses.getSelectedItem().toString()){
+                 case ("Small - $5000"):
+                     bus= new Bus(BusType.Small);
+                     cost = 5000;
+                     break;
+                 case("Medium - $7000"):
+                     bus= new Bus(BusType.Medium);
+                     cost = 7000;
+                     break;
+                 case("Luxurious - $12000"): 
+                     bus= new Bus(BusType.Luxurious);
+                     cost = 12000;
+                     break;
+             }                  
+
+            //Check if a day was selceted
+             if (days.getSelectedItem().toString()=="<<Select Day>>"){
+                errorMsg.setText("Please select a day.");}
+
+            //Check if a Bus was selcted
+             else if (buses.getSelectedItem().toString()=="<<Select Bus>>"){
+                    errorMsg.setText("Please select a Bus.");}
+
+            //Checks if the time is valid
+             else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false)){
+                errorMsg.setText("Please enter a valid Time.");}
+
+            //Checks if Number of Passengers is valid
+             else if ((isInteger(pplBox.getText())==false) || (Integer.parseInt(pplBox.getText())<0)){
+                errorMsg.setText("# of Persons Invalid");}
+
+            //Checks if Nummber of Passengers is within capacity of the selected bus
+             else if (Integer.parseInt(pplBox.getText()) > bus.getCapacity()){
+                
+                errorMsg.setText("Too many passengers!");
+            }
+
+            //Checks if the selected bus is within the budget 
+            else if (thisAcc.getBudget()< cost)
+            {
+                errorMsg.setText("Insufficient Budget");
+            }
+            else{
             int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour budget will be reduced \nto: $" + thisAcc.getRemaining());  
             if(confirm == JOptionPane.YES_OPTION) {  
-                //supposed to add the data to a trip arraylist for the selected day 
-                Bus bus = new Bus();
-                String bopt = buses.getSelectedItem().toString();
-                switch(bopt){
-                    case ("Small - $5000"):
-                        bus= new Bus(BusType.Small);
-                    case("Medium - $7000"):
-                        bus= new Bus(BusType.Medium);
-                    case("Luxurious - $12000"): 
-                        bus= new Bus(BusType.Luxurious);
-
-                }                                 
+                                        
                 Trip trip = new Trip(nameBox.getText(), bus,Integer.parseInt(pplBox.getText()), hrBox.getText(), minBox.getText());
+                //add the data to a trip arraylist for the selected day 
                 switch(days.getSelectedItem().toString()){
                     case ("DAY 1"):
                         thisAcc.addTripToDay(1,trip);
-                        TripDisplayScreen.day1Table.getModel().setRowCount(0);
-                        TripDisplayScreen.showTable(TripDisplayScreen.d1TripList, TripDisplayScreen.day1Table);
+                        thisTDS.getDayTable(1).getModel().setRowCount(0);
+                        thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(1));
+                        break;
+
                     case ("DAY 2"):
                         thisAcc.addTripToDay(2,trip);
-                        TripDisplayScreen.day2Table.getModel().setRowCount(0);
-                        TripDisplayScreen.showTable(TripDisplayScreen.d2TripList, TripDisplayScreen.day2Table);
+                        thisTDS.getDayTable(2).getModel().setRowCount(0);
+                        thisTDS.showTable(thisAcc.getDayTrips(2), thisTDS.getDayTable(2));
+                        break;
+
                     case ("DAY 3"):
                         thisAcc.addTripToDay(3,trip);
-                        TripDisplayScreen.day3Table.getModel().setRowCount(0);
-                        TripDisplayScreen.showTable(TripDisplayScreen.d1TripList, TripDisplayScreen.day3Table);
+                        thisTDS.getDayTable(3).getModel().setRowCount(0);
+                        thisTDS.showTable(thisAcc.getDayTrips(3), thisTDS.getDayTable(3));
+                        break;
                     case ("DAY 4"): 
                         thisAcc.addTripToDay(4,trip);
-                        TripDisplayScreen.day4Table.getModel().setRowCount(0);
-                        TripDisplayScreen.showTable(TripDisplayScreen.d4TripList, TripDisplayScreen.day4Table);
+                        thisTDS.getDayTable(4).getModel().setRowCount(0);
+                        thisTDS.showTable(thisAcc.getDayTrips(4), thisTDS.getDayTable(4));
+                        break;
                     case ("DAY 5"):
                         thisAcc.addTripToDay(5,trip);
-                        TripDisplayScreen.day5Table.getModel().setRowCount(0);
-                        TripDisplayScreen.showTable(TripDisplayScreen.d5TripList, TripDisplayScreen.day5Table);
+                        thisTDS.getDayTable(5).getModel().setRowCount(0);
+                        thisTDS.showTable(thisAcc.getDayTrips(5), thisTDS.getDayTable(5));
+                        break;
                     case ("DAY 6"):
-                        thisAcc.addTripToDay(6,trip);
-                        TripDisplayScreen.day6Table.getModel().setRowCount(0);
-                        TripDisplayScreen.showTable(TripDisplayScreen.d6TripList, TripDisplayScreen.day1Table);
+                        thisAcc.addTripToDay(1,trip);
+                        thisTDS.getDayTable(5).getModel().setRowCount(0);
+                        thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(5));
+                        break;
                     case ("DAY 7"):
-                        thisAcc.addTripToDay(7,trip);
-                        TripDisplayScreen.day1Table.getModel().setRowCount(0);
-                        TripDisplayScreen.showTable(TripDisplayScreen.d1TripList, TripDisplayScreen.day1Table); 
+                        thisAcc.addTripToDay(1,trip);
+                        thisTDS.getDayTable(5).getModel().setRowCount(0);
+                        thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(5));
+                        break;  
                 }
 
                 setVisible(false); //stops displaying window/frame
             }  
+            }
+            
             
         }
         

@@ -18,6 +18,12 @@ public class Bus {
     public Bus(BusType type) {
         this.type = type;
         this.id = getNextId();
+        if (type.equals(BusType.Small))
+            max_capacity = 15;
+        if (type.equals(BusType.Medium))
+            max_capacity = 25;
+        if (type.equals(BusType.Luxurious))
+            max_capacity = 40;
     }
 
     public BusType getType() {
