@@ -38,7 +38,6 @@ public class Account {
 
     }
 
-
     public String getUsername(){
         return username;
     }
@@ -151,7 +150,7 @@ public class Account {
 
     public String toString()
     {
-        return(getUsername()+"\t"+getPassword()+"\t"+getBudget());
+        return(getUsername()+"\t"+getPassword()+"\t"+getBudget()+"\t"+getTheme());
     }
     
 }
