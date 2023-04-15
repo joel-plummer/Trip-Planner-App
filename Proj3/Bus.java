@@ -13,6 +13,8 @@ public class Bus {
 
     BusType type; // There is another file for this
 
+    public Bus(){};
+
     public Bus(BusType type) {
         this.type = type;
         this.id = getNextId();
