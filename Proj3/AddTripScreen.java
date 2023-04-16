@@ -86,8 +86,7 @@ public class AddTripScreen extends JFrame {
         dPnl4.setOpaque(false);
         busIDtxt = new JLabel("Generated Bus ID: ");
         busIDBox = new JTextField(5);
-        Bus prev =new Bus();
-        busIDBox.setText("B"+prev.idPreview()); //This should be taken from an account Bus obj... getNextId() maybe
+        busIDBox.setText("#B10"); //This should be taken from an account Bus obj... getNextId() maybe
         busIDBox.setEditable(false);
         dPnl4.add(busIDtxt);
         dPnl4.add(busIDBox);
@@ -121,8 +120,7 @@ public class AddTripScreen extends JFrame {
         dPnl7.setOpaque(false);
         genIDtxt = new JLabel("Generated Trip ID: ");
         IDBox = new JTextField(5);
-        Trip prevtrp = new Trip();
-        IDBox.setText("#T"+prevtrp.idPreview()); //This should be taken from an account Trip obj... getNextId() maybe
+        IDBox.setText("#T100"); //This should be taken from an account Trip obj... getNextId() maybe
         IDBox.setEditable(false);
         dPnl7.add(genIDtxt);
         dPnl7.add(IDBox);
@@ -267,11 +265,11 @@ public class AddTripScreen extends JFrame {
             /*Gets the type of bus selected*/
 
              Bus bus = new Bus();
-             double cost=0;
+             int cost=0;
              switch(buses.getSelectedItem().toString()){
                  case ("Small - $5000"):
                      bus= new Bus(BusType.Small);
-                     cost = bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
+                     cost = 5000;
                      break;
                  case("Medium - $7000"):
                      bus= new Bus(BusType.Medium);
@@ -283,7 +281,7 @@ public class AddTripScreen extends JFrame {
                      break;
              }                  
 
-            /*Check if a day was selected*/
+            /*Checks if a day was selected*/
              if (days.getSelectedItem().toString()=="<<Select Day>>")
              {
                 errorMsg.setText("Please select a day.");
@@ -323,57 +321,66 @@ public class AddTripScreen extends JFrame {
             {
                 /*Modifies the budget to accommodate the new trip */
                 double newBudget = thisAcc.getBudget();
-                newBudget = thisAcc.getBudget() - cost;
+                newBudget = thisAcc.getBudget() - bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
 
-                int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour budget will be reduced \nto: $" + newBudget);  
-                if(confirm == JOptionPane.YES_OPTION) 
-                {  
-                    /*Creates a new trip and adds it to the corresponding day */                        
-                    Trip trip = new Trip(nameBox.getText(), bus,Integer.parseInt(pplBox.getText()), hrBox.getText(), minBox.getText());
-                    //add the data to a trip arraylist for the selected day 
-                    switch(days.getSelectedItem().toString())
-                    {
-                        case ("DAY 1"):
-                            thisAcc.addTripToDay(1,trip);
-                            thisTDS.getDayTable(1).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(1));
-                            break;
+                if (newBudget < 0)
+                {
+                    errorMsg.setText("Insufficient Budget");
+                }
 
-                        case ("DAY 2"):
-                            thisAcc.addTripToDay(2,trip);
-                            thisTDS.getDayTable(2).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(2), thisTDS.getDayTable(2));
-                            break;
+                else
+                {
 
-                        case ("DAY 3"):
-                            thisAcc.addTripToDay(3,trip);
-                            thisTDS.getDayTable(3).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(3), thisTDS.getDayTable(3));
-                            break;
-                        case ("DAY 4"): 
-                            thisAcc.addTripToDay(4,trip);
-                            thisTDS.getDayTable(4).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(4), thisTDS.getDayTable(4));
-                            break;
-                        case ("DAY 5"):
-                            thisAcc.addTripToDay(5,trip);
-                            thisTDS.getDayTable(5).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(5), thisTDS.getDayTable(5));
-                            break;
-                        case ("DAY 6"):
-                            thisAcc.addTripToDay(6,trip);
-                            thisTDS.getDayTable(6).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(6), thisTDS.getDayTable(6));
-                            break;
-                        case ("DAY 7"):
-                            thisAcc.addTripToDay(7,trip);
-                            thisTDS.getDayTable(7).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(7), thisTDS.getDayTable(7));
-                            break;  
+                    int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour budget will be reduced \nto: $" + newBudget);  
+                    if(confirm == JOptionPane.YES_OPTION) 
+                    {  
+                        /*Creates a new trip and adds it to the corresponding day */                        
+                        Trip trip = new Trip(nameBox.getText(), bus,Integer.parseInt(pplBox.getText()), hrBox.getText(), minBox.getText());
+                        //add the data to a trip arraylist for the selected day 
+                        switch(days.getSelectedItem().toString())
+                        {
+                            case ("DAY 1"):
+                                thisAcc.addTripToDay(1,trip);
+                                thisTDS.getDayTable(1).getModel().setRowCount(0);
+                                thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(1));
+                                break;
+
+                            case ("DAY 2"):
+                                thisAcc.addTripToDay(2,trip);
+                                thisTDS.getDayTable(2).getModel().setRowCount(0);
+                                thisTDS.showTable(thisAcc.getDayTrips(2), thisTDS.getDayTable(2));
+                                break;
+
+                            case ("DAY 3"):
+                                thisAcc.addTripToDay(3,trip);
+                                thisTDS.getDayTable(3).getModel().setRowCount(0);
+                                thisTDS.showTable(thisAcc.getDayTrips(3), thisTDS.getDayTable(3));
+                                break;
+                            case ("DAY 4"): 
+                                thisAcc.addTripToDay(4,trip);
+                                thisTDS.getDayTable(4).getModel().setRowCount(0);
+                                thisTDS.showTable(thisAcc.getDayTrips(4), thisTDS.getDayTable(4));
+                                break;
+                            case ("DAY 5"):
+                                thisAcc.addTripToDay(5,trip);
+                                thisTDS.getDayTable(5).getModel().setRowCount(0);
+                                thisTDS.showTable(thisAcc.getDayTrips(5), thisTDS.getDayTable(5));
+                                break;
+                            case ("DAY 6"):
+                                thisAcc.addTripToDay(1,trip);
+                                thisTDS.getDayTable(5).getModel().setRowCount(0);
+                                thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(5));
+                                break;
+                            case ("DAY 7"):
+                                thisAcc.addTripToDay(1,trip);
+                                thisTDS.getDayTable(5).getModel().setRowCount(0);
+                                thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(5));
+                                break;  
+                        }
+
+
+                        setVisible(false); //stops displaying window/frame
                     }
-                    thisAcc.setBudget(newBudget);
-                    thisTDS.updateInfo();
-                    setVisible(false); //stops displaying window/frame
                 }  
             }
             

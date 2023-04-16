@@ -11,7 +11,7 @@ public class Bus {
     private static int nextId = 0;
     private int max_capacity;
 
-    BusType type; // There is another file for this: BusType.java
+    BusType type; // There is another file for this
 
     public Bus(){};
 
@@ -33,10 +33,6 @@ public class Bus {
     private int getNextId() {
         return ++nextId;
 
-    }
-    public int idPreview(){
-        int preview= nextId+1;
-        return preview;
     }
 
     public int getID() {
@@ -77,8 +73,8 @@ public class Bus {
         else if (bus.equals(BusType.Luxurious))
             bus_cost = 12000;
 
-        sales_price = (bus_cost * passengers) * tax;
-        final_cost = (bus_cost * passengers) + sales_price;
-        return final_cost;
+        //sales_price = (bus_cost * passengers) * tax;
+        //final_cost = (bus_cost * passengers) + sales_price;
+        return bus_cost;
     }
 }
