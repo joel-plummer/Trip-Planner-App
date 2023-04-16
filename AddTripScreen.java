@@ -95,8 +95,8 @@ public class AddTripScreen extends JFrame {
         dPnl4.setOpaque(false);
         busIDtxt = new JLabel("Generated Bus ID: ");
         busIDBox = new JTextField(5);
-        Bus prev =new Bus();
-        busIDBox.setText("B"+prev.idPreview()); //This should be taken from an account Bus obj... getNextId() maybe
+        Bus prev = new Bus();
+        busIDBox.setText("#B"+prev.idPreview()); //This should be taken from an account Bus obj... getNextId() maybe
         busIDBox.setEditable(false);
         dPnl4.add(busIDtxt);
         dPnl4.add(busIDBox);
@@ -115,7 +115,7 @@ public class AddTripScreen extends JFrame {
         timetxt = new JLabel("Time:  ");
         hrBox = new JTextField(6);
         minBox = new JTextField(6);
-        hrBox.setText("01");
+        hrBox.setText("00");
         colontxt= new JLabel(":");
         minBox.setText("00");
         formattxt = new JLabel("(24hr)");
@@ -184,6 +184,8 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 break;
             case "RED":
                 disPnl.setBackground(new Color(142,49,80));
@@ -194,6 +196,8 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 break; 
             case "LIGHT BLUE":
                 disPnl.setBackground(new Color(152,182,248));
@@ -204,6 +208,8 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 break;
             case "GREEN":
                 disPnl.setBackground(new Color(85,111,111));
@@ -214,6 +220,8 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 break;
             case "PURPLE":
                 disPnl.setBackground(new Color(104,54,137));
@@ -224,6 +232,8 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 break;
             case "GRAY":
                 disPnl.setBackground(new Color(145,143,156));
@@ -234,6 +244,8 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 break;
             case "Default":
                 disPnl.setBackground(new Color(55,73,136));
@@ -244,6 +256,8 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
         }
 
 
@@ -276,8 +290,8 @@ public class AddTripScreen extends JFrame {
             /*Gets the type of bus selected*/
 
              Bus bus = new Bus();
-             double cost=0;
-             switch(buses.getSelectedItem().toString()){
+             double cost = 0;
+             switch (buses.getSelectedItem().toString()){
                  case ("Small - $5000"):
                      bus= new Bus(BusType.Small);
                      cost = bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
@@ -293,19 +307,21 @@ public class AddTripScreen extends JFrame {
              }                  
 
             /*Check if a day was selected*/
-             if (days.getSelectedItem().toString()=="<<Select Day>>")
+             if (days.getSelectedItem().toString() == "<<Select Day>>")
              {
                 errorMsg.setText("Please select a day.");
              }
 
             /*Checks if a Bus was selected*/
-             else if (buses.getSelectedItem().toString()=="<<Select Bus>>")
+             else if (buses.getSelectedItem().toString() == "<<Select Bus>>")
              {
-                errorMsg.setText("Please select a Bus.");
+                errorMsg.setText("Please select a Bus Type.");
              }
 
             /*Checks if the time is valid*/
-             else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false))
+             else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||
+             ((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || 
+             (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false))
              {
                 errorMsg.setText("Please enter a valid Time.");
              }
@@ -313,19 +329,19 @@ public class AddTripScreen extends JFrame {
             /* Checks if Number of Passengers is valid*/
              else if ((isInteger(pplBox.getText())==false) || (Integer.parseInt(pplBox.getText())<0))
              {
-                errorMsg.setText("Please enter a valid number of persons");
+                errorMsg.setText("Please enter a valid number of Persons.");
              }
 
             /* Checks if Number of Passengers is within capacity of the selected bus*/
              else if (Integer.parseInt(pplBox.getText()) > bus.getCapacity())
              {
-                errorMsg.setText("Too many passengers!");
+                errorMsg.setText("Too many passengers! Bus Type Max: " + bus.getCapacity());
              }
 
             /*Checks if the selected bus is within the budget */
             else if (thisAcc.getBudget()< cost)
             {
-                errorMsg.setText("Insufficient Budget");
+                errorMsg.setText("Insufficient funds for Trip.");
             }
 
             else
@@ -334,11 +350,13 @@ public class AddTripScreen extends JFrame {
                 double newBudget = thisAcc.getBudget();
                 newBudget = thisAcc.getBudget() - cost;
 
-                int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour budget will be reduced \nto: $" + newBudget);  
+                int confirm = JOptionPane.showConfirmDialog(thisATS,
+                "Are you sure? \nYour budget will be reduced \nto: $" + newBudget);  
                 if(confirm == JOptionPane.YES_OPTION) 
                 {  
                     /*Creates a new trip and adds it to the corresponding day */                        
-                    Trip trip = new Trip(nameBox.getText(), bus,Integer.parseInt(pplBox.getText()), hrBox.getText(), minBox.getText());
+                    Trip trip = new Trip(nameBox.getText(), bus, Integer.parseInt(pplBox.getText()), 
+                                hrBox.getText(), minBox.getText());
                     //add the data to a trip arraylist for the selected day 
                     switch(days.getSelectedItem().toString())
                     {
