@@ -20,12 +20,18 @@ public class Bus {
 
     public Bus(){};
 
-    /*Sets the maximum bus capacity based on the bus size */
     public Bus(int ID, BusType type) {
         this.type = type;
         this.id = ID;
         setCapacity(type);
     }
+    
+    public Bus(BusType type) {
+        this.type = type;
+        this.id = getNextId();
+        setCapacity(type);
+    }
+    
 
     /*Gets the type of bus */
     public BusType getType() {
