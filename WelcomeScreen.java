@@ -31,7 +31,6 @@ public class WelcomeScreen extends JFrame {
     private JLabel userLbl;
     private JLabel passLbl;
     private JLabel errorMsg;
-    private JTextArea multierror;
 
     private JButton btnLogin;
     private JButton btnSignup;
@@ -88,33 +87,34 @@ public class WelcomeScreen extends JFrame {
         inptPnl.setBackground(new Color(55, 73, 136));
 
         // Creating and alligning text fields to left below welcome pic
-        innerPnl = new JPanel(new FlowLayout(10, 25, 12));
-        innerPnl.setPreferredSize(new Dimension(350, 35));
+        innerPnl = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        innerPnl.setPreferredSize(new Dimension(500, 100));
         innerPnl.setOpaque(false);
 
-        userLbl = new JLabel("Username:");
+        JPanel i1Pnl = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 15));
+        i1Pnl.setOpaque(false);
+        i1Pnl.setPreferredSize(new Dimension(300, 70));
+        userLbl = new JLabel("Username:  ");
         userLbl.setForeground(Color.WHITE);
-        innerPnl.add(userLbl);
         username = new JTextField(15);
-        innerPnl.add(username);
+        i1Pnl.add(userLbl);
+        i1Pnl.add(username);
+        innerPnl.add(i1Pnl);
 
-        passLbl = new JLabel("Password:");
+        passLbl = new JLabel("Password:  ");
         passLbl.setForeground(Color.WHITE);
-        innerPnl.add(passLbl);
         pass = new JPasswordField(15);
-        innerPnl.add(pass);
+        i1Pnl.add(passLbl);
+        i1Pnl.add(pass);
+        innerPnl.add(i1Pnl);
 
         /* Errom message display when needed */
+        JPanel i2Pnl = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 8));
+        i2Pnl.setOpaque(false);
         errorMsg = new JLabel("");
         errorMsg.setForeground(new Color(237, 28, 36));
-        multierror = new JTextArea("");
-        Font boldFont = new Font(multierror.getFont().getName(), Font.BOLD, multierror.getFont().getSize());
-        multierror.setFont(boldFont);
-        multierror.setForeground(new Color(237, 28, 36));
-        multierror.setOpaque(false);
-
-        innerPnl.add(errorMsg);
-        innerPnl.add(multierror);
+        i2Pnl.add(errorMsg);
+        innerPnl.add(i2Pnl);
 
         inptPnl.add(innerPnl, BorderLayout.WEST);
 
@@ -150,7 +150,7 @@ public class WelcomeScreen extends JFrame {
 
         /*Final frame/window settings*/
         pack();
-        setSize(590, 400);
+        setSize(590, 413);
         setResizable(false);
         setVisible(true);
 
@@ -408,8 +408,8 @@ public class WelcomeScreen extends JFrame {
                 errorMsg.setForeground(new Color(237, 28, 36));
                 errorMsg.setText("Please enter the password.");
             } else if (txtName.length() < 6 && txtPass.length() < 8) {
-                multierror.setForeground(new Color(237, 28, 36));
-                multierror.setText("NB: Username MIN. is 6 chars, & Password is 8 chars.");
+                errorMsg.setForeground(new Color(237, 28, 36));
+                errorMsg.setText("Username invalid: [under 6 chars].    Password invalid: [under 8 chars].");
             } else if (txtName.length() < 6) {
                 errorMsg.setForeground(new Color(237, 28, 36));
                 errorMsg.setText("Username must be at least 6 characters.");
