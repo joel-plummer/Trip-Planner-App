@@ -361,14 +361,14 @@ public class AddTripScreen extends JFrame {
                             thisTDS.showTable(thisAcc.getDayTrips(5), thisTDS.getDayTable(5));
                             break;
                         case ("DAY 6"):
-                            thisAcc.addTripToDay(1,trip);
-                            thisTDS.getDayTable(5).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(5));
+                            thisAcc.addTripToDay(6,trip);
+                            thisTDS.getDayTable(6).getModel().setRowCount(0);
+                            thisTDS.showTable(thisAcc.getDayTrips(6), thisTDS.getDayTable(5));
                             break;
                         case ("DAY 7"):
-                            thisAcc.addTripToDay(1,trip);
-                            thisTDS.getDayTable(5).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(5));
+                            thisAcc.addTripToDay(6,trip);
+                            thisTDS.getDayTable(6).getModel().setRowCount(0);
+                            thisTDS.showTable(thisAcc.getDayTrips(6), thisTDS.getDayTable(5));
                             break;  
                     }
                     thisAcc.setBudget(newBudget);
