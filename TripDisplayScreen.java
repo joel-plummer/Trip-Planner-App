@@ -547,6 +547,9 @@ public class TripDisplayScreen extends JFrame {
         Font boldFont = new Font(info.getFont().getName(), Font.BOLD, info.getFont().getSize());
         info.setFont(boldFont);    
 
+        thisWS.deleteAccData(thisAcc);
+        thisWS.createAccData(thisAcc);
+
     }
     
     
@@ -570,6 +573,9 @@ public class TripDisplayScreen extends JFrame {
                 "#T" + t.getID(), "" + t.getHrs() + ":" + t.getMins(), "" + t.isCompleted() };
 
         addTripRecord(singleTrip, dayTable);
+        
+        thisWS.deleteAccData(thisAcc);
+        thisWS.createAccData(thisAcc);
     }
 
 
