@@ -68,7 +68,7 @@ public class AddTripScreen extends JFrame {
         dPnl1 = new JPanel();
         dPnl1.setOpaque(false);
         daytxt = new JLabel("Day: ");
-        String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
+        String [] dayOpts = {"<<Select Day>>", "DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
         days = new JComboBox<>(dayOpts);      
         dPnl1.add(daytxt);
         dPnl1.add(days);
@@ -85,7 +85,7 @@ public class AddTripScreen extends JFrame {
         dPnl3 = new JPanel();
         dPnl3.setOpaque(false);
         bustxt = new JLabel("Bus Type:  ");
-        String [] busOpts = {"<<Select Bus>>","Small - $5000", "Medium - $7000", "Luxurious - $12000"};
+        String [] busOpts = {"<<Select Bus>>", "Small - $5000", "Medium - $7000", "Luxurious - $12000"};
         buses = new JComboBox<>(busOpts);      
         dPnl3.add(bustxt);
         dPnl3.add(buses);
@@ -293,8 +293,10 @@ public class AddTripScreen extends JFrame {
              double cost = 0;
              switch (buses.getSelectedItem().toString()){
                  case ("Small - $5000"):
-                     bus= new Bus(BusType.Small);
-                     cost = bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
+                     bus = new Bus(BusType.Small);
+                     //*below comment gives causes an error for insufficient budget even when it is enough*/
+                     //cost = bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
+                     cost = 5000;
                      break;
                  case("Medium - $7000"):
                      bus= new Bus(BusType.Medium);
@@ -349,6 +351,7 @@ public class AddTripScreen extends JFrame {
                 /*Modifies the budget to accommodate the new trip */
                 double newBudget = thisAcc.getBudget();
                 newBudget = thisAcc.getBudget() - cost;
+                thisAcc.setBudget(newBudget);
 
                 int confirm = JOptionPane.showConfirmDialog(thisATS,
                 "Are you sure? \nYour budget will be reduced \nto: $" + newBudget);  
@@ -420,3 +423,4 @@ public class AddTripScreen extends JFrame {
     }
 
 } //public class AddTripScreen() end 
+
