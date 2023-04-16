@@ -113,8 +113,8 @@ public class AddTripScreen extends JFrame {
         dPnl6 = new JPanel();
         dPnl6.setOpaque(false);
         timetxt = new JLabel("Time:  ");
-        hrBox = new JTextField(6);
-        minBox = new JTextField(6);
+        hrBox = new JTextField(5);
+        minBox = new JTextField(5);
         hrBox.setText("00");
         colontxt= new JLabel(":");
         minBox.setText("00");
