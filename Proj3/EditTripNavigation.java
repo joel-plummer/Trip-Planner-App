@@ -67,13 +67,9 @@ public class EditTripNavigation extends JFrame {
         dPnl2.setOpaque(false);
         trips = new JComboBox<>();  
         trips.addItem("<<Select Trip>>");
-        String opt, name, id;
         days.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
-            {   
-                //Each case should add the trips for in the Format: Trip ID# : Trip Name (example below)
-                //trips.addItem("Trip");
-                String s = (String) days.getSelectedItem();
+            {   String s = (String) days.getSelectedItem();
                 ArrayList<Trip> tripList;
                 //Populates Select Trip menu based on day
                 switch (s) {
@@ -82,7 +78,7 @@ public class EditTripNavigation extends JFrame {
                         trips.addItem("<<Select Trip>>");
                         tripList=thisAcc.getDayTrips(1);                     
                         for (Trip i:tripList){
-                            trips.addItem(i.getName());
+                            trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
                         }                     
                         break;
                     case "DAY 2":
@@ -90,7 +86,7 @@ public class EditTripNavigation extends JFrame {
                         trips.addItem("<<Select Trip>>");
                         tripList=thisAcc.getDayTrips(2);                     
                         for (Trip i:tripList){
-                            trips.addItem(i.getName());
+                            trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
                         } 
                         break;
                     case "DAY 3":
@@ -98,7 +94,7 @@ public class EditTripNavigation extends JFrame {
                         trips.addItem("<<Select Trip>>");
                         tripList=thisAcc.getDayTrips(3);                     
                         for (Trip i:tripList){
-                            trips.addItem(i.getName());
+                            trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
                         } 
 
                         break;
@@ -107,7 +103,7 @@ public class EditTripNavigation extends JFrame {
                         trips.addItem("<<Select Trip>>");
                         tripList=thisAcc.getDayTrips(4);                     
                         for (Trip i:tripList){
-                            trips.addItem(i.getName());
+                            trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
                         } 
                         break;
                     case "DAY 5":
@@ -115,7 +111,7 @@ public class EditTripNavigation extends JFrame {
                         trips.addItem("<<Select Trip>>");
                         tripList=thisAcc.getDayTrips(5);                     
                         for (Trip i:tripList){
-                            trips.addItem(i.getName());
+                            trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
                         }   
                         break;
                     case "DAY 6":
@@ -123,7 +119,7 @@ public class EditTripNavigation extends JFrame {
                         trips.addItem("<<Select Trip>>");
                         tripList=thisAcc.getDayTrips(6);                     
                         for (Trip i:tripList){
-                            trips.addItem(i.getName());
+                            trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
                         } 
                         break;
                     case "DAY 7":
@@ -131,7 +127,7 @@ public class EditTripNavigation extends JFrame {
                         trips.addItem("<<Select Trip>>");
                         tripList=thisAcc.getDayTrips(7);                     
                         for (Trip i:tripList){
-                            trips.addItem(i.getName());
+                            trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
                         } 
                         break;
 
