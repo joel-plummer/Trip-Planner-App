@@ -2,12 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/**
- * This class generates a screen for the user to edit trip data.
- * @param bSaveEdit is a button that allows the user to save any edits made to a trip.
- * @param bCancel brings the user back to the pervious screen.
- */
-
 public class EditTripScreen extends JFrame {
 
     private JPanel disPnl;
@@ -19,24 +13,24 @@ public class EditTripScreen extends JFrame {
     private JButton bCancel;
 
     private JLabel errorMsg;
-    private JLabel daytxt, nametxt, bustxt, genIDtxt, ppltxt, timetxt, busIDtxt, completed;
-    private JTextField nameBox, IDBox, pplBox, timeBox, busIDBox;
+    private JLabel daytxt, nametxt, bustxt, genIDtxt, ppltxt, timetxt, busIDtxt, completed, colontxt, formattxt;
+    private JTextField nameBox, IDBox, pplBox, hrBox, minBox, busIDBox;
     private JCheckBox isComplete;
 
     private Account thisAcc;
     private EditTripNavigation thisETN; //previous screen
     private EditTripScreen thisETS;
 
-    public EditTripScreen(EditTripNavigation etn, Account acc){
+    public EditTripScreen(EditTripNavigation etn, Account acc, Trip trip){
 
-        /*Setting up user info (Making sure windows share same data for user)*/
+        //Setting up user info (Making sure windows share same data for user)
         thisAcc = acc;
         thisETN = etn;
         thisETS = this;
 
-        etn.setVisible(false); /*Turns off edittripnavgiation screen while edittrip screen is open*/
+        etn.setVisible(false); //Turns off edittripnavgiation screen while edittrip screen is open
 
-        /*Labelling the frame/window*/
+        //Labelling the frame/window   
         setTitle("Edit Trip");      
         //Setting up program icon
         Image icon = thisETN.getIconImage();    
@@ -53,7 +47,7 @@ public class EditTripScreen extends JFrame {
         //============================================//
         //=   STRUCTURING & CREATING DISPLAY PANEL   =//
         //============================================// 
-        /*Main panel for input section*/
+        //Main panel for input section
         disPnl.setPreferredSize(new Dimension(520,215));
         disPnl.setBackground(new Color(195,195,195)); 
         lftPnl = new JPanel(new FlowLayout(10, 25, 12));
@@ -78,8 +72,7 @@ public class EditTripScreen extends JFrame {
         dPnl2.setOpaque(false);
         nametxt = new JLabel("Trip Name: ");
         nameBox = new JTextField(13);
-        //placeholder data
-        nameBox.setText("Quick Trip 1");//should be set to whatever data the trip previously selected has
+        nameBox.setText(trip.getName()); //Trip ID
         dPnl2.add(nametxt);
         dPnl2.add(nameBox);
         lftPnl.add(dPnl2);
@@ -92,7 +85,7 @@ public class EditTripScreen extends JFrame {
         JComboBox<String> buses = new JComboBox<>(busOpts); 
         //placeholder data
         days.setSelectedItem("Small - $5000"); //Should be set to whatever bus type the trip has
-        
+        //Listener for when this is changed to be here
         dPnl3.add(bustxt);
         dPnl3.add(buses);
         lftPnl.add(dPnl3); 
@@ -101,8 +94,8 @@ public class EditTripScreen extends JFrame {
         dPnl4.setOpaque(false);
         busIDtxt = new JLabel("Generated Bus ID: ");
         busIDBox = new JTextField(5);
-        //placeholder data
-        busIDBox.setText("#B30"); //should be set to whatever data the trip previously selected has
+        Bus bus = trip.getBus();
+        busIDBox.setText("#B"+bus.getID()); //bus ID
         busIDBox.setEditable(false);
         dPnl4.add(busIDtxt);
         dPnl4.add(busIDBox);
@@ -113,7 +106,7 @@ public class EditTripScreen extends JFrame {
         ppltxt = new JLabel("# of Persons: ");
         pplBox = new JTextField(8);
         //placeholder data
-        pplBox.setText("8");//should be set to whatever data the trip previously selected has
+        pplBox.setText(""+trip.getNumOfPpl());//should be set to whatever data the trip previously selected has
         dPnl5.add(ppltxt);
         dPnl5.add(pplBox);
         rgtPnl.add(dPnl5);
@@ -121,11 +114,19 @@ public class EditTripScreen extends JFrame {
         dPnl6 = new JPanel();
         dPnl6.setOpaque(false);
         timetxt = new JLabel("Time:  ");
-        timeBox = new JTextField(12);
         //placeholder data
-        timeBox.setText("9 : 00");//should be set to whatever data the trip previously selected has
-        dPnl6.add(timetxt);
-        dPnl6.add(timeBox);
+        hrBox = new JTextField(6);
+        minBox = new JTextField(6);
+        hrBox.setText(""+trip.getHrs());
+        colontxt= new JLabel(":");
+        minBox.setText(""+trip.getMins());
+        formattxt = new JLabel("(24hr)");
+    
+        dPnl6.add(timetxt);       
+        dPnl6.add(hrBox);
+        dPnl6.add(colontxt);
+        dPnl6.add(minBox);
+        dPnl6.add(formattxt);
         rgtPnl.add(dPnl6);
 
         dPnl7 = new JPanel();
@@ -133,7 +134,7 @@ public class EditTripScreen extends JFrame {
         genIDtxt = new JLabel("Generated Trip ID: ");
         IDBox = new JTextField(5);
         //placeholder data
-        IDBox.setText("#T104"); //should be set to whatever data the trip previously selected has
+        IDBox.setText("#T"+trip.getID()); //should be set to whatever data the trip previously selected has
         IDBox.setEditable(false);
         dPnl7.add(genIDtxt);
         dPnl7.add(IDBox);
@@ -149,7 +150,7 @@ public class EditTripScreen extends JFrame {
         dPnl8.add(isComplete);
         rgtPnl.add(dPnl8);
 
-        /*To display error messages when needed*/
+        //To display error messages when needed
         errorMsg = new JLabel("");
         errorMsg.setForeground(new Color(237,28,36)); 
         errorMsg.setOpaque(false);       
@@ -178,7 +179,7 @@ public class EditTripScreen extends JFrame {
         btnPnl.add(bCancel, gbc);
 
 
-        /*Adding main panels to frame/window*/
+        //Adding main panels to frame/window
         add(disPnl, BorderLayout.NORTH);
         add(btnPnl, BorderLayout.SOUTH);
 
@@ -279,7 +280,7 @@ public class EditTripScreen extends JFrame {
     //=========================================================//
     //=           BUTTON LISTENING FUNCTIONALITIES            =//
     //=========================================================//
-    /*Saves Trip Edit*/
+    //Save Trip Edit
     private class SaveBtnListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e) {
@@ -300,7 +301,7 @@ public class EditTripScreen extends JFrame {
         
     }
 
-    /*Close button bring the user back To the Welcome Screen)*/
+    //Close (Bk To Welcome Screen)
     private class CloseBtnListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
