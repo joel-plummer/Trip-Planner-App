@@ -6,7 +6,6 @@ public class Trip implements Comparable<Trip> {
      * Time (array to store hours, and mins as int)
      * int No. of People
      * Boolean Completed
-     * Int Day
      * Bus obj
      */
 
@@ -23,7 +22,7 @@ public class Trip implements Comparable<Trip> {
     private String name;
     private boolean completed;
     private String[] time = new String[2]; // example [12, 30]
-    private int numOfPeople; // example "DAY 1"
+    private int numOfPeople;   
     private int ID;
     private static int nextID = 0;
     private Bus bus;
@@ -32,6 +31,7 @@ public class Trip implements Comparable<Trip> {
     private int getNextID() {
         return ++nextID;
     }
+    
 
     /*Gives a preview of the next ID number */
     public int idPreview(){
@@ -42,7 +42,7 @@ public class Trip implements Comparable<Trip> {
     public Trip(){}
 
     public Trip(int ID, String name, Bus bus, int numOfPeople, String hrs, String mins){
-        this.ID= ID;
+        this.ID = ID;
         this.name = name.replaceAll("\\s", "");
         time[0] = hrs;
         time[1] = mins;
@@ -50,7 +50,7 @@ public class Trip implements Comparable<Trip> {
         this.numOfPeople = numOfPeople;
         completed = false;
     }
-
+    
     public Trip(String name, Bus bus, int numOfPeople, String hrs, String mins) {
         this.ID = getNextID();
         this.name = name.replaceAll("\\s", "");
@@ -59,21 +59,19 @@ public class Trip implements Comparable<Trip> {
         this.bus = bus;
         this.numOfPeople = numOfPeople;
         completed = false;
-
     }
 
     /*Gets the Trip ID */
     public int getID() {
         return ID;
     }
-    
+
     /*Gets the Trip name */
     public String getName() {
         return name;
     }
 
     /*Gets the number of persons for the trip */
-
     public int getNumOfPpl() {
         return numOfPeople;
     }
