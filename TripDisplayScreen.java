@@ -7,7 +7,10 @@ import java.util.*;
 import java.util.Collections;
 
 /**
- * 
+ * This class displays the Trips associated to a particular user account
+ * @param bNewTrip allows the user to create a new trip with valid trip details 
+ * @param bEditTrip allows the user to edit trip details
+ * @param bSortBy allows the user to sort the trip data by special parameters 
  */
 
 
@@ -51,12 +54,12 @@ public class TripDisplayScreen extends JFrame {
 
     public TripDisplayScreen(WelcomeScreen ws, Account acc) {
 
-        //Setting up user info (Making sure windows share same data for user)
+        /*Setting up user info (Making sure windows share same data for user)*/
         thisWS = ws;
         thisAcc = acc;
         thisTDS = this;
 
-        ws.setVisible(false); //Turns off welcome screen while trip screen is open
+        ws.setVisible(false); /*Turns off welcome screen while trip screen is open*/
 
         //Labelling the frame/window   
         setTitle("User " + thisAcc.getUsername() + "'s Plan");      
@@ -320,7 +323,7 @@ public class TripDisplayScreen extends JFrame {
         themeArea.add(themetxt);
         themeArea.add(themes);
         
-        //Functionality for color customization
+        /*Functionality for color customization*/
         themes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
@@ -374,7 +377,7 @@ public class TripDisplayScreen extends JFrame {
             }
         });
 
-        //Account info adjustment/change settings
+        /*Account info adjustment/change settings*/
         JPanel settPnl = new JPanel(new BorderLayout());
         settPnl.setPreferredSize(new Dimension(768,315));
 
@@ -531,7 +534,7 @@ public class TripDisplayScreen extends JFrame {
     //====================================================//
     //=             METHODS FOR THIS SCREEN              =//
     //====================================================// 
-    //Method to update account info at bottom of screen
+    /*Method to update account info at bottom of screen*/
     public void updateInfo(){
         accBudget = thisAcc.getBudget();
         accRemaining = thisAcc.getRemaining();
@@ -547,7 +550,7 @@ public class TripDisplayScreen extends JFrame {
     }
     
     
-    //Ensures that each trip in the list of trips are added to the table for the given day
+    /*Ensures that each trip in the list of trips are added to the table for the given day*/
     public void showTable(ArrayList<Trip> tripList, TableData dayTable)
     {
         if (tripList.size() > 0){
@@ -558,7 +561,7 @@ public class TripDisplayScreen extends JFrame {
     }
 
 
-    //Stores data from trip as an array and passes it to a method to add it to that day's table
+    /*Stores data from trip as an array and passes it to a method to add it to that day's table*/
     public void makeTripRecord(Trip t, TableData dayTable) {
         // format: "Trip Name", "Bus Type", "Bus ID#", "# of People", "Trip ID#",
         // "Time", "Trip Completed?"
@@ -570,7 +573,7 @@ public class TripDisplayScreen extends JFrame {
     }
 
 
-    //Adds a single trip to given day's table 
+    /*Adds a single trip to given day's table*/
     public void addTripRecord(String[] trip, TableData dayTable){
         dayTable.getModel().addRow(trip);
     }
@@ -616,12 +619,12 @@ public class TripDisplayScreen extends JFrame {
     //=====================================//
     //=     SETTINGS BUTTON LISTENERS     =//
     //=====================================//
-    //budget save (to account) listener
+    /*Budget save (to account) listener saves a new budget to the associated account*/
     private class BdgtSaveListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {   
-            //checking to see if input is a valid double
+            /*Checking to see if input is a valid double*/
             boolean isDouble;
             try {
                 Double.parseDouble(bdgtChange.getText());
@@ -649,7 +652,7 @@ public class TripDisplayScreen extends JFrame {
 
     }
 
-    //username save (to account) listener
+    /*Username save (to account) listener*/
     private class UserSaveListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
@@ -679,7 +682,7 @@ public class TripDisplayScreen extends JFrame {
 
     }
 
-    //password save (to account) listener
+    /*Password save (to account) listener*/
     private class PassSaveListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
@@ -884,6 +887,7 @@ public class TripDisplayScreen extends JFrame {
         
     }
 
+    /*Compares the number of persons */
     public class PplComparator implements Comparator<Trip> 
     {        
         public int compare(Trip t1, Trip t2)
