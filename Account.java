@@ -146,8 +146,11 @@ public class Account {
 
     /*Adds the trip to the ArrayList */
     public void addTripToDay(int dayNum, Trip t){
-        t.setDay(dayNum);
         getDayTrips(dayNum).add(t);
+    }
+    /*Removes the trip from the ArrayList */
+    public void removeTripfromDay(int dayNum, Trip t){
+        getDayTrips(dayNum).remove(t);
     }
 
     /*Sets the user's desired username */
