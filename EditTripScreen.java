@@ -21,7 +21,7 @@ public class EditTripScreen extends JFrame {
     private EditTripNavigation thisETN; //previous screen
     private EditTripScreen thisETS;
 
-    public EditTripScreen(EditTripNavigation etn, Account acc){
+    public EditTripScreen(EditTripNavigation etn, Account acc, Trip trip){
 
         //Setting up user info (Making sure windows share same data for user)
         thisAcc = acc;
@@ -73,7 +73,7 @@ public class EditTripScreen extends JFrame {
         nametxt = new JLabel("Trip Name: ");
         nameBox = new JTextField(13);
         //placeholder data
-        nameBox.setText("Quick Trip 1");//should be set to whatever data the trip previously selected has
+        nameBox.setText(trip.getName());//should be set to whatever data the trip previously selected has
         dPnl2.add(nametxt);
         dPnl2.add(nameBox);
         lftPnl.add(dPnl2);
