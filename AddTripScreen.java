@@ -326,19 +326,19 @@ public class AddTripScreen extends JFrame {
             }
 
             /*Checks if the time is valid*/
-            else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||
-            ((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || 
-            (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false))
+            else if ((isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false) || (hrBox.getText().isEmpty()) 
+            || (minBox.getText().isEmpty()) || (Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||
+            ((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)))
             {
                 errorMsg.setText("Please enter a valid Time.");
             }
 
+            /* Checks if Number of Passengers is valid*/
             else if (pplBox.getText().isEmpty())
             {
                 errorMsg.setText("Please enter a valid number of persons");
             }
-
-            /* Checks if Number of Passengers is valid*/
+            
             else if ((pplBox.getText()=="") || (isInteger(pplBox.getText())==false) || (Integer.parseInt(pplBox.getText())<=0))
             {
                 errorMsg.setText("Please enter a valid number of persons");
