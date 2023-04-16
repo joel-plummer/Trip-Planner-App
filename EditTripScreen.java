@@ -18,6 +18,7 @@ public class EditTripScreen extends JFrame {
     private JCheckBox isComplete;
 
     private Account thisAcc;
+    private Trip thisTrip;
     private EditTripNavigation thisETN; //previous screen
     private EditTripScreen thisETS;
 
@@ -25,6 +26,7 @@ public class EditTripScreen extends JFrame {
 
         //Setting up user info (Making sure windows share same data for user)
         thisAcc = acc;
+        thisTrip = trip;
         thisETN = etn;
         thisETS = this;
 
@@ -62,8 +64,7 @@ public class EditTripScreen extends JFrame {
         daytxt = new JLabel("Day: ");
         String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
         JComboBox<String> days = new JComboBox<>(dayOpts); 
-        //placeholder data
-        days.setSelectedItem("DAY 1"); //Should be set to whatever day trip is on 
+        days.setSelectedItem("DAY "+ thisTrip.getDay()); //Should be set to whatever day trip is on 
         dPnl1.add(daytxt);
         dPnl1.add(days);
         lftPnl.add(dPnl1); 
@@ -72,7 +73,7 @@ public class EditTripScreen extends JFrame {
         dPnl2.setOpaque(false);
         nametxt = new JLabel("Trip Name: ");
         nameBox = new JTextField(13);
-        nameBox.setText(trip.getName()); //Trip ID
+        nameBox.setText(thisTrip.getName()); //Trip ID
         dPnl2.add(nametxt);
         dPnl2.add(nameBox);
         lftPnl.add(dPnl2);
@@ -83,8 +84,7 @@ public class EditTripScreen extends JFrame {
         //should be set to whatever data the trip previously selected has
         String [] busOpts = {"<<Select Bus>>", "Small - $5000", "Medium - $7000", "Luxurious - $12000"};
         JComboBox<String> buses = new JComboBox<>(busOpts); 
-        //placeholder data
-        days.setSelectedItem("Small - $5000"); //Should be set to whatever bus type the trip has
+        buses.setSelectedItem(thisTrip.getBus().getType() + " - $" + thisTrip.getBus().getCost()); //set to whatever bus type the trip has
         //Listener for when this is changed to be here
         dPnl3.add(bustxt);
         dPnl3.add(buses);
@@ -94,7 +94,7 @@ public class EditTripScreen extends JFrame {
         dPnl4.setOpaque(false);
         busIDtxt = new JLabel("Generated Bus ID: ");
         busIDBox = new JTextField(5);
-        Bus bus = trip.getBus();
+        Bus bus = thisTrip.getBus();
         busIDBox.setText("#B"+bus.getID()); //bus ID
         busIDBox.setEditable(false);
         dPnl4.add(busIDtxt);
@@ -105,23 +105,20 @@ public class EditTripScreen extends JFrame {
         dPnl5.setOpaque(false);
         ppltxt = new JLabel("# of Persons: ");
         pplBox = new JTextField(8);
-        //placeholder data
-        pplBox.setText(""+trip.getNumOfPpl());//should be set to whatever data the trip previously selected has
+        pplBox.setText(""+thisTrip.getNumOfPpl());//should be set to whatever data the trip previously selected has
         dPnl5.add(ppltxt);
         dPnl5.add(pplBox);
-        rgtPnl.add(dPnl5);
-        
+        rgtPnl.add(dPnl5);    
         dPnl6 = new JPanel();
         dPnl6.setOpaque(false);
+
         timetxt = new JLabel("Time:  ");
-        //placeholder data
-        hrBox = new JTextField(6);
-        minBox = new JTextField(6);
-        hrBox.setText(""+trip.getHrs());
+        hrBox = new JTextField(5);
+        minBox = new JTextField(5);
+        hrBox.setText(""+thisTrip.getHrs());
         colontxt= new JLabel(":");
-        minBox.setText(""+trip.getMins());
-        formattxt = new JLabel("(24hr)");
-    
+        minBox.setText(""+thisTrip.getMins());
+        formattxt = new JLabel("(24hr)");    
         dPnl6.add(timetxt);       
         dPnl6.add(hrBox);
         dPnl6.add(colontxt);
@@ -133,8 +130,7 @@ public class EditTripScreen extends JFrame {
         dPnl7.setOpaque(false);
         genIDtxt = new JLabel("Generated Trip ID: ");
         IDBox = new JTextField(5);
-        //placeholder data
-        IDBox.setText("#T"+trip.getID()); //should be set to whatever data the trip previously selected has
+        IDBox.setText("#T"+thisTrip.getID()); //should be set to whatever data the trip previously selected has
         IDBox.setEditable(false);
         dPnl7.add(genIDtxt);
         dPnl7.add(IDBox);
@@ -144,7 +140,7 @@ public class EditTripScreen extends JFrame {
         dPnl8.setOpaque(false);
         completed = new JLabel("Trip Completed?");
         isComplete = new JCheckBox();
-        isComplete.setSelected(true); //should be set to whatever data the trip previously selected has
+        isComplete.setSelected(thisTrip.isCompleted()); //set to whatever data the trip previously selected has
         isComplete.setOpaque(false);
         dPnl8.add(completed);
         dPnl8.add(isComplete);
@@ -197,6 +193,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 completed.setForeground(Color.BLACK);
                 break;
             case "RED":
@@ -208,6 +206,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 completed.setForeground(Color.WHITE);
                 break; 
             case "LIGHT BLUE":
@@ -219,6 +219,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 completed.setForeground(Color.BLACK);
                 break;
             case "GREEN":
@@ -230,6 +232,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 completed.setForeground(Color.WHITE);
                 break;
             case "PURPLE":
@@ -241,6 +245,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 completed.setForeground(Color.WHITE);
                 break;
             case "GRAY":
@@ -252,6 +258,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 completed.setForeground(Color.BLACK);
                 break;
             case "Default":
@@ -263,8 +271,11 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 completed.setForeground(Color.WHITE);
         }
+
 
 
         //Extra frame set up things
