@@ -22,6 +22,13 @@ public class Trip implements Comparable<Trip> {
         return ++nextID;
     }
 
+    public int idPreview(){
+        int preview= nextID+1;
+        return preview;
+    }
+
+    public Trip(){}
+
     public Trip(String name, Bus bus, int numOfPeople, String hrs, String mins) {
         this.ID = getNextID();
         this.name = name.replaceAll("\\s", "");

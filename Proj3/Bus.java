@@ -11,7 +11,7 @@ public class Bus {
     private static int nextId = 0;
     private int max_capacity;
 
-    BusType type; // There is another file for this
+    BusType type; // There is another file for this: BusType.java
 
     public Bus(){};
 
@@ -33,6 +33,10 @@ public class Bus {
     private int getNextId() {
         return ++nextId;
 
+    }
+    public int idPreview(){
+        int preview= nextId+1;
+        return preview;
     }
 
     public int getID() {
