@@ -465,7 +465,8 @@ public class TripDisplayScreen extends JFrame {
         bClose = new JButton("Back to Login");
         bClose.addActionListener(new CloseBtnListener()); 
         
-        String [] sortOpts = {"<<Sort By>>", "Trip ID", "Trip Name", "# of People", "Time"};
+        String [] sortOpts = {"<<Sort By>>", "Completed", "Incomplete", "Trip ID", "Trip Time",
+        "Trip Name", "Trip People"};
         JComboBox<String> bSortBy = new JComboBox<String>(sortOpts);
         selected = (String)bSortBy.getSelectedItem();
         bSortBy.addActionListener(new ActionListener(){
@@ -475,21 +476,27 @@ public class TripDisplayScreen extends JFrame {
 
             String s = (String) bSortBy.getSelectedItem();
                 switch (s) {
+                    case "Completed":
+                    break;
+
+                    case "InComplete":
+                    break;
+                    
                     case "Trip ID":                   
                         SortByID(thisTab);                      
+                        break;
+
+                    case "Trip Time":
+                        SortByTime(thisTab);
                         break;
 
                     case "Trip Name":
                         SortByName(thisTab);
                         break; 
 
-                    case "# of People":
+                    case "Trip People":
                         SortByPpl(thisTab);
-                        break;
-
-                    case "Time":
-                        SortByTime(thisTab);
-                        break;
+                        break;                    
 
                     default:
                         SortByID(thisTab);                      
@@ -645,7 +652,10 @@ public class TripDisplayScreen extends JFrame {
                 + bdgtChange.getText());  
                 if (confirm == JOptionPane.YES_OPTION) {  
                     thisAcc.setBudget(Double.parseDouble(bdgtChange.getText()));
+
                     updateInfo(); //updating the displayed info at bottom
+                    JOptionPane.showMessageDialog(thisTDS, 
+                    "New budget successfully saved \nto Account.");
                     bdgtChange.setText(""); //clears budget textfield
                 }
             } else {
@@ -670,10 +680,12 @@ public class TripDisplayScreen extends JFrame {
                 + userChange.getText());  
                 if (confirm == JOptionPane.YES_OPTION) {  
                     thisWS.deleteAccData(thisAcc);
-                    thisWS.updateAccounts(" " + thisAcc.getUsername() + " ", " " + userChange.getText() + " ");
+                    thisWS.updateAccounts("Username: " + thisAcc.getUsername() + " ", "Username: " + userChange.getText() + " ");
                     thisAcc.setUsername(userChange.getText());
 
                     updateInfo(); //updating the displayed info at bottom
+                    JOptionPane.showMessageDialog(thisTDS, 
+                    "New username successfully saved \nto Account.");
                     userChange.setText(""); //clears username textfield
                     //Changing the frame/window name  
                     setTitle("User " + thisAcc.getUsername() + "'s Plan");
@@ -697,9 +709,11 @@ public class TripDisplayScreen extends JFrame {
             + String.valueOf(passChange.getPassword()));  
             if(confirm == JOptionPane.YES_OPTION) {  
                 thisWS.deleteAccData(thisAcc);
-                thisWS.updateAccounts(" " + thisAcc.getPassword(), " " + String.valueOf(passChange.getPassword()));
+                thisWS.updateAccounts("Password: " + thisAcc.getPassword(), "Password: " + String.valueOf(passChange.getPassword()));
                 thisAcc.setPassword(String.valueOf(passChange.getPassword()));
 
+                JOptionPane.showMessageDialog(thisTDS, 
+                "New password successfully saved \nto Account.");
                 passChange.setText(""); //clears password textfield
             }  
 
@@ -936,7 +950,8 @@ public class TripDisplayScreen extends JFrame {
         public void actionPerformed(ActionEvent e)
         {
             if(thisAcc.getBudget() == 0){
-                JOptionPane.showMessageDialog(thisTDS, "You cannot afford this.\nPlease adjust budget in Settings.");
+                JOptionPane.showMessageDialog(thisTDS, 
+                "You cannot afford this.\nPlease adjust Budget in Settings.");
             
             } else {
                 thisATS = new AddTripScreen(thisTDS, thisAcc);
