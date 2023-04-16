@@ -27,6 +27,7 @@ public class WelcomeScreen extends JFrame {
     private JLabel userLbl;
     private JLabel passLbl;
     private JLabel errorMsg;
+    private JTextArea multierror;
 
     private JButton btnLogin;
     private JButton btnSignup;
@@ -84,7 +85,7 @@ public class WelcomeScreen extends JFrame {
 
         // Creating and alligning text fields to left below welcome pic
         innerPnl = new JPanel(new FlowLayout(10, 25, 12));
-        innerPnl.setPreferredSize(new Dimension(300, 35));
+        innerPnl.setPreferredSize(new Dimension(350, 35));
         innerPnl.setOpaque(false);
 
         userLbl = new JLabel("Username:");
@@ -102,7 +103,14 @@ public class WelcomeScreen extends JFrame {
         // To display error messages when needed
         errorMsg = new JLabel("");
         errorMsg.setForeground(new Color(237, 28, 36));
+        multierror = new JTextArea("");
+        Font boldFont = new Font(multierror.getFont().getName(), Font.BOLD, multierror.getFont().getSize());
+        multierror.setFont(boldFont);
+        multierror.setForeground(new Color(237, 28, 36));
+        multierror.setOpaque(false);
+
         innerPnl.add(errorMsg);
+        innerPnl.add(multierror);
 
         inptPnl.add(innerPnl, BorderLayout.WEST);
 
@@ -370,7 +378,7 @@ public class WelcomeScreen extends JFrame {
 
     }
 
-    // SignUp Button
+   // SignUp Button
     private class SignUpBtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             // it creates a new account and adds it to accList
@@ -392,8 +400,8 @@ public class WelcomeScreen extends JFrame {
                 errorMsg.setForeground(new Color(237, 28, 36));
                 errorMsg.setText("Please enter the password.");
             } else if (txtName.length() < 6 && txtPass.length() < 8) {
-                errorMsg.setForeground(new Color(237, 28, 36));
-                errorMsg.setText("Username is not 6 characters, Password must be min 6 characters.");
+                multierror.setForeground(new Color(237, 28, 36));
+                multierror.setText("NB: Username MIN. is 6 chars, & Password is 8 chars.");
             } else if (txtName.length() < 6) {
                 errorMsg.setForeground(new Color(237, 28, 36));
                 errorMsg.setText("Username must be at least 6 characters.");
@@ -435,6 +443,7 @@ public class WelcomeScreen extends JFrame {
                             System.out.println(accList);
                             pass_exists = true;
                         }
+                        
 
                     }
 
