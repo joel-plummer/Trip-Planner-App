@@ -63,7 +63,8 @@ public class EditTripNavigation extends JFrame {
         dPnl1 = new JPanel();
         dPnl1.setOpaque(false);
         daytxt = new JLabel("Enter Day: ");
-        String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
+        String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", 
+        "DAY 5", "DAY 6", "DAY 7"};
         days = new JComboBox<>(dayOpts);  
         dPnl2 = new JPanel();
         dPnl2.setOpaque(false);
@@ -257,7 +258,9 @@ public class EditTripNavigation extends JFrame {
             
             //if input is valid, creates a popup asking for confirmation
             //increase budget here with thisAcc.calcRemaining()
-            int confirm = JOptionPane.showConfirmDialog(thisETN,"Are you sure you want to delete? \nYour budget will be increased \nto: $" + thisAcc.getRemaining());  
+            int confirm = JOptionPane.showConfirmDialog(thisETN,
+            "Are you sure you want to delete? \nYour budget will be increased \nto: $" 
+            + thisAcc.getRemaining());  
             if(confirm == JOptionPane.YES_OPTION) {  
                 //supposed to add the data to a trip arraylist for the selected day
             }  
@@ -269,27 +272,27 @@ public class EditTripNavigation extends JFrame {
     //Edit
     private class EditBtnListener implements ActionListener
     {
-        Trip trip= new Trip();
+        Trip trip = new Trip();
         public void actionPerformed(ActionEvent e) {
             //check if user selected day and trip
-            if (days.getSelectedItem().toString()=="<<Select Day>>")
+            if (days.getSelectedItem().toString() == "<<Select Day>>")
                 errorMsg.setText("Please Select a Day & Trip.");
 
-            else if (trips.getSelectedItem().toString()== "<<Select Trip>>")
+            else if (trips.getSelectedItem().toString() == "<<Select Trip>>")
                 errorMsg.setText("Please Select a Day & Trip.");
 
             //if user does all the information loads into an edit trip screen
-            else{
+            else {
+
                 int dayselected=0;
                 switch(days.getSelectedItem().toString()){
                     case "DAY 1":
                     dayselected=1;
-                        tripList=thisAcc.getDayTrips(1);
-                        Collections.sort(tripList);
-                        for (int i=0; i<tripList.size(); i++)
-                            if (i+1==trips.getSelectedIndex())
-                                trip=tripList.get(i);                   
-                  
+                    tripList=thisAcc.getDayTrips(1);
+                    Collections.sort(tripList);
+                    for (int i=0; i<tripList.size(); i++)
+                        if (i+1==trips.getSelectedIndex())
+                            trip=tripList.get(i);                                   
                     break;
                 case "DAY 2":
                     dayselected=2;
@@ -337,12 +340,13 @@ public class EditTripNavigation extends JFrame {
                     trips.addItem("<<Select Trip>>");
                     tripList=thisAcc.getDayTrips(7);                     
                     for (Trip i:tripList){
-                        trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
+                        trips.addItem("Trip ID#" + i.getID() + " : " + i.getName());
                     } 
                     break;
 
                 }
-                thisETS = new EditTripScreen(dayselected,thisTDS, thisETN, thisAcc,trip);
+                
+                thisETS = new EditTripScreen(dayselected, thisTDS, thisETN, thisAcc, trip);
         
             }
         }
