@@ -16,12 +16,12 @@ public class EditTripScreen extends JFrame {
     private JLabel daytxt, nametxt, bustxt, genIDtxt, ppltxt, timetxt, busIDtxt, completed, colontxt, formattxt;
     private JTextField nameBox, IDBox, pplBox, hrBox, minBox, busIDBox;
     private JCheckBox isComplete;
-    private JComboBox<String> buses,days;
+    private JComboBox<String> buses, days;
 
     private Account thisAcc;
-    private Trip thistrip;
-    private Bus thisbus;
-    private int thisday;
+    private Trip thisTrip;
+    private Bus thisBus;
+    private int thisDay;
     private EditTripNavigation thisETN; //previous screen
     private EditTripScreen thisETS;
     private TripDisplayScreen thisTDS;
@@ -31,14 +31,13 @@ public class EditTripScreen extends JFrame {
         //Setting up user info (Making sure windows share same data for user)
         thisAcc = acc;
         thisETN = etn;
-        thistrip =trip;
+        thisTrip = trip;
         thisTDS = tds;
-        thisday=day;
-        thisbus = thistrip.getBus();
-        thisETS = this;
-        
+        thisDay = day;
+        thisBus = thisTrip.getBus();
+        thisETS = this;        
 
-        etn.setVisible(false); //Turns off edittripnavgiation screen while edittrip screen is open
+        thisETN.setVisible(false); //Turns off edittripnavgiation screen while edittrip screen is open
 
         //Labelling the frame/window   
         setTitle("Edit Trip");      
@@ -72,8 +71,7 @@ public class EditTripScreen extends JFrame {
         daytxt = new JLabel("Day: ");
         String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
         days = new JComboBox<>(dayOpts); 
-        //placeholder data
-        days.setSelectedItem(""+dayOpts[day]); //Should be set to whatever day trip is on 
+        days.setSelectedItem(""+dayOpts[day]); //Set to whatever day trip is on
         dPnl1.add(daytxt);
         dPnl1.add(days);
         lftPnl.add(dPnl1); 
@@ -82,7 +80,7 @@ public class EditTripScreen extends JFrame {
         dPnl2.setOpaque(false);
         nametxt = new JLabel("Trip Name: ");
         nameBox = new JTextField(13);
-        nameBox.setText(thistrip.getName()); //Trip ID
+        nameBox.setText(thisTrip.getName()); //Trip ID
         dPnl2.add(nametxt);
         dPnl2.add(nameBox);
         lftPnl.add(dPnl2);
@@ -90,11 +88,9 @@ public class EditTripScreen extends JFrame {
         dPnl3 = new JPanel();
         dPnl3.setOpaque(false);
         bustxt = new JLabel("Bus Type:  ");
-        //should be set to whatever data the trip previously selected has
         String [] busOpts = {"<<Select Bus>>", "Small - $5000", "Medium - $7000", "Luxurious - $12000"};
         buses = new JComboBox<>(busOpts); 
-        //placeholder data
-        switch (thisbus.getType()){
+        switch (thisBus.getType()){
             case Small:
                 buses.setSelectedItem("Small - $5000");
                 break;
@@ -104,9 +100,8 @@ public class EditTripScreen extends JFrame {
             case Luxurious:
                 buses.setSelectedItem("Luxurious - $12000");
                 break;
-        }
-         //Should be set to whatever bus type the trip has
-        //Listener for when this is changed to be here
+        } //Set to whatever bus type the trip has
+
         dPnl3.add(bustxt);
         dPnl3.add(buses);
         lftPnl.add(dPnl3); 
@@ -115,8 +110,8 @@ public class EditTripScreen extends JFrame {
         dPnl4.setOpaque(false);
         busIDtxt = new JLabel("Generated Bus ID: ");
         busIDBox = new JTextField(5);
-        Bus thisbus = trip.getBus();
-        busIDBox.setText("#B"+thisbus.getID()); //bus ID
+        Bus thisBus = trip.getBus();
+        busIDBox.setText("#B"+thisBus.getID()); //bus ID
         busIDBox.setEditable(false);
         dPnl4.add(busIDtxt);
         dPnl4.add(busIDBox);
@@ -126,23 +121,20 @@ public class EditTripScreen extends JFrame {
         dPnl5.setOpaque(false);
         ppltxt = new JLabel("# of Persons: ");
         pplBox = new JTextField(8);
-        //placeholder data
-        pplBox.setText(""+thistrip.getNumOfPpl());//should be set to whatever data the trip previously selected has
+        pplBox.setText(""+thisTrip.getNumOfPpl()); //Set to whatever data the trip previously selected has
         dPnl5.add(ppltxt);
         dPnl5.add(pplBox);
-        rgtPnl.add(dPnl5);
+        rgtPnl.add(dPnl5);  
         
         dPnl6 = new JPanel();
         dPnl6.setOpaque(false);
         timetxt = new JLabel("Time:  ");
-        //placeholder data
-        hrBox = new JTextField(6);
-        minBox = new JTextField(6);
-        hrBox.setText(""+thistrip.getHrs());
-        colontxt= new JLabel(":");
-        minBox.setText(""+thistrip.getMins());
-        formattxt = new JLabel("(24hr)");
-    
+        hrBox = new JTextField(5);
+        minBox = new JTextField(5);
+        hrBox.setText(""+thisTrip.getHrs());
+        colontxt = new JLabel(":");
+        minBox.setText(""+thisTrip.getMins());
+        formattxt = new JLabel("(24hr)");    
         dPnl6.add(timetxt);       
         dPnl6.add(hrBox);
         dPnl6.add(colontxt);
@@ -154,8 +146,7 @@ public class EditTripScreen extends JFrame {
         dPnl7.setOpaque(false);
         genIDtxt = new JLabel("Generated Trip ID: ");
         IDBox = new JTextField(5);
-        //placeholder data
-        IDBox.setText("#T"+thistrip.getID()); //should be set to whatever data the trip previously selected has
+        IDBox.setText("#T"+thisTrip.getID()); //Set to whatever data the trip previously selected has
         IDBox.setEditable(false);
         dPnl7.add(genIDtxt);
         dPnl7.add(IDBox);
@@ -165,7 +156,7 @@ public class EditTripScreen extends JFrame {
         dPnl8.setOpaque(false);
         completed = new JLabel("Trip Completed?");
         isComplete = new JCheckBox();
-        isComplete.setSelected(true); //should be set to whatever data the trip previously selected has
+        isComplete.setSelected(thisTrip.isCompleted()); //Set to whatever data the trip previously selected has
         isComplete.setOpaque(false);
         dPnl8.add(completed);
         dPnl8.add(isComplete);
@@ -208,7 +199,7 @@ public class EditTripScreen extends JFrame {
         //=========================================//
         //=       MAINTAINING SELECTED THEME      =//
         //=========================================//       
-        switch (acc.getTheme()) {
+        switch (thisAcc.getTheme()) {
             case "PINK":
                 disPnl.setBackground(new Color(210,143,218));
                 daytxt.setForeground(Color.BLACK);
@@ -218,6 +209,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 completed.setForeground(Color.BLACK);
                 break;
             case "RED":
@@ -229,6 +222,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 completed.setForeground(Color.WHITE);
                 break; 
             case "LIGHT BLUE":
@@ -240,6 +235,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 completed.setForeground(Color.BLACK);
                 break;
             case "GREEN":
@@ -251,6 +248,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 completed.setForeground(Color.WHITE);
                 break;
             case "PURPLE":
@@ -262,6 +261,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 completed.setForeground(Color.WHITE);
                 break;
             case "GRAY":
@@ -273,6 +274,8 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
+                colontxt.setForeground(Color.BLACK);
+                formattxt.setForeground(Color.BLACK);
                 completed.setForeground(Color.BLACK);
                 break;
             case "Default":
@@ -284,8 +287,11 @@ public class EditTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
+                colontxt.setForeground(Color.WHITE);
+                formattxt.setForeground(Color.WHITE);
                 completed.setForeground(Color.WHITE);
         }
+
 
 
         //Extra frame set up things
@@ -302,16 +308,16 @@ public class EditTripScreen extends JFrame {
     //=           BUTTON LISTENING FUNCTIONALITIES            =//
     //=========================================================//
     //Save Trip Edit
-
-    public Boolean isInteger( String input ) {
+    public Boolean isInteger(String input) {
         try {
-            Integer.parseInt( input );
+            Integer.parseInt(input);
             return true;
         }
-        catch( Exception e ) {
+        catch(Exception e) {
             return false;
         }
     }
+
     private class SaveBtnListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e) 
@@ -319,32 +325,30 @@ public class EditTripScreen extends JFrame {
             //if input for time and # of persons is not valid, if statement needs to be added
             //if time has already been booked for that day, another error message here
             //if bus cost exceeds the budget, another error message here to warn user to update it 
-            //("You can't afford this") or smth
 
-             /*Gets the type of bus selected*/
-
-             Bus bus = new Bus();
-             double cost=0;
-             switch(buses.getSelectedItem().toString()){
-                 case ("Small - $5000"):
-                     bus= new Bus(thisbus.getID(),BusType.Small);
-                     cost = bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
-                     break;
-                 case("Medium - $7000"):
-                     bus= new Bus(thisbus.getID(),BusType.Medium);
-                     cost = 7000;
-                     break;
-                 case("Luxurious - $12000"): 
-                     bus= new Bus(thisbus.getID(),BusType.Luxurious);
-                     cost = 12000;
-                     break;
-             }                  
+            /*Gets the type of bus selected*/
+            Bus bus = new Bus();
+            double cost=0;
+            switch(buses.getSelectedItem().toString()){
+                case ("Small - $5000"):
+                    bus = new Bus(thisBus.getID(),BusType.Small);
+                    cost = bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
+                    break;
+                case("Medium - $7000"):
+                    bus = new Bus(thisBus.getID(),BusType.Medium);
+                    cost = 7000;
+                    break;
+                case("Luxurious - $12000"): 
+                    bus = new Bus(thisBus.getID(),BusType.Luxurious);
+                    cost = 12000;
+                    break;
+            }                  
 
             /*Check if a day was selected*/
-             if (days.getSelectedItem().toString()=="<<Select Day>>")
-             {
+            if (days.getSelectedItem().toString() == "<<Select Day>>")
+            {
                 errorMsg.setText("Please select a day.");
-             }
+            }
 
             /* Checks if Name is entered */
             else if (nameBox.getText().isEmpty())
@@ -353,52 +357,55 @@ public class EditTripScreen extends JFrame {
             }
 
             /*Checks if a Bus was selected*/
-             else if (buses.getSelectedItem().toString()=="<<Select Bus>>")
-             {
+            else if (buses.getSelectedItem().toString() == "<<Select Bus>>")
+            {
                 errorMsg.setText("Please select a Bus.");
-             }
+            }
 
             /*Checks if the time is valid*/
-             else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false))
-             {
+            else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) 
+            ||((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || 
+            (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false))
+            {
                 errorMsg.setText("Please enter a valid Time.");
-             }
+            }
 
-             else if (pplBox.getText().isEmpty())
-             {
-                errorMsg.setText("Please enter a valid number of persons");
-             }
+            else if (pplBox.getText().isEmpty())
+            {
+                errorMsg.setText("Please enter a valid number of Persons.");
+            }
 
             /* Checks if Number of Passengers is valid*/
-             else if ((pplBox.getText()=="") || (isInteger(pplBox.getText())==false) || (Integer.parseInt(pplBox.getText())<=0))
-             {
-                errorMsg.setText("Please enter a valid number of persons");
-             }         
+            else if ((pplBox.getText() == "") || (isInteger(pplBox.getText()) == false) || 
+            (Integer.parseInt(pplBox.getText())<=0))
+            {
+                errorMsg.setText("Please enter a valid number of Persons.");
+            }         
              
             /* Checks if Number of Passengers is within capacity of the selected bus*/
-             else if (Integer.parseInt(pplBox.getText()) > bus.getCapacity())
-             {
-                errorMsg.setText("Too many passengers!");
-             }
+            else if (Integer.parseInt(pplBox.getText()) > bus.getCapacity())
+            {
+                errorMsg.setText("Too many passengers! Bus Type Max: " + bus.getCapacity());
+            }
 
             /*Checks if the selected bus is within the budget */
-            else if (thisAcc.getBudget()< cost)
+            else if (thisAcc.getBudget() < cost)
             {
-                errorMsg.setText("Insufficient Budget");
+                errorMsg.setText("Cannot afford: Insufficient Budget.");
             }
 
             else
             {
                 /*Modifies the budget to accommodate the new trip */
                 double newBudget = thisAcc.getBudget();
-                newBudget = thisAcc.getBudget() - (cost-bus.calcBus(thistrip.getBus().getType(), thistrip.getNumOfPpl()));
+                newBudget = thisAcc.getBudget() - (cost-bus.calcBus(thisTrip.getBus().getType(), thisTrip.getNumOfPpl()));
                 
                 int confirm = JOptionPane.showConfirmDialog(thisETS,"Are you sure you want to \nkeep these changes? ");  
                 if(confirm == JOptionPane.YES_OPTION) { 
-                    thisAcc.removeTripfromDay(thisday, thistrip);
-                    thisTDS.getDayTable(thisday).getModel().setRowCount(0);
-                    thisTDS.showTable(thisAcc.getDayTrips(thisday), thisTDS.getDayTable(thisday));
-                    Trip trip = new Trip(thistrip.getID(),nameBox.getText(), bus,Integer.parseInt(pplBox.getText()), hrBox.getText(), minBox.getText());
+                    thisAcc.removeTripfromDay(thisDay, thisTrip);
+                    thisTDS.getDayTable(thisDay).getModel().setRowCount(0);
+                    thisTDS.showTable(thisAcc.getDayTrips(thisDay), thisTDS.getDayTable(thisDay));
+                    Trip trip = new Trip(thisTrip.getID(),nameBox.getText(), bus,Integer.parseInt(pplBox.getText()), hrBox.getText(), minBox.getText());
                     if (isComplete.isSelected()==true)
                         trip.setCompletedTrip(true);
                     else if(isComplete.isSelected()==false)
@@ -410,8 +417,7 @@ public class EditTripScreen extends JFrame {
                         case ("DAY 1"):
                             thisAcc.addTripToDay(1,trip);
                             thisTDS.getDayTable(1).getModel().setRowCount(0);
-                            thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(1));
-                            
+                            thisTDS.showTable(thisAcc.getDayTrips(1), thisTDS.getDayTable(1));                            
                             break;
 
                         case ("DAY 2"):
@@ -446,7 +452,8 @@ public class EditTripScreen extends JFrame {
                             thisTDS.showTable(thisAcc.getDayTrips(7), thisTDS.getDayTable(7));
                             break;  
                     }
-                     thisAcc.setBudget(newBudget);
+
+                    thisAcc.setBudget(newBudget);
                     thisTDS.updateInfo();
                     setVisible(false); //stops displaying window/frame
                 }  
@@ -467,3 +474,4 @@ public class EditTripScreen extends JFrame {
     }
 
 } //public class EditTripScreen() end
+
