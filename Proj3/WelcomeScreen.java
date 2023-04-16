@@ -5,7 +5,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
-import java.util.stream.Stream;
+import java.io.File;
+import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.charset.Charset;
@@ -32,7 +33,7 @@ public class WelcomeScreen extends JFrame {
     private JButton btnExit;
 
     private ArrayList<Account> accList = new ArrayList<Account>();// list of all accounts in system
-    private String path = "Database/Account_sheet\\Accounts.txt";
+    private String path = "Database\\Accounts.txt";
     private File accounts = new File(path);
     private File accData;
     private boolean accEmpty = accounts.length() == 0;
@@ -42,25 +43,18 @@ public class WelcomeScreen extends JFrame {
 
     public WelcomeScreen() {
 
-        // Adding account from file to account list
-        if (accEmpty == false) {
+        //Adding account from file to account list  
+        if (accEmpty == false){
             String accFile = path;
             loadAccount(accFile);
-
-            accList.get(0).addTripToDay(1, new Trip("Quick Trip 1", new Bus(BusType.Small), 8, "13", "30"));
-            accList.get(0).addTripToDay(1, new Trip("Holland Students", new Bus(BusType.Medium), 17, "03", "30"));
-            accList.get(0).addTripToDay(2, new Trip("Ochi Tourists", new Bus(BusType.Luxurious), 36, "03", "00"));
-            accList.get(0).addTripToDay(2, new Trip("Mobay Tourists", new Bus(BusType.Luxurious), 40, "00", "43"));
-            accList.get(0).addTripToDay(3, new Trip("Quick Trip 2", new Bus(BusType.Medium), 23, "00", "10"));
-            accList.get(0).addTripToDay(3, new Trip("Quick Trip 4", new Bus(BusType.Medium), 16, "03", "56"));
-        }
+        }        
 
         // Setting up window
         setTitle("Login Or Sign Up");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Setting up program icon (make sure the 'pics' folder is downloaded and in the
         // active folder)
-
+        
         Image icon = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("pics\\planner-icon.png"));
         setIconImage(icon);
         // Declaring layout
@@ -162,39 +156,47 @@ public class WelcomeScreen extends JFrame {
 
     }
 
-    public void createAccData(Account a) {
-        accData = new File("Database/User_data\\" + a.getUsername() + "_data.txt");
+    public void createAccData(Account a){
+        accData = new File("Database\\"+ a.getUsername() +"_data.txt");
         ArrayList<Trip> tripList;
         String tripInfo;
-
-        try {
+        
+        try{           
             FileWriter myWriter2 = new FileWriter(accData, false);
             myWriter2.write("User: " + a.getUsername() + "\n");
             myWriter2.write("Password: " + a.getPassword() + "\n");
             myWriter2.write("Theme: " + a.getTheme() + "\n");
-            myWriter2.write("Budget: " + String.valueOf(a.getBudget()) + "\n");
+            myWriter2.write("Budget: " + String.valueOf(a.getBudget()) + "\n\n");
 
+            for (int i = 1; i <= 7; ++i){
+                myWriter2.write("DAY "+ i +":\n");
+                tripList = a.getDayTrips(i);           
+                for(Trip t : tripList){
+                    tripInfo = "Trip: " + t.getName() + " " + t.getNumOfPpl() + " " + t.getHrs() + " " + t.getMins() + 
+                    " " + t.isCompleted() + " Bus:" + " " + t.getBus().getType();    
+                    myWriter2.write(tripInfo + "\n");
+                }
+                myWriter2.write("\n");
+            }
+            
             myWriter2.close();
+
         } catch (IOException ioException) {
             System.out.println(ioException);
         }
     }
 
-    public void deleteAccData(Account a) {
-        File f = new File("Database/User_data\\" + a.getUsername() + "_data.txt");
+
+    public void deleteAccData(Account a){
+        File f = new File("Database\\"+ a.getUsername() +"_data.txt");
         f.delete();
     }
 
-    public String getAccountsPath() {
+
+    public String getAccountsPath(){
         return path;
     }
 
-    public boolean isFileEmpty(File file) throws FileNotFoundException, IOException {
-
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        return br.readLine() == null;
-
-    }
 
     private ArrayList<Account> loadAccount(String aFile) {
         Scanner ascan = null;
@@ -206,47 +208,68 @@ public class WelcomeScreen extends JFrame {
                 String password = nextLine[3];
 
                 Account a = loadData(new Account(username, password));
-
+                
                 accList.add(a);
-                // System.out.print("\n" + a + " Account\n");
+                for (Trip t: a.getDayTrips(2)){
+                    System.out.print("\n" + t + " Account\n");
+                }
+                
             }
 
             ascan.close();
         } catch (IOException e) {
         }
-
+        
         return accList;
     }
 
     private Account loadData(Account a) {
         Scanner ascan = null;
-        File f = new File("Database/User_data\\/" + a.getUsername() + "_data.txt");
-        int daycnt = 1, daynext;
+        File f = new File("Database\\"+ a.getUsername() +"_data.txt");
+        int currDay = 0;
         try {
             ascan = new Scanner(f);
             while (ascan.hasNext()) {
-                // System.out.print(ascan.nextLine());
-                String[] nextLine = ascan.nextLine().split(" ");
+                //System.out.print(ascan.nextLine());
+                String[] nextLine = ascan.nextLine().split(" ");              
 
-                // System.out.print("\n" + nextLine[0] + " " + nextLine[1] + " loadData lines");
-
-                // System.out.print("\nLine: " + nextLine[1]);
-
-                if (nextLine[0].equals("Theme:")) {
+                for (String x : nextLine){
+                    System.out.print(x + ", ");
+                    if (nextLine.length > 1) {
+                        //System.out.print("\n" + nextLine[0] + " " + nextLine[1] + " loadData lines");
+                    }
+                } System.out.print("\n");
+                
+                
+                if (nextLine[0].equals("Theme:")){
                     a.setTheme(nextLine[1]);
-                } else if (nextLine[0].equals("Budget:")) {
+                } else if (nextLine[0].equals("Budget:")){
                     a.setBudget(Double.parseDouble(nextLine[1]));
-                }
-
+                } else if (nextLine[0].equals("")){
+                    continue;
+                } else if((nextLine[0].startsWith("DAY"))){
+                    currDay = Integer.parseInt(nextLine[1].replace(":", "")); 
+                } else if (nextLine[0].equals("Trip:")){
+                    //public Trip(String name, Bus bus, int numOfPeople, String hrs, String mins)
+                    //Trip: HollandStudents 17 03 30 false Bus: Medium
+                    Bus b = new Bus(BusType.valueOf(nextLine[7]));
+                    Trip t = new Trip(nextLine[1], b, Integer.parseInt(nextLine[2]), 
+                            nextLine[3], nextLine[4]);
+                    t.setCompletedTrip(Boolean.parseBoolean(nextLine[5]));
+                    //System.out.print(a);
+                    a.addTripToDay(currDay, t);                    
+                    
+                }               
+                
             }
+
             ascan.close();
         } catch (IOException e) {
-            System.out.println(e);
         }
         return a;
     }
 
-    public void updateAccounts(String old, String changeTo) {
+    public void updateAccounts(String old, String changeTo){
         File f = new File(path);
         Path path = Paths.get(f.getAbsolutePath());
         Charset charset = StandardCharsets.UTF_8;
@@ -256,9 +279,12 @@ public class WelcomeScreen extends JFrame {
             content = content.replace(old, changeTo);
             Files.write(path, content.getBytes(charset));
         } catch (Exception e) {
-
+            
         }
     }
+        
+    
+
 
     public void setWelcomeTheme(String newTheme) {
         // For Welcome screen to display chosen theme from account
@@ -309,24 +335,24 @@ public class WelcomeScreen extends JFrame {
             boolean valid = false;
             String txtName = username.getText();
             String txtPass = String.valueOf(pass.getPassword());
-            // returns true if either username or password was not entered
+            //returns true if either username or password was not entered
             boolean inputEmpty = (txtName.length() == 0 || txtPass.length() == 0);
 
             System.out.println("(Loginbtn) All accounts: " + accList);
 
-            // when either username or password was not entered
+            //when either username or password was not entered
             if (inputEmpty) {
                 errorMsg.setForeground(new Color(237, 28, 36));
-                errorMsg.setText("Please enter Account data.");
+                errorMsg.setText("Please enter Account data."); 
             } else {
 
                 for (int a = 0; a < accList.size(); a++) {
                     /*
-                     * Since JPasswordfield doesn't allow use of getText() and getPassword() returns
-                     * char array,
-                     * String.valueOf(pass.getPassword()) is used because it converts that to a
-                     * regular String
-                     */
+                    * Since JPasswordfield doesn't allow use of getText() and getPassword() returns
+                    * char array,
+                    * String.valueOf(pass.getPassword()) is used because it converts that to a
+                    * regular String
+                    */
                     if (username.getText().equals(accList.get(a).getUsername()) &&
                             String.valueOf(pass.getPassword()).equals(accList.get(a).getPassword())) {
                         // if account info found
@@ -334,10 +360,9 @@ public class WelcomeScreen extends JFrame {
                         // in case error msg gets stuck on screen
                         errorMsg.setText("");
                         // run trip display screen
-                        tds = new TripDisplayScreen(thisUserData, accList.get(a));
 
-                        deleteAccData(accList.get(a));
-                        createAccData(accList.get(a));
+                        tds = new TripDisplayScreen(thisUserData, accList.get(a));
+                        
 
                     }
                 }
@@ -375,39 +400,20 @@ public class WelcomeScreen extends JFrame {
                 errorMsg.setText("Please enter the password.");
             } else if (txtName.length() < 6 && txtPass.length() < 8) {
                 errorMsg.setForeground(new Color(237, 28, 36));
-                errorMsg.setText("Username must be at least 6 charaters and password must be at least 8 characters.");
+                errorMsg.setText("Username is not 6 characters, Password must be min 6 characters.");
             } else if (txtName.length() < 6) {
                 errorMsg.setForeground(new Color(237, 28, 36));
-                errorMsg.setText("Username must be at least 6 charaters.");
+                errorMsg.setText("Username must be at least 6 characters.");
 
             } else if (txtPass.length() < 8) {
                 errorMsg.setForeground(new Color(237, 28, 36));
-                errorMsg.setText("Password must be at least 8 charaters.");
+                errorMsg.setText("Password must be at least 8 characters.");
             } else {
                 try {
                     Account acc = new Account(txtName, txtPass);
                     boolean user_exists = false;
                     boolean pass_exists = false;
                     boolean acc_exists = false;
-
-                    /*
-                     * if (isFileEmpty(accounts)) {
-                     * accList.add(acc);
-                     * errorMsg.setForeground(new Color(230, 177, 0));
-                     * errorMsg.setText("Account created successfully. Please log in.");
-                     * System.out.println(
-                     * "An account has been created if empty is true.");
-                     * 
-                     * System.out.println(accEmpty);
-                     * 
-                     * FileWriter myWriter2 = new FileWriter(accounts, true);
-                     * myWriter2.write("Username: " + txtName + " " + "Password: " + txtPass +
-                     * "\n");
-                     * myWriter2.close();
-                     * 
-                     * createAccData(acc);
-                     * }
-                     */
 
                     // else {
                     // Checks if entry was entered previously.
@@ -436,7 +442,7 @@ public class WelcomeScreen extends JFrame {
                             System.out.println(accList);
                             pass_exists = true;
                         }
-                        // }
+                        
 
                     }
 
@@ -463,6 +469,8 @@ public class WelcomeScreen extends JFrame {
 
     }
 
+
+
     // Exit Button
     private class ExitBtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -471,5 +479,4 @@ public class WelcomeScreen extends JFrame {
 
     }
 
-}
-// public class WelcomeScreen() end
+}   // public class WelcomeScreen() end
