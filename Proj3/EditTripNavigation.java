@@ -1,6 +1,7 @@
 import javax.swing.*; 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class EditTripNavigation extends JFrame {
 
@@ -15,6 +16,8 @@ public class EditTripNavigation extends JFrame {
 
     private JLabel errorMsg;
     private JLabel daytxt, triptxt;
+
+    JComboBox<String> days, trips;
 
     private Account thisAcc;
     private TripDisplayScreen thisTDS;
@@ -59,33 +62,78 @@ public class EditTripNavigation extends JFrame {
         dPnl1.setOpaque(false);
         daytxt = new JLabel("Enter Day: ");
         String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
-        JComboBox<String> days = new JComboBox<>(dayOpts);  
+        days = new JComboBox<>(dayOpts);  
+        dPnl2 = new JPanel();
+        dPnl2.setOpaque(false);
+        trips = new JComboBox<>();  
+        trips.addItem("<<Select Trip>>");
+        String opt, name, id;
         days.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {   
                 //Each case should add the trips for in the Format: Trip ID# : Trip Name (example below)
                 //trips.addItem("Trip");
                 String s = (String) days.getSelectedItem();
+                ArrayList<Trip> tripList;
+                //Populates Select Trip menu based on day
                 switch (s) {
                     case "DAY 1":
-
+                        trips.removeAllItems();
+                        trips.addItem("<<Select Trip>>");
+                        tripList=thisAcc.getDayTrips(1);                     
+                        for (Trip i:tripList){
+                            trips.addItem(i.getName());
+                        }                     
                         break;
                     case "DAY 2":
-
+                        trips.removeAllItems();
+                        trips.addItem("<<Select Trip>>");
+                        tripList=thisAcc.getDayTrips(2);                     
+                        for (Trip i:tripList){
+                            trips.addItem(i.getName());
+                        } 
                         break;
                     case "DAY 3":
+                        trips.removeAllItems();
+                        trips.addItem("<<Select Trip>>");
+                        tripList=thisAcc.getDayTrips(3);                     
+                        for (Trip i:tripList){
+                            trips.addItem(i.getName());
+                        } 
 
                         break;
                     case "DAY 4":
-
+                        trips.removeAllItems();
+                        trips.addItem("<<Select Trip>>");
+                        tripList=thisAcc.getDayTrips(4);                     
+                        for (Trip i:tripList){
+                            trips.addItem(i.getName());
+                        } 
                         break;
                     case "DAY 5":
-  
+                        trips.removeAllItems();
+                        trips.addItem("<<Select Trip>>");
+                        tripList=thisAcc.getDayTrips(5);                     
+                        for (Trip i:tripList){
+                            trips.addItem(i.getName());
+                        }   
                         break;
                     case "DAY 6":
-
+                        trips.removeAllItems();
+                        trips.addItem("<<Select Trip>>");
+                        tripList=thisAcc.getDayTrips(6);                     
+                        for (Trip i:tripList){
+                            trips.addItem(i.getName());
+                        } 
                         break;
                     case "DAY 7":
+                        trips.removeAllItems();
+                        trips.addItem("<<Select Trip>>");
+                        tripList=thisAcc.getDayTrips(7);                     
+                        for (Trip i:tripList){
+                            trips.addItem(i.getName());
+                        } 
+                        break;
 
                 }
 
@@ -98,11 +146,8 @@ public class EditTripNavigation extends JFrame {
         topPnl.add(dPnl1); 
 
         dPnl2 = new JPanel();
-        dPnl2.setOpaque(false);
-        triptxt = new JLabel("Select Trip on Day: ");
-        String [] tripOpts = {"<<Select Trip>>"};
-        JComboBox<String> trips = new JComboBox<>(tripOpts);   
-           
+        dPnl2.setOpaque(false);   
+        triptxt = new JLabel("Select Trip on Day: "); 
         dPnl2.add(triptxt);
         dPnl2.add(trips);
         bttmPnl.add(dPnl2); 
@@ -220,11 +265,16 @@ public class EditTripNavigation extends JFrame {
     private class EditBtnListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e) {
-            //if user doesn't select a day or trip from drop down, if statement needs to be added
-            errorMsg.setText("Please Select a Day & Trip.");
+            //check if user selected day and trip
+            if (days.getSelectedItem().toString()=="<<Select Day>>")
+                errorMsg.setText("Please Select a Day & Trip.");
+
+            else if (trips.getSelectedItem().toString()== "<<Select Trip>>")
+                errorMsg.setText("Please Select a Day & Trip.");
 
             //if user does all the information loads into an edit trip screen
-            thisETS = new EditTripScreen(thisETN, thisAcc);
+            else
+                thisETS = new EditTripScreen(thisETN, thisAcc);
         }
 
     }
