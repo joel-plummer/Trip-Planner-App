@@ -13,8 +13,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-//Main Window upon loading the program
+/**
+ * Main Window upon loading the program.
+ */
 
+
+/*Setting up the frame */
 public class WelcomeScreen extends JFrame {
 
     private JPanel disPnl;
@@ -44,13 +48,13 @@ public class WelcomeScreen extends JFrame {
 
     public WelcomeScreen() {
 
-        // Adding account from file to account list
+        /*Adding account from file to account list*/
         if (accEmpty == false) {
             String accFile = path;
             loadAccount(accFile);
         }
 
-        // Setting up window
+        /*Setting a up window*/
         setTitle("Login Or Sign Up");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Setting up program icon (make sure the 'pics' folder is downloaded and in the
@@ -100,7 +104,7 @@ public class WelcomeScreen extends JFrame {
         pass = new JPasswordField(15);
         innerPnl.add(pass);
 
-        // To display error messages when needed
+        /* Errom message display when needed */
         errorMsg = new JLabel("");
         errorMsg.setForeground(new Color(237, 28, 36));
         multierror = new JTextArea("");
@@ -122,7 +126,7 @@ public class WelcomeScreen extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(7, 10, 7, 10);
 
-        // Button set up
+        /*Button set up*/
         btnLogin = new JButton("Login");
         btnLogin.addActionListener(new LoginBtnListener());
 
@@ -144,7 +148,7 @@ public class WelcomeScreen extends JFrame {
         add(inptPnl, BorderLayout.CENTER);
         add(btnPnl, BorderLayout.PAGE_END);
 
-        // Final frame/window settings
+        /*Final frame/window settings*/
         pack();
         setSize(590, 400);
         setResizable(false);
@@ -194,6 +198,7 @@ public class WelcomeScreen extends JFrame {
         }
     }
 
+    /*Deletes account data */
     public void deleteAccData(Account a) {
         File f = new File("Database/User_data\\" + a.getUsername() + "_data.txt");
         f.delete();
@@ -203,6 +208,7 @@ public class WelcomeScreen extends JFrame {
         return path;
     }
 
+    /*Loads an account */
     private ArrayList<Account> loadAccount(String aFile) {
         Scanner ascan = null;
         try {
@@ -274,6 +280,7 @@ public class WelcomeScreen extends JFrame {
         return a;
     }
 
+    /*Updates an account */
     public void updateAccounts(String old, String changeTo) {
         File f = new File(path);
         Path path = Paths.get(f.getAbsolutePath());
@@ -288,6 +295,7 @@ public class WelcomeScreen extends JFrame {
         }
     }
 
+    /*Sets the user's desired theme */
     public void setWelcomeTheme(String newTheme) {
         // For Welcome screen to display chosen theme from account
         switch (newTheme) {
@@ -331,7 +339,7 @@ public class WelcomeScreen extends JFrame {
     // =========================================================//
     // = BUTTON LISTENING FUNCTIONALITIES =//
     // =========================================================//
-    // Login Button
+    /*Login Button*/
     private class LoginBtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             boolean valid = false;
@@ -368,7 +376,7 @@ public class WelcomeScreen extends JFrame {
                     }
                 }
 
-                // if account info from text fields is not found
+                /*If account info from text fields is not found*/
                 if (valid == false) {
                     errorMsg.setForeground(new Color(237, 28, 36));
                     errorMsg.setText("Account not found. Please Sign Up.");
@@ -378,7 +386,7 @@ public class WelcomeScreen extends JFrame {
 
     }
 
-   // SignUp Button
+   /*SignUp Button*/
     private class SignUpBtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             // it creates a new account and adds it to accList
@@ -417,7 +425,7 @@ public class WelcomeScreen extends JFrame {
                     boolean acc_exists = false;
 
                     // else {
-                    // Checks if entry was entered previously.
+                    /*Checks if entry was entered previously.*/
                     for (int b = 0; b < accList.size(); b++) {
                         if (txtName.equals(accList.get(b).getUsername()) &&
                                 txtPass.equals(accList.get(b).getPassword())) {
@@ -447,7 +455,7 @@ public class WelcomeScreen extends JFrame {
 
                     }
 
-                    // checks if account, user, or password exists
+                    /*Checks if account, user, or password  already exists*/
                     if (acc_exists == false && user_exists == false && pass_exists == false) {
                         accList.add(acc);
                         errorMsg.setForeground(new Color(230, 177, 0));
@@ -470,7 +478,7 @@ public class WelcomeScreen extends JFrame {
 
     }
 
-    // Exit Button
+    /*Exit Button*/
     private class ExitBtnListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
