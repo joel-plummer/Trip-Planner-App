@@ -1,4 +1,3 @@
-
 public class Bus {
     /*
      * Attributes that should be here:
@@ -21,28 +20,12 @@ public class Bus {
 
     public Bus(){};
 
-    public Bus(int ID,BusType type) {
+    /*Sets the maximum bus capacity based on the bus size */
+    public Bus(int ID, BusType type) {
         this.type = type;
         this.id = ID;
-        if (type.equals(BusType.Small))
-            max_capacity = 15;
-        if (type.equals(BusType.Medium))
-            max_capacity = 25;
-        if (type.equals(BusType.Luxurious))
-            max_capacity = 40;
+        setCapacity(type);
     }
-    /*Sets the maximum bus capacity based on the bus size */
-    public Bus(BusType type) {
-        this.type = type;
-        this.id = getNextId();
-        if (type.equals(BusType.Small))
-            max_capacity = 15;
-        if (type.equals(BusType.Medium))
-            max_capacity = 25;
-        if (type.equals(BusType.Luxurious))
-            max_capacity = 40;
-    }
-    
 
     /*Gets the type of bus */
     public BusType getType() {
@@ -75,6 +58,7 @@ public class Bus {
         else if (bus.equals(BusType.Luxurious))
             max_capacity = 40;
     }
+
     /*
      * Cost for the buses
      * Small = 5000
