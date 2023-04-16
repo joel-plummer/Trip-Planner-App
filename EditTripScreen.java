@@ -65,6 +65,7 @@ public class EditTripScreen extends JFrame {
         String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
         JComboBox<String> days = new JComboBox<>(dayOpts); 
         days.setSelectedItem("DAY "+ thisTrip.getDay()); //Should be set to whatever day trip is on 
+        //Listener for when this is changed to be here
         dPnl1.add(daytxt);
         dPnl1.add(days);
         lftPnl.add(dPnl1); 
@@ -303,7 +304,8 @@ public class EditTripScreen extends JFrame {
 
             //if input is valid, creates a popup asking for confirmation
             //reduce budget here with thisAcc.calcRemaining()
-            int confirm = JOptionPane.showConfirmDialog(thisETS,"Are you sure you want to \nkeep these changes? ");  
+            int confirm = JOptionPane.showConfirmDialog(thisETS,
+            "Are you sure you want to \nkeep these changes? ");  
             if(confirm == JOptionPane.YES_OPTION) {  
                 //supposed to edit the data for trip in arraylist for the selected day
                 setVisible(false); //stops displaying window/frame
@@ -324,3 +326,4 @@ public class EditTripScreen extends JFrame {
     }
 
 } //public class EditTripScreen() end
+
