@@ -7,6 +7,12 @@ public class Bus {
      * Int maxCapacity
      */
 
+    /**This class generates a bus
+      * @param id is an identifier for a bus.
+      * @param nextId generates a new id for a consecutive bus.
+      * @param max capacity defines the maximum number of persons for a particular bus type.
+    */
+
     private int id;
     private static int nextId = 0;
     private int max_capacity;
@@ -15,6 +21,7 @@ public class Bus {
 
     public Bus(){};
 
+    /*Sets the maximum bus capacity based on the bus size */
     public Bus(BusType type) {
         this.type = type;
         this.id = getNextId();
@@ -26,24 +33,29 @@ public class Bus {
             max_capacity = 40;
     }
 
+    /*Gets the type of bus */
     public BusType getType() {
         return type;
     }
 
+    /*Generates a consecutive ID */
     private int getNextId() {
         return ++nextId;
 
     }
+
+    /*Allows a preview of an ID */
     public int idPreview(){
         int preview= nextId+1;
         return preview;
     }
 
+    /*Gets a bus ID */
     public int getID() {
         return id;
     }
 
-    // Set the maximum capacity of the bus
+    /*Sets the maximum capacity of the bus*/
     public void setCapacity(BusType bus) {
         if (bus.equals(BusType.Small))
             max_capacity = 15;
@@ -59,11 +71,12 @@ public class Bus {
      * Luxurious = 12000
      */
 
+    /*Gets the maximun bus capacity */
     public int getCapacity() {
         return max_capacity;
     }
 
-    // Calculates the cost of a bus trip
+    /*Calculates the cost of a bus trip*/
     public double calcBus(BusType bus, int passengers) {
         final double tax = 0.15;
         int bus_cost = 0;

@@ -2,11 +2,15 @@ import javax.swing.*;
 import javax.swing.table.*;  
 import java.awt.*;
 
+/**
+ * Generates a table for displaying the data.
+ */
 public class TableData {
     private JTable table;
     private DefaultTableModel model;
     private JScrollPane scrollPane;
 
+    /*Setting up the Panel names */
     public TableData(JPanel pnl) {
         String[] columnNames =  {"Trip Name",
             "Bus Type",
