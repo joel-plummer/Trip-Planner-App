@@ -279,9 +279,11 @@ public class EditTripNavigation extends JFrame {
                 errorMsg.setText("Please Select a Day & Trip.");
 
             //if user does all the information loads into an edit trip screen
-            else
+            else{
+                int dayselected=0;
                 switch(days.getSelectedItem().toString()){
                     case "DAY 1":
+                    dayselected=1;
                         tripList=thisAcc.getDayTrips(1);
                         Collections.sort(tripList);
                         for (int i=0; i<tripList.size(); i++)
@@ -290,6 +292,7 @@ public class EditTripNavigation extends JFrame {
                   
                     break;
                 case "DAY 2":
+                    dayselected=2;
                     tripList=thisAcc.getDayTrips(2);
                     Collections.sort(tripList);
                     for (int i=0; i<tripList.size(); i++)
@@ -297,6 +300,7 @@ public class EditTripNavigation extends JFrame {
                             trip=tripList.get(i);                    
                     break;
                 case "DAY 3":
+                    dayselected=3;
                     tripList=thisAcc.getDayTrips(3);
                     Collections.sort(tripList);
                     for (int i=0; i<tripList.size(); i++)
@@ -304,6 +308,7 @@ public class EditTripNavigation extends JFrame {
                             trip=tripList.get(i);
                     break;
                 case "DAY 4":
+                    dayselected=4;
                     tripList=thisAcc.getDayTrips(4);
                     Collections.sort(tripList);
                     for (int i=0; i<tripList.size(); i++)
@@ -311,6 +316,7 @@ public class EditTripNavigation extends JFrame {
                             trip=tripList.get(i);                    
                     break;
                 case "DAY 5":
+                    dayselected=5;
                     tripList=thisAcc.getDayTrips(5);
                     Collections.sort(tripList);
                     for (int i=0; i<tripList.size(); i++)
@@ -318,6 +324,7 @@ public class EditTripNavigation extends JFrame {
                             trip=tripList.get(i);
                     break;
                 case "DAY 6":
+                    dayselected=6;
                     tripList=thisAcc.getDayTrips(6);
                     Collections.sort(tripList);
                     for (int i=0; i<tripList.size(); i++)
@@ -325,6 +332,7 @@ public class EditTripNavigation extends JFrame {
                             trip=tripList.get(i);
                     break;
                 case "DAY 7":
+                    dayselected=7;
                     trips.removeAllItems();
                     trips.addItem("<<Select Trip>>");
                     tripList=thisAcc.getDayTrips(7);                     
@@ -334,7 +342,9 @@ public class EditTripNavigation extends JFrame {
                     break;
 
                 }
-                thisETS = new EditTripScreen(thisETN, thisAcc,trip);
+                thisETS = new EditTripScreen(dayselected,thisTDS, thisETN, thisAcc,trip);
+        
+            }
         }
 
     }

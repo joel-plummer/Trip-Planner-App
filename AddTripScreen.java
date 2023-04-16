@@ -68,7 +68,7 @@ public class AddTripScreen extends JFrame {
         dPnl1 = new JPanel();
         dPnl1.setOpaque(false);
         daytxt = new JLabel("Day: ");
-        String [] dayOpts = {"<<Select Day>>", "DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
+        String [] dayOpts = {"<<Select Day>>","DAY 1", "DAY 2", "DAY 3", "DAY 4", "DAY 5", "DAY 6", "DAY 7"};
         days = new JComboBox<>(dayOpts);      
         dPnl1.add(daytxt);
         dPnl1.add(days);
@@ -85,7 +85,7 @@ public class AddTripScreen extends JFrame {
         dPnl3 = new JPanel();
         dPnl3.setOpaque(false);
         bustxt = new JLabel("Bus Type:  ");
-        String [] busOpts = {"<<Select Bus>>", "Small - $5000", "Medium - $7000", "Luxurious - $12000"};
+        String [] busOpts = {"<<Select Bus>>","Small - $5000", "Medium - $7000", "Luxurious - $12000"};
         buses = new JComboBox<>(busOpts);      
         dPnl3.add(bustxt);
         dPnl3.add(buses);
@@ -95,8 +95,8 @@ public class AddTripScreen extends JFrame {
         dPnl4.setOpaque(false);
         busIDtxt = new JLabel("Generated Bus ID: ");
         busIDBox = new JTextField(5);
-        Bus prev = new Bus();
-        busIDBox.setText("#B"+prev.idPreview()); //This should be taken from an account Bus obj... getNextId() maybe
+        Bus prev =new Bus();
+        busIDBox.setText("B"+prev.idPreview()); //This should be taken from an account Bus obj... getNextId() maybe
         busIDBox.setEditable(false);
         dPnl4.add(busIDtxt);
         dPnl4.add(busIDBox);
@@ -113,9 +113,9 @@ public class AddTripScreen extends JFrame {
         dPnl6 = new JPanel();
         dPnl6.setOpaque(false);
         timetxt = new JLabel("Time:  ");
-        hrBox = new JTextField(5);
-        minBox = new JTextField(5);
-        hrBox.setText("00");
+        hrBox = new JTextField(6);
+        minBox = new JTextField(6);
+        hrBox.setText("01");
         colontxt= new JLabel(":");
         minBox.setText("00");
         formattxt = new JLabel("(24hr)");
@@ -184,8 +184,6 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
-                colontxt.setForeground(Color.BLACK);
-                formattxt.setForeground(Color.BLACK);
                 break;
             case "RED":
                 disPnl.setBackground(new Color(142,49,80));
@@ -196,8 +194,6 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
-                colontxt.setForeground(Color.WHITE);
-                formattxt.setForeground(Color.WHITE);
                 break; 
             case "LIGHT BLUE":
                 disPnl.setBackground(new Color(152,182,248));
@@ -208,8 +204,6 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
-                colontxt.setForeground(Color.BLACK);
-                formattxt.setForeground(Color.BLACK);
                 break;
             case "GREEN":
                 disPnl.setBackground(new Color(85,111,111));
@@ -220,8 +214,6 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
-                colontxt.setForeground(Color.WHITE);
-                formattxt.setForeground(Color.WHITE);
                 break;
             case "PURPLE":
                 disPnl.setBackground(new Color(104,54,137));
@@ -232,8 +224,6 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
-                colontxt.setForeground(Color.WHITE);
-                formattxt.setForeground(Color.WHITE);
                 break;
             case "GRAY":
                 disPnl.setBackground(new Color(145,143,156));
@@ -244,8 +234,6 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.BLACK);
                 timetxt.setForeground(Color.BLACK);
                 busIDtxt.setForeground(Color.BLACK);
-                colontxt.setForeground(Color.BLACK);
-                formattxt.setForeground(Color.BLACK);
                 break;
             case "Default":
                 disPnl.setBackground(new Color(55,73,136));
@@ -256,8 +244,6 @@ public class AddTripScreen extends JFrame {
                 ppltxt.setForeground(Color.WHITE);
                 timetxt.setForeground(Color.WHITE);
                 busIDtxt.setForeground(Color.WHITE);
-                colontxt.setForeground(Color.WHITE);
-                formattxt.setForeground(Color.WHITE);
         }
 
 
@@ -290,13 +276,11 @@ public class AddTripScreen extends JFrame {
             /*Gets the type of bus selected*/
 
              Bus bus = new Bus();
-             double cost = 0;
-             switch (buses.getSelectedItem().toString()){
+             double cost=0;
+             switch(buses.getSelectedItem().toString()){
                  case ("Small - $5000"):
-                     bus = new Bus(BusType.Small);
-                     //*below comment gives causes an error for insufficient budget even when it is enough*/
-                     //cost = bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
-                     cost = 5000;
+                     bus= new Bus(BusType.Small);
+                     cost = bus.calcBus(bus.getType(), Integer.parseInt(pplBox.getText()));
                      break;
                  case("Medium - $7000"):
                      bus= new Bus(BusType.Medium);
@@ -309,41 +293,50 @@ public class AddTripScreen extends JFrame {
              }                  
 
             /*Check if a day was selected*/
-             if (days.getSelectedItem().toString() == "<<Select Day>>")
+             if (days.getSelectedItem().toString()=="<<Select Day>>")
              {
                 errorMsg.setText("Please select a day.");
              }
 
+            /* Checks if Name is entered */
+            else if (nameBox.getText().isEmpty())
+            {
+                errorMsg.setText("Please enter a valid Name.");
+            }
+
             /*Checks if a Bus was selected*/
-             else if (buses.getSelectedItem().toString() == "<<Select Bus>>")
+             else if (buses.getSelectedItem().toString()=="<<Select Bus>>")
              {
-                errorMsg.setText("Please select a Bus Type.");
+                errorMsg.setText("Please select a Bus.");
              }
 
             /*Checks if the time is valid*/
-             else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||
-             ((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || 
-             (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false))
+             else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false))
              {
                 errorMsg.setText("Please enter a valid Time.");
              }
 
-            /* Checks if Number of Passengers is valid*/
-             else if ((isInteger(pplBox.getText())==false) || (Integer.parseInt(pplBox.getText())<0))
+             else if (pplBox.getText().isEmpty())
              {
-                errorMsg.setText("Please enter a valid number of Persons.");
+                errorMsg.setText("Please enter a valid number of persons");
              }
 
+            /* Checks if Number of Passengers is valid*/
+             else if ((pplBox.getText()=="") || (isInteger(pplBox.getText())==false) || (Integer.parseInt(pplBox.getText())<=0))
+             {
+                errorMsg.setText("Please enter a valid number of persons");
+             }         
+             
             /* Checks if Number of Passengers is within capacity of the selected bus*/
              else if (Integer.parseInt(pplBox.getText()) > bus.getCapacity())
              {
-                errorMsg.setText("Too many passengers! Bus Type Max: " + bus.getCapacity());
+                errorMsg.setText("Too many passengers!");
              }
 
             /*Checks if the selected bus is within the budget */
             else if (thisAcc.getBudget()< cost)
             {
-                errorMsg.setText("Insufficient funds for Trip.");
+                errorMsg.setText("Insufficient Budget");
             }
 
             else
@@ -351,15 +344,11 @@ public class AddTripScreen extends JFrame {
                 /*Modifies the budget to accommodate the new trip */
                 double newBudget = thisAcc.getBudget();
                 newBudget = thisAcc.getBudget() - cost;
-                thisAcc.setBudget(newBudget);
-
-                int confirm = JOptionPane.showConfirmDialog(thisATS,
-                "Are you sure? \nYour budget will be reduced \nto: $" + newBudget);  
+                int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour budget will be reduced \nto: $" + newBudget);  
                 if(confirm == JOptionPane.YES_OPTION) 
                 {  
                     /*Creates a new trip and adds it to the corresponding day */                        
-                    Trip trip = new Trip(nameBox.getText(), bus, Integer.parseInt(pplBox.getText()), 
-                                hrBox.getText(), minBox.getText());
+                    Trip trip = new Trip(nameBox.getText(), bus,Integer.parseInt(pplBox.getText()), hrBox.getText(), minBox.getText());
                     //add the data to a trip arraylist for the selected day 
                     switch(days.getSelectedItem().toString())
                     {
@@ -423,4 +412,3 @@ public class AddTripScreen extends JFrame {
     }
 
 } //public class AddTripScreen() end 
-
