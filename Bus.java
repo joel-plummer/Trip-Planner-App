@@ -4,7 +4,6 @@ public class Bus {
      * Attributes that should be here:
      * Enum Type: Small, Medium, Luxurious
      * Int Auto Generated ID (format: B10)
-     * Int cost
      * Int maxCapacity
      */
 
@@ -12,25 +11,38 @@ public class Bus {
       * @param id is an identifier for a bus.
       * @param nextId generates a new id for a consecutive bus.
       * @param max capacity defines the maximum number of persons for a particular bus type.
-      * @param cost stores the bus' cost.
     */
 
     private int id;
     private static int nextId = 0;
-    private int cost;  
     private int max_capacity;
 
     BusType type; // There is another file for this: BusType.java
 
     public Bus(){};
 
+    public Bus(int ID,BusType type) {
+        this.type = type;
+        this.id = ID;
+        if (type.equals(BusType.Small))
+            max_capacity = 15;
+        if (type.equals(BusType.Medium))
+            max_capacity = 25;
+        if (type.equals(BusType.Luxurious))
+            max_capacity = 40;
+    }
     /*Sets the maximum bus capacity based on the bus size */
     public Bus(BusType type) {
         this.type = type;
         this.id = getNextId();
-        setCapacity(type);
-        setCost(type);
+        if (type.equals(BusType.Small))
+            max_capacity = 15;
+        if (type.equals(BusType.Medium))
+            max_capacity = 25;
+        if (type.equals(BusType.Luxurious))
+            max_capacity = 40;
     }
+    
 
     /*Gets the type of bus */
     public BusType getType() {
@@ -63,17 +75,6 @@ public class Bus {
         else if (bus.equals(BusType.Luxurious))
             max_capacity = 40;
     }
-
-    /*Sets the cost of the bus*/
-    public void setCost(BusType bus) {
-        if (bus.equals(BusType.Small))
-            cost = 5000;
-        else if (bus.equals(BusType.Medium))
-            cost = 7000;
-        else if (bus.equals(BusType.Luxurious))
-            cost = 12000;
-    }
-
     /*
      * Cost for the buses
      * Small = 5000
@@ -84,11 +85,6 @@ public class Bus {
     /*Gets the maximun bus capacity */
     public int getCapacity() {
         return max_capacity;
-    }
-
-    /*Gets the bus cost */
-    public int getCost() {
-        return cost;
     }
 
     /*Calculates the cost of a bus trip*/
@@ -110,4 +106,3 @@ public class Bus {
         return final_cost;
     }
 }
-

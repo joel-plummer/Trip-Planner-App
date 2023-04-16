@@ -18,14 +18,12 @@ public class Trip implements Comparable<Trip> {
      * @param numOfPeople states the number of persons on a given trip.
      * @param ID generates a unique ID for the trip.
      * @param nextID generates a consecutive ID.
-     * @param day stores the day of a trip.
      */
 
     private String name;
     private boolean completed;
     private String[] time = new String[2]; // example [12, 30]
-    private int numOfPeople;
-    private int day;    
+    private int numOfPeople; // example "DAY 1"
     private int ID;
     private static int nextID = 0;
     private Bus bus;
@@ -34,7 +32,6 @@ public class Trip implements Comparable<Trip> {
     private int getNextID() {
         return ++nextID;
     }
-    
 
     /*Gives a preview of the next ID number */
     public int idPreview(){
@@ -43,6 +40,16 @@ public class Trip implements Comparable<Trip> {
     }
 
     public Trip(){}
+
+    public Trip(int ID, String name, Bus bus, int numOfPeople, String hrs, String mins){
+        this.ID= ID;
+        this.name = name.replaceAll("\\s", "");
+        time[0] = hrs;
+        time[1] = mins;
+        this.bus = bus;
+        this.numOfPeople = numOfPeople;
+        completed = false;
+    }
 
     public Trip(String name, Bus bus, int numOfPeople, String hrs, String mins) {
         this.ID = getNextID();
@@ -59,11 +66,6 @@ public class Trip implements Comparable<Trip> {
     public int getID() {
         return ID;
     }
-
-    /*Gets the Trip day */
-    public int getDay() {
-        return day;
-    }
     
     /*Gets the Trip name */
     public String getName() {
@@ -71,6 +73,7 @@ public class Trip implements Comparable<Trip> {
     }
 
     /*Gets the number of persons for the trip */
+
     public int getNumOfPpl() {
         return numOfPeople;
     }
@@ -93,11 +96,6 @@ public class Trip implements Comparable<Trip> {
     /*Finds out whether a trip is completed */
     public boolean isCompleted() {
         return completed;
-    }
-
-    /*Sets the trip day */
-    public void setDay(int day) {
-        this.day = day;
     }
 
     /*Sets the trip name */
