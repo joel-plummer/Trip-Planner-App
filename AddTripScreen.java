@@ -326,22 +326,22 @@ public class AddTripScreen extends JFrame {
             }
 
             /*Checks if the time is valid*/
-            else if ((isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false) || (hrBox.getText().isEmpty()) 
-            || (minBox.getText().isEmpty()) || (Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||
-            ((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)))
+            else if ((Integer.parseInt(hrBox.getText()) > 24) || (Integer.parseInt(hrBox.getText()) < 0) ||
+            ((Integer.parseInt(minBox.getText()) > 59)) || ((Integer.parseInt(minBox.getText()) < 0)) || 
+            (isInteger(hrBox.getText())==false) || (isInteger(minBox.getText())==false))
             {
                 errorMsg.setText("Please enter a valid Time.");
             }
 
-            /* Checks if Number of Passengers is valid*/
             else if (pplBox.getText().isEmpty())
             {
-                errorMsg.setText("Please enter a valid number of persons");
+                errorMsg.setText("Please enter a valid number of Persons.");
             }
-            
+
+            /* Checks if Number of Passengers is valid*/
             else if ((pplBox.getText()=="") || (isInteger(pplBox.getText())==false) || (Integer.parseInt(pplBox.getText())<=0))
             {
-                errorMsg.setText("Please enter a valid number of persons");
+                errorMsg.setText("Please enter a valid number of Persons.");
             }    
 
              
@@ -352,7 +352,7 @@ public class AddTripScreen extends JFrame {
             }
 
             /*Checks if the selected bus is within the budget */
-            else if (thisAcc.getBudget()< cost)
+            else if (thisAcc.getBudget() < cost)
             {
                 errorMsg.setText("Insufficient Budget to afford.");
             }
@@ -362,7 +362,6 @@ public class AddTripScreen extends JFrame {
                 /*Modifies the budget to accommodate the new trip */
                 double newBudget = thisAcc.getBudget();
                 newBudget = thisAcc.getBudget() - cost;
-                thisAcc.setBudget(newBudget);
 
                 int confirm = JOptionPane.showConfirmDialog(thisATS,
                 "Are you sure? \nYour budget will be reduced \nto: $" + newBudget);  
@@ -412,6 +411,7 @@ public class AddTripScreen extends JFrame {
                             thisTDS.showTable(thisAcc.getDayTrips(7), thisTDS.getDayTable(7));
                             break;  
                     }
+                    
                     thisAcc.setBudget(newBudget);
                     thisTDS.updateInfo();
                     setVisible(false); //stops displaying window/frame
@@ -434,4 +434,3 @@ public class AddTripScreen extends JFrame {
     }
 
 } //public class AddTripScreen() end 
-
