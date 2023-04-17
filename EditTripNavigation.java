@@ -320,9 +320,9 @@ public class EditTripNavigation extends JFrame {
                     dayselected=7;
                     tripList=thisAcc.getDayTrips(7);    
                     Collections.sort(tripList);                 
-                    for (Trip i:tripList){
-                        trips.addItem("Trip ID#"+ i.getID() +" : " +i.getName());
-                    } 
+                    for (int i=0; i<tripList.size(); i++)
+                        if (i+1==trips.getSelectedIndex())
+                            trip=tripList.get(i);
                     break;
 
                 }
@@ -332,10 +332,10 @@ public class EditTripNavigation extends JFrame {
                     case ("Small"):
                         cost = 5000;            
                         break;
-                    case("Medium - $7000"):
+                    case("Medium"):
                         cost = 7000;
                         break;
-                    case("Luxurious - $12000"):
+                    case("Luxurious"):
                         cost = 12000;
                         break;
                 }  
@@ -431,9 +431,9 @@ public class EditTripNavigation extends JFrame {
                     dayselected=7;
                     tripList=thisAcc.getDayTrips(7);    
                     Collections.sort(tripList);                   
-                    for (Trip i:tripList){
-                        trips.addItem("Trip ID#" + i.getID() + " : " + i.getName());
-                    } 
+                    for (int i=0; i<tripList.size(); i++)
+                        if (i+1==trips.getSelectedIndex())
+                            trip=tripList.get(i);
                     break;
 
                 }
