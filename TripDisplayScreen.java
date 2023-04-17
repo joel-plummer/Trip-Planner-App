@@ -4,7 +4,6 @@ import javax.swing.border.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.util.Collections;
 
 /**
  * This class displays the Trips associated to a particular user account
@@ -465,7 +464,7 @@ public class TripDisplayScreen extends JFrame {
         bClose = new JButton("Back to Login");
         bClose.addActionListener(new CloseBtnListener()); 
         
-        String [] sortOpts = {"<<Sort By>>", "Completed", "Incomplete", "Trip ID", "Trip Time",
+        String [] sortOpts = {"<<Sort By>>", "Completed", "InComplete", "Trip ID", "Trip Time",
         "Trip Name", "Trip People"};
         JComboBox<String> bSortBy = new JComboBox<String>(sortOpts);
         selected = (String)bSortBy.getSelectedItem();
@@ -477,10 +476,12 @@ public class TripDisplayScreen extends JFrame {
             String s = (String) bSortBy.getSelectedItem();
                 switch (s) {
                     case "Completed":
-                    break;
+                        CompletedSort(thisTab);
+                        break;
 
                     case "InComplete":
-                    break;
+                        IncompleteSort(thisTab);
+                        break;
                     
                     case "Trip ID":                   
                         SortByID(thisTab);                      
@@ -498,7 +499,7 @@ public class TripDisplayScreen extends JFrame {
                         SortByPpl(thisTab);
                         break;                    
 
-                    default:
+                    case "<<Sort By>>":
                         SortByID(thisTab);                      
                         break;
 
@@ -648,8 +649,8 @@ public class TripDisplayScreen extends JFrame {
             }
 
             if (bdgtChange.getText() != null && isDouble) {
-                int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Budget will be: \n$" 
-                + bdgtChange.getText());  
+                int confirm = JOptionPane.showConfirmDialog(thisATS,
+                "Are you sure? \nYour new Budget will be: \n$" + bdgtChange.getText());  
                 if (confirm == JOptionPane.YES_OPTION) {  
                     thisAcc.setBudget(Double.parseDouble(bdgtChange.getText()));
 
@@ -676,11 +677,12 @@ public class TripDisplayScreen extends JFrame {
            String [] userCheck = userChange.getText().split(" ");
 
             if (userChange.getText() != null && userCheck.length == 1) {
-                int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Username will be: \n" 
-                + userChange.getText());  
+                int confirm = JOptionPane.showConfirmDialog(thisATS,
+                "Are you sure? \nYour new Username will be: \n" + userChange.getText());  
                 if (confirm == JOptionPane.YES_OPTION) {  
                     thisWS.deleteAccData(thisAcc);
-                    thisWS.updateAccounts("Username: " + thisAcc.getUsername() + " ", "Username: " + userChange.getText() + " ");
+                    thisWS.updateAccounts("Username: " + thisAcc.getUsername() + " ",
+                    "Username: " + userChange.getText() + " ");
                     thisAcc.setUsername(userChange.getText());
 
                     updateInfo(); //updating the displayed info at bottom
@@ -705,11 +707,12 @@ public class TripDisplayScreen extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            int confirm = JOptionPane.showConfirmDialog(thisATS,"Are you sure? \nYour new Password will be: \n" 
-            + String.valueOf(passChange.getPassword()));  
+            int confirm = JOptionPane.showConfirmDialog(thisATS,
+            "Are you sure? \nYour new Password will be: \n" + String.valueOf(passChange.getPassword()));  
             if(confirm == JOptionPane.YES_OPTION) {  
                 thisWS.deleteAccData(thisAcc);
-                thisWS.updateAccounts("Password: " + thisAcc.getPassword(), "Password: " + String.valueOf(passChange.getPassword()));
+                thisWS.updateAccounts("Password: " + thisAcc.getPassword(), 
+                "Password: " + String.valueOf(passChange.getPassword()));
                 thisAcc.setPassword(String.valueOf(passChange.getPassword()));
 
                 JOptionPane.showMessageDialog(thisTDS, 
@@ -727,6 +730,172 @@ public class TripDisplayScreen extends JFrame {
     //=======================================//
     //=    TRIP DISPLAY BUTTON LISTENERS    =//
     //=======================================//
+    //SORT BY COMPLETE TRIPS
+    public void CompletedSort(int day){
+        ArrayList<Trip> temp = new ArrayList<Trip>();
+        switch(day+1){
+            case 1:
+                day1Table.getModel().setRowCount(0);
+                for (Trip t: d1TripList) {
+                    if(t.isCompleted()){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day1Table);
+                break;
+            case 2:
+                day2Table.getModel().setRowCount(0);
+                for (Trip t: d2TripList) {
+                    if(t.isCompleted()){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day2Table);
+                break;
+            case 3:
+                day3Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d3TripList) {
+                    if(t.isCompleted()){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day3Table);
+                break;
+            case 4:
+                day4Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d4TripList) {
+                    if(t.isCompleted()){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day4Table);
+                break;
+            case 5:
+                day5Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d5TripList) {
+                    if(t.isCompleted()){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day5Table);
+                break;
+            case 6:
+                day6Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d6TripList) {
+                    if(t.isCompleted()){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day6Table);
+                break;
+            case 7:
+                day7Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d7TripList) {
+                    if(t.isCompleted()){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day7Table);
+                break;          
+       
+        }
+    }
+
+    //SORT BY INCOMPLETE TRIPS
+    public void IncompleteSort(int day){
+        ArrayList<Trip> temp = new ArrayList<Trip>();
+        switch(day+1){
+            case 1:
+                day1Table.getModel().setRowCount(0);
+                for (Trip t: d1TripList) {
+                    if(t.isCompleted() == false){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day1Table);
+                break;
+            case 2:
+                day2Table.getModel().setRowCount(0);
+                for (Trip t: d2TripList) {
+                    if(t.isCompleted() == false){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day2Table);
+                break;
+            case 3:
+                day3Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d3TripList) {
+                    if(t.isCompleted() == false){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day3Table);
+                break;
+            case 4:
+                day4Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d4TripList) {
+                    if(t.isCompleted() == false){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day4Table);
+                break;
+            case 5:
+                day5Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d5TripList) {
+                    if(t.isCompleted() == false){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day5Table);
+                break;
+            case 6:
+                day6Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d6TripList) {
+                    if(t.isCompleted() == false){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day6Table);
+                break;
+            case 7:
+                day7Table.getModel().setRowCount(0);
+                System.out.print(temp);
+                for (Trip t: d7TripList) {
+                    if(t.isCompleted() == false){
+                        temp.add(t);
+                    }
+                }
+                Collections.sort(temp, new TimeComparator());
+                showTable(temp, day7Table);
+                break;          
+       
+        }
+    }
+
 
     //SORT BY ID
     public void SortByID(int day){
