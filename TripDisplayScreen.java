@@ -1,3 +1,4 @@
+package code;
 import javax.swing.*; 
 import java.awt.*;
 import javax.swing.border.*;
@@ -41,7 +42,6 @@ public class TripDisplayScreen extends JFrame {
     //For info at bottom
     private JTextArea info;
     private double accBudget;
-    private double accRemaining;
     private int accTotBus;
     private int accTotPpl;
 
@@ -545,11 +545,10 @@ public class TripDisplayScreen extends JFrame {
     /*Method to update account info at bottom of screen*/
     public void updateInfo(){
         accBudget = thisAcc.getBudget();
-        accRemaining = thisAcc.getRemaining();
         accTotBus = thisAcc.getTotBuses(); //needs to reflect total buses that have been scheduled in account
         accTotPpl = thisAcc.getTotPpl(); //needs to reflect total people that have been scheduled in account
 
-        info.setText("Total Budget: $" + accBudget + "\tRemaining: $" + accRemaining + 
+        info.setText("Total Budget: $" + accBudget + "\tRemaining: $" + 
         "\tBuses Scheduled: " + accTotBus + "\tTotal Persons Booked: " + accTotPpl);
 
         Font boldFont = new Font(info.getFont().getName(), Font.BOLD, info.getFont().getSize());
