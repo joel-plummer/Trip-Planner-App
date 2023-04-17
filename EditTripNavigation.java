@@ -256,93 +256,107 @@ public class EditTripNavigation extends JFrame {
     {   
         Trip trip = new Trip();
         public void actionPerformed(ActionEvent e) {
-            
-            //if input is valid, creates a popup asking for confirmation
-            //increase budget here with thisAcc.calcRemaining()
-             //check if user selected day and trip
-        if (days.getSelectedItem().toString()=="<<Select Day>>")
-        errorMsg.setText("Please Select a Day & Trip.");
+                        
+            //checking if user selected day and trip
+            if (days.getSelectedItem().toString() == "<<Select Day>>")
+            errorMsg.setText("Please Select a Day & Trip.");
 
-         else if (trips.getSelectedItem().toString()== "<<Select Trip>>")
-             errorMsg.setText("Please Select a Day & Trip.");
+            else if (trips.getSelectedItem().toString() == "<<Select Trip>>")
+                errorMsg.setText("Please Select a Day & Trip.");
 
-         //if user does all the selected trip is loaded
-         else{
-             int dayselected=0;
-             switch(days.getSelectedItem().toString()){
-                 case "DAY 1":
-                 dayselected=1;
-                     tripList=thisAcc.getDayTrips(1);
-                     Collections.sort(tripList);
-                     for (int i=0; i<tripList.size(); i++)
-                         if (i+1==trips.getSelectedIndex())
-                             trip=tripList.get(i);                   
-               
-                 break;
-             case "DAY 2":
-                 dayselected=2;
-                 tripList=thisAcc.getDayTrips(2);
-                 Collections.sort(tripList);
-                 for (int i=0; i<tripList.size(); i++)
-                     if (i+1==trips.getSelectedIndex())
-                         trip=tripList.get(i);                    
-                 break;
-             case "DAY 3":
-                 dayselected=3;
-                 tripList=thisAcc.getDayTrips(3);
-                 Collections.sort(tripList);
-                 for (int i=0; i<tripList.size(); i++)
-                     if (i+1==trips.getSelectedIndex())
-                         trip=tripList.get(i);
-                 break;
-             case "DAY 4":
-                 dayselected=4;
-                 tripList=thisAcc.getDayTrips(4);
-                 Collections.sort(tripList);
-                 for (int i=0; i<tripList.size(); i++)
-                     if (i+1==trips.getSelectedIndex())
-                         trip=tripList.get(i);                    
-                 break;
-             case "DAY 5":
-                 dayselected=5;
-                 tripList=thisAcc.getDayTrips(5);
-                 Collections.sort(tripList);
-                 for (int i=0; i<tripList.size(); i++)
-                     if (i+1==trips.getSelectedIndex())
-                         trip=tripList.get(i);
-                 break;
-             case "DAY 6":
-                 dayselected=6;
-                 tripList=thisAcc.getDayTrips(6);
-                 Collections.sort(tripList);
-                 for (int i=0; i<tripList.size(); i++)
-                     if (i+1==trips.getSelectedIndex())
-                         trip=tripList.get(i);
-                 break;
-             case "DAY 7":
-                 dayselected=7;
-                 tripList=thisAcc.getDayTrips(7);    
-                 Collections.sort(tripList);                 
-                 for (Trip i:tripList){
-                     trips.addItem("Trip ID#"+i.getID()+" : " +i.getName());
-                 } 
-                 break;
+            //if user does, all the selected trips are loaded
+            else {
+                int dayselected=0;
+                switch(days.getSelectedItem().toString()){
+                    case "DAY 1":
+                    dayselected=1;
+                        tripList=thisAcc.getDayTrips(1);
+                        Collections.sort(tripList);
+                        for (int i=0; i<tripList.size(); i++)
+                            if (i+1==trips.getSelectedIndex())
+                                trip=tripList.get(i);                                 
+                    break;
+                case "DAY 2":
+                    dayselected=2;
+                    tripList=thisAcc.getDayTrips(2);
+                    Collections.sort(tripList);
+                    for (int i=0; i<tripList.size(); i++)
+                        if (i+1==trips.getSelectedIndex())
+                            trip=tripList.get(i);                    
+                    break;
+                case "DAY 3":
+                    dayselected=3;
+                    tripList=thisAcc.getDayTrips(3);
+                    Collections.sort(tripList);
+                    for (int i=0; i<tripList.size(); i++)
+                        if (i+1==trips.getSelectedIndex())
+                            trip=tripList.get(i);
+                    break;
+                case "DAY 4":
+                    dayselected=4;
+                    tripList=thisAcc.getDayTrips(4);
+                    Collections.sort(tripList);
+                    for (int i=0; i<tripList.size(); i++)
+                        if (i+1==trips.getSelectedIndex())
+                            trip=tripList.get(i);                    
+                    break;
+                case "DAY 5":
+                    dayselected=5;
+                    tripList=thisAcc.getDayTrips(5);
+                    Collections.sort(tripList);
+                    for (int i=0; i<tripList.size(); i++)
+                        if (i+1==trips.getSelectedIndex())
+                            trip=tripList.get(i);
+                    break;
+                case "DAY 6":
+                    dayselected=6;
+                    tripList=thisAcc.getDayTrips(6);
+                    Collections.sort(tripList);
+                    for (int i=0; i<tripList.size(); i++)
+                        if (i+1==trips.getSelectedIndex())
+                            trip=tripList.get(i);
+                    break;
+                case "DAY 7":
+                    dayselected=7;
+                    tripList=thisAcc.getDayTrips(7);    
+                    Collections.sort(tripList);                 
+                    for (Trip i:tripList){
+                        trips.addItem("Trip ID#"+ i.getID() +" : " +i.getName());
+                    } 
+                    break;
 
-             }
-            double newBudget = thisAcc.getBudget();
-            newBudget = thisAcc.getBudget() + (trip.getBus().calcBus(trip.getBus().getType(), trip.getNumOfPpl()));
-            int confirm = JOptionPane.showConfirmDialog(thisETN,"Are you sure you want to delete? \nYour budget will be increased \nto: $" + newBudget);  
+                }
+                
+                double cost = 0;
+                switch(trip.getBus().getType().toString()){
+                    case ("Small"):
+                        cost = 5000;            
+                        break;
+                    case("Medium - $7000"):
+                        cost = 7000;
+                        break;
+                    case("Luxurious - $12000"):
+                        cost = 12000;
+                        break;
+                }  
 
-            //selected trip is deleted
-            if(confirm == JOptionPane.YES_OPTION) {                 
-                thisAcc.removeTripfromDay(dayselected,trip);
-                thisAcc.setBudget(newBudget);
-                thisTDS.getDayTable(dayselected).getModel().setRowCount(0);
-                thisTDS.showTable(thisAcc.getDayTrips(dayselected), thisTDS.getDayTable(dayselected));
-                thisTDS.updateInfo();
-                setVisible(false);
-            }  
-        }
+                double newBudget = thisAcc.getBudget();
+                //newBudget = thisAcc.getBudget() + (trip.getBus().calcBus(trip.getBus().getType(), trip.getNumOfPpl()));
+                newBudget = thisAcc.getBudget() + cost;
+
+                int confirm = JOptionPane.showConfirmDialog(thisETN,
+                "Are you sure you want to delete? \nYour budget will be increased \nto: $" + newBudget);  
+
+                //selected trip is deleted
+                if (confirm == JOptionPane.YES_OPTION) {                 
+                    thisAcc.removeTripfromDay(dayselected,trip);
+                    thisAcc.setBudget(newBudget);
+                    thisTDS.getDayTable(dayselected).getModel().setRowCount(0);
+                    thisTDS.showTable(thisAcc.getDayTrips(dayselected), thisTDS.getDayTable(dayselected));
+                    thisTDS.updateInfo();
+                    setVisible(false);
+                }  
+            }
         
         }
     }
@@ -443,3 +457,4 @@ public class EditTripNavigation extends JFrame {
     }
 
 } //public class EditTripNavigation() end
+
